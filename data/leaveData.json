@@ -1,0 +1,4 @@
+[
+  { "username": "jdoe", "type": "Annual", "days": 5 },
+  { "username": "admin", "type": "Sick", "days": 2 }
+]
