@@ -1,22 +1,5 @@
 import { Page } from '@playwright/test';
+import { BasePage } from './Base/BasePage';
 
-export class LoginPage {
-  readonly page: Page;
-  constructor(page: Page) {
-    this.page = page;
-  }
-
-  async goto() {
-    await this.page.goto('/login');
-  }
-
-  async login(username: string, password: string) {
-    await this.page.fill('#username', username);
-    await this.page.fill('#password', password);
-    await this.page.click('button[type=submit]');
-  }
-
-  async clickForgotPassword() {
-    await this.page.click('text=Forgot password');
-  }
+export class LoginPage extends BasePage {
 }
