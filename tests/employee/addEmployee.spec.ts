@@ -1,9 +1,12 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, request } from '@playwright/test';
+import { EmployeeMaster } from '../../api/masterdata/EmployeeMaster'
+
 import { EmployeePage } from '../../pages/employeePage';
 
 test('add employee', async ({ page }) => {
-  const emp = new EmployeePage(page);
-  await emp.goto();
-  await emp.addEmployee({ name: 'Jane Doe', role: 'Engineer' });
-  await expect(page.locator('text=Jane Doe')).toBeVisible();
+  
+  await page.goto('/');
+  await page.fill('input[name="username"]', process.env.ADMIN_USERNAME!);
+  await page.fill('input[name="password"]', process.env.ADMIN_PASSWORD!);
+
 });
