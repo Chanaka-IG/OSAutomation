@@ -4,6 +4,7 @@ import { JobTitleMaster } from '../../api/masterdata/JobTitleMaster';
 import { EmpStatusMaster } from '../../api/masterdata/EmpStatusMaster';
 import { LocationMaster } from '../../api/masterdata/LocationMaster';
 import { SubUnitMaster } from '../../api/masterdata/SubUnitMaster';
+import { UsesMaster } from '../../api/masterdata/UsesMaster';
 
 
 
@@ -12,6 +13,7 @@ import { jobTitles } from '../../data/masterdata/jobTitle';
 import { employStatus } from '../../data/masterdata/employementStatus';
 import { location } from '../../data/masterdata/location';
 import { subUnits } from '../../data/masterdata/subUnit';
+import { user } from '../../data/masterdata/users';
 
 
 
@@ -28,12 +30,14 @@ async function globalSetup(config: FullConfig) {
         const empStatus = new EmpStatusMaster(apiContext);
         const locaiton = new LocationMaster(apiContext);
         const subUnit = new SubUnitMaster(apiContext);
+        const users = new UsesMaster(apiContext);
         await employee.loginAsAdmin();
         await employee.addEmployees(employees);
         await jobTitle.addJobTitles(jobTitles);
         await empStatus.addEmployementStatus(employStatus);
         await locaiton.addLocation(location);
         await subUnit.addSubUnit(subUnits);
+        await users.addUsers(user);
     
     }
     else {
