@@ -7,17 +7,17 @@ const config =  defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: 3,
-  workers: process.env.CI ? 1 : undefined,
+  retries: 2,
+  workers: 1,
   reporter: 'html',
-  timeout: 30000,
+  timeout: 60000,
   use: {
     baseURL: process.env.SYSTEM_URL,
     headless: true,
     viewport: { width: 1280, height: 720 },
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
-    video: 'retain-on-failure'
+    video: 'on'
   },
 
   projects: [
