@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { EmployeePage } from '../../pages/employeePage';
+import { EmployeePage } from '../../pages/PIM/PimAccessPage';
 
 test('view employee details', async ({ page }) => {
   const emp = new EmployeePage(page);
