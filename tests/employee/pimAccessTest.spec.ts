@@ -2,6 +2,7 @@ import { test, expect } from '../../Fixtures/logger.fixtures';
 import { PimAccessPage } from '../../pages/PIM/PimAccessPage';
 import { AddEmployee } from '../../api/Employee/AddEmployee';
 import { AddUsers } from '../../api/Admin/AddUsers'
+import { Database } from '../../utils/db';
 
 
 import { PIM_DATA } from '../../data/PIM'
@@ -20,7 +21,6 @@ test.describe("PIM Validation", () => {
     await employee.addEmployees(PIM_DATA.API_date.employee);
     await users.addUsers(PIM_DATA.API_date.user)
   })
-
 
   test.beforeEach(async ({ page, logger }) => {
     logger.log('Navigate to the system');
