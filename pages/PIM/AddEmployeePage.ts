@@ -1,7 +1,7 @@
 
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from '../Base/BasePage'
-import type { Employee } from '../../data/PIM';
+import type { Employee, EmployeeWithUser } from '../../data/PIM';
 import path from 'path/win32';
 
 export class AddEmployeePage extends BasePage {
@@ -12,6 +12,7 @@ export class AddEmployeePage extends BasePage {
     private readonly saveBtn: Locator;
     private readonly firstNameRequired: Locator;
     private readonly lastNameRequired: Locator;
+    private readonly employeeIDUnique: Locator;
     private readonly firstNameInput: Locator;
     private readonly lastNameInput: Locator;
     private readonly middleNameInput: Locator;
@@ -22,6 +23,7 @@ export class AddEmployeePage extends BasePage {
     private readonly userconfirmPasswordInput: Locator;
     private readonly enableToggle: Locator;
     private readonly disableToggle: Locator;
+    private readonly profilePicTypeValidation: Locator;
 
 
 
@@ -37,12 +39,14 @@ export class AddEmployeePage extends BasePage {
         this.lastNameInput = page.getByPlaceholder("Last Name")
         this.middleNameInput = page.getByPlaceholder("Middle Name")
         this.employeeIdInput = page.locator("(//label[text()='Employee Id']/following::input)[1]")
-        this.createLoginDetailsCheckbox = page.getByRole("checkbox", { name: 'Create Login Details' })
+        this.employeeIDUnique = page.getByText('Employee Id already exists')
+        this.profilePicTypeValidation = page.getByText('File type not allowed')
+        this.createLoginDetailsCheckbox = page.locator("//div[@class='oxd-switch-wrapper']//span")
         this.usernameInput = page.locator("(//label[normalize-space(text())='Username']/following::input)[1]")
         this.userpasswordInput = page.locator("(//input[@type='password'])[1]")
         this.userconfirmPasswordInput = page.locator("(//input[@type='password'])[2]")
-        this.enableToggle = page.getByRole("switch", { name: 'Enabled' })
-        this.disableToggle = page.getByRole("switch", { name: 'Disabled' })
+        this.enableToggle = page.locator("//label[text()='Enabled']")
+        this.disableToggle = page.locator("//label[text()='Disabled']")
     }
 
 
@@ -91,15 +95,33 @@ export class AddEmployeePage extends BasePage {
             )
         })
     }
-    async addEmployeeViaWizardWithProfilePic(empdata: Employee): Promise<void> {
+    async addEmployeeViaWizardWithProfilePic(empdata: Employee,path:String): Promise<void> {
         return await this.pageStep("Add employee via Wizard", async () => {
             await this.card.waitFor({ state: 'visible' }).then(async () => {
                 await this.firstNameInput.fill(empdata.firstName);
                 await this.middleNameInput.fill(empdata.middleName);
                 await this.lastNameInput.fill(empdata.lastName);
                 await this.employeeIdInput.fill(empdata.employeeId)
-                await this.setProfilePicture();
+                console.log("Profile pic path is: " + path);
+                await this.setProfilePicture(path);
             })
+        })
+    }
+
+    async createLogin(empdata: EmployeeWithUser): Promise<void> {
+        return await this.pageStep("Add employee login", async () => {
+            console.log(await this.createLoginDetailsCheckbox.isChecked())
+            if (await this.createLoginDetailsCheckbox.isChecked() === false) {
+                await this.createLoginDetailsCheckbox.click();
+            }
+            await this.usernameInput.fill(empdata.username);
+            await this.userpasswordInput.fill(empdata.password);
+            await this.userconfirmPasswordInput.fill(empdata.confirmPassword);
+            if (empdata.status.toLowerCase() === 'enabled') {
+                await this.enableToggle.click();
+            } else {
+                await this.disableToggle.click();
+            }
         })
     }
 
@@ -114,14 +136,34 @@ export class AddEmployeePage extends BasePage {
         })
     }
 
-     async setProfilePicture(): Promise<void> {
+    async validateUniqueIdError(): Promise<void> {
+        return await this.pageStep("Validate unique ID error", async () => {
+            await this.employeeIDUnique.waitFor({ state: 'visible' }).then(async () => {
+                expect(this.employeeIDUnique).toBeVisible();
+            }
+            )
+
+        })
+    }
+
+        async validateProfilePicType(): Promise<void> {
+        return await this.pageStep("Validate profile picture type", async () => {
+            await this.profilePicTypeValidation.waitFor({ state: 'visible' }).then(async () => {
+                expect(this.profilePicTypeValidation).toBeVisible();
+            }
+            )
+
+        })
+    }
+
+    async setProfilePicture(imagePath: any): Promise<void> {
         return await this.pageStep("Set employee profile picture", async () => {
             const [filechooser] = await Promise.all([
-            this.page.waitForEvent('filechooser'),
-            this.page.locator('.employee-image').click()
+                this.page.waitForEvent('filechooser'),
+                this.page.locator('.employee-image').click()
 
             ])
-            const filePath = path.join(__dirname, '../../data/Images/profilepic.jpg').replace(/\\/g, '/');
+            const filePath = path.join(__dirname, imagePath).replace(/\\/g, '/');
             await filechooser.setFiles(filePath);
         })
     }

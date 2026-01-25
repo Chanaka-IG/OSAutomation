@@ -26,4 +26,4 @@ export const test = base.extend<{
   },
 });
 
-export { expect } from '@playwright/test';
+export { expect,request } from '@playwright/test';
