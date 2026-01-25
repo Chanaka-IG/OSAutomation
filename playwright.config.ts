@@ -16,7 +16,7 @@ const config =  defineConfig({
     viewport: { width: 1280, height: 720 },
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
-    video: "retain-on-failure"
+    video: "on"
   },
 
   projects: [

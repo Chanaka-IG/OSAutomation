@@ -1,3 +1,5 @@
+import { stat } from "node:fs";
+
 export interface Employee {
     employeeId: string;
     firstName: string;
@@ -5,23 +7,22 @@ export interface Employee {
     middleName: string;
 }
 
-export interface User {
+export interface EmployeeWithUser {
+    employeeId: string;
+    firstName: string;
+    lastName: string;
+    middleName: string;
     username: string;
     password: string;
-    status: boolean;
-    userRoleId: number;
-    empNumber: number;
-}   
-
-
-
-
+    status: string;
+    confirmPassword: string;
+}
 
 
 
 export const PIM_DATA = {
 
-    API_date: {
+    API_DATA: {
         Employee: [{
             employeeId: "1200",
             firstName: "Alesa",
@@ -51,7 +52,7 @@ export const PIM_DATA = {
         }],
 
     },
-     UI_DATA: {
+    UI_DATA: {
         Employee: [{
             employeeId: "",
             firstName: "Julia",
@@ -64,19 +65,46 @@ export const PIM_DATA = {
             lastName: "wilson",
             middleName: ""
         },
-         {
+        {
             employeeId: "1204",
             firstName: "Mark",
             lastName: "Robet",
             middleName: "Thomas"
         },
-         {
+        {
             employeeId: "1205",
             firstName: "Allen",
             lastName: "Meera",
             middleName: "Moose"
         },
+        {
+            employeeId: "1200",
+            firstName: "Margret",
+            lastName: "Henry",
+            middleName: "Louise"
+        },
         ],
+        EmployeeWithUser: [{
+            employeeId: "1206",
+            firstName: "Alviro",
+            lastName: "Peterson",
+            middleName: "Carey",
+            username: "Alvero",
+            password: "admin@OHRM123",
+            confirmPassword: "admin@OHRM123",
+            status: "enabled",
+        },
+        {
+           employeeId: "1207",
+            firstName: "Nic",
+            lastName: "Pothas",
+            middleName: "Widney",
+            username: "Nicas",
+            password: "admin@OHRM123",
+            confirmPassword: "admin@OHRM123",
+            status: "enabled",
+        }],
+
     },
 }
 
