@@ -1,20 +1,29 @@
 import { test as base } from '@playwright/test';
 
-type Logger = {
-  log: (message: string) => void;
-}
+export type LoggerFn = (message: string) => void;
 
-export const test = base.extend<{ logger: Logger }>({
+export const test = base.extend<{
+  logger: { log: LoggerFn; error: LoggerFn };
+}>({
   logger: async ({}, use, testInfo) => {
-    await use({
-      log: (message: string) => {
-        testInfo.attach('log', {
-          body: message + '\n',
-          contentType: 'text/plain',
-        });
-      },
-    });
+    const log = (message: string) => {
+      console.log(`ℹ️ [${testInfo.title}] ${message}`);
+      testInfo.attach('log', {
+        body: `${message}\n`,
+        contentType: 'text/plain',
+      });
+    };
+
+    const error = (message: string) => {
+      console.error(`❌ [${testInfo.title}] ${message}`);
+      testInfo.attach('error', {
+        body: `${message}\n`,
+        contentType: 'text/plain',
+      });
+    };
+
+    await use({ log, error });
   },
 });
 
-export { expect,request } from '@playwright/test';
+export { expect } from '@playwright/test';
