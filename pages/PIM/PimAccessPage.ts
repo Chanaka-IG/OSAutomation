@@ -1,20 +1,26 @@
-import { Page,Locator,expect } from '@playwright/test';
+import { Page,Locator,expect,test } from '@playwright/test';
 import { BasePage } from '../Base/BasePage'
 
 export class PimAccessPage extends BasePage {
   
 private readonly pimMenu:Locator;
+private readonly log: (msg: string) => void = () => {}
 
-
-  constructor(page: Page) {
+  constructor(page: Page, log: any) {
     super(page)
+    this.log = log;
     this.pimMenu = page.getByRole('link', {name : 'PIM'})
   }
 
   async validateUIasAdmin() {
-    expect (this.pimMenu).toBeVisible();
+    await this.pageStep ("Check the visibility of PIM module for admin", async () => {
+      expect (this.pimMenu).toBeVisible();
+    })
+    
   }
     async validateUIasESS() {
-    expect (this.pimMenu).not.toBeVisible();
+      await this.pageStep ("Check the visibility of PIM module for ESS", async () => {
+      expect (this.pimMenu).not.toBeVisible();
+    })
   }
 }
