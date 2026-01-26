@@ -10,6 +10,7 @@ export class AddEmployeePage extends BasePage {
     private readonly addBtn: Locator;
     private readonly card: Locator;
     private readonly saveBtn: Locator;
+     private readonly cancelBtn: Locator;
     private readonly firstNameRequired: Locator;
     private readonly lastNameRequired: Locator;
     private readonly employeeIDUnique: Locator;
@@ -24,6 +25,8 @@ export class AddEmployeePage extends BasePage {
     private readonly enableToggle: Locator;
     private readonly disableToggle: Locator;
     private readonly profilePicTypeValidation: Locator;
+    private readonly employeeListTab: Locator;
+    private readonly employeeListtable: Locator;
 
 
 
@@ -33,6 +36,7 @@ export class AddEmployeePage extends BasePage {
         this.addBtn = page.getByRole("link", { name: 'Add' })
         this.card = page.locator(".orangehrm-card-container")
         this.saveBtn = page.getByRole("button", { name: 'Save' })
+        this.cancelBtn = page.getByRole("button", { name: 'Cancel' })
         this.firstNameRequired = page.locator(`(//div[@class='oxd-input-group oxd-input-field-bottom-space']//span)[1]`)
         this.lastNameRequired = page.locator(`(//div[@class='oxd-input-group oxd-input-field-bottom-space']//span)[2]`)
         this.firstNameInput = page.getByPlaceholder("First Name")
@@ -47,6 +51,8 @@ export class AddEmployeePage extends BasePage {
         this.userconfirmPasswordInput = page.locator("(//input[@type='password'])[2]")
         this.enableToggle = page.locator("//label[text()='Enabled']")
         this.disableToggle = page.locator("//label[text()='Disabled']")
+        this.employeeListTab = page.getByRole("link", { name: 'Employee List' });
+        this.employeeListtable = page.locator(".orangehrm-employee-list")
     }
 
 
@@ -68,6 +74,12 @@ export class AddEmployeePage extends BasePage {
 
     async clickonSave(): Promise<void> {
         return await this.pageStep("Click on Save button", async () => {
+            await this.saveBtn.click();
+        })
+    }
+
+    async clickonCancel(): Promise<void> {
+        return await this.pageStep("Click on Cancel button", async () => {
             await this.saveBtn.click();
         })
     }
@@ -95,7 +107,7 @@ export class AddEmployeePage extends BasePage {
             )
         })
     }
-    async addEmployeeViaWizardWithProfilePic(empdata: Employee,path:String): Promise<void> {
+    async addEmployeeViaWizardWithProfilePic(empdata: Employee, path: String): Promise<void> {
         return await this.pageStep("Add employee via Wizard", async () => {
             await this.card.waitFor({ state: 'visible' }).then(async () => {
                 await this.firstNameInput.fill(empdata.firstName);
@@ -146,7 +158,7 @@ export class AddEmployeePage extends BasePage {
         })
     }
 
-        async validateProfilePicType(): Promise<void> {
+    async validateProfilePicType(): Promise<void> {
         return await this.pageStep("Validate profile picture type", async () => {
             await this.profilePicTypeValidation.waitFor({ state: 'visible' }).then(async () => {
                 expect(this.profilePicTypeValidation).toBeVisible();
@@ -168,8 +180,26 @@ export class AddEmployeePage extends BasePage {
         })
     }
 
+    async navigateToEmployeeTab(): Promise<void> {
+        return await this.pageStep("Set employee profile picture", async () => {
+            await this.employeeListTab.click();
+        })
+    }
+
+    async verifyEmployeeDetails(empData: Employee): Promise<boolean> {
+        return await this.pageStep("Set employee profile picture", async () => {
+            await this.employeeListtable.waitFor({ state: 'visible' });
+            const firstAndLastName = `${empData.firstName} ${empData.middleName}`.trim().replace(/\s+/g, ' ');
+            const lastName = empData.lastName.trim().replace(/\s+/g, ' ');
+            const empId = empData.employeeId;
+            const fandm = this.page.locator(".oxd-table-row").filter({ hasText: empId }).locator('.oxd-table-cell:nth-child(3) div');
+            const lastN = this.page.locator(".oxd-table-row").filter({ hasText: empId }).locator('.oxd-table-cell:nth-child(4) div');
+            if (firstAndLastName === await fandm.textContent() && lastName === await lastN.textContent()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        })
+    }
 }
-
-
-
-

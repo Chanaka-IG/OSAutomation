@@ -83,6 +83,12 @@ export const PIM_DATA = {
             lastName: "Henry",
             middleName: "Louise"
         },
+        {
+            employeeId: "1206",
+            firstName: "Franklin",
+            lastName: "ROoswelt",
+            middleName: "Marado"
+        },
         ],
         EmployeeWithUser: [{
             employeeId: "1206",
@@ -95,7 +101,7 @@ export const PIM_DATA = {
             status: "enabled",
         },
         {
-           employeeId: "1207",
+            employeeId: "1207",
             firstName: "Nic",
             lastName: "Pothas",
             middleName: "Widney",
