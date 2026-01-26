@@ -13,13 +13,13 @@ test.describe("Adding employees VIA UI", () => {
   const inValidProfilePath='../../data/Images/test_invalid.pdf';
 
 
-  // test.beforeAll(async () => {
-  //   const apiContext = await request.newContext();
-  //   addEmployee = new AddEmployee(apiContext);
-  //   await addEmployee.loginAsAdmin();
-  //   await addEmployee.addEmployees(PIM_DATA.API_DATA.Employee);
+  test.beforeAll(async () => {
+    const apiContext = await request.newContext();
+    addEmployee = new AddEmployee(apiContext);
+    await addEmployee.loginAsAdmin();
+    await addEmployee.addEmployees(PIM_DATA.API_DATA.Employee);
 
-  // })
+  })
 
   test.beforeEach(async ({ page }) => {
     addEmployeePage = new AddEmployeePage(page);
@@ -55,11 +55,14 @@ test.describe("Adding employees VIA UI", () => {
     await addEmployeePage.verifySuccessToast();
   })
 
-  test('5. Add employee with all fields', async () => {
+  test.only('5. Add employee with all fields', async () => {
     await addEmployeePage.clickOnAddButton();
     await addEmployeePage.addEmployeeViaWizard(PIM_DATA.UI_DATA.Employee[2]);
     await addEmployeePage.clickonSave()
     await addEmployeePage.verifySuccessToast();
+    await addEmployeePage.navigateToEmployeeTab();
+    const isVerified = await addEmployeePage.verifyEmployeeDetails(PIM_DATA.UI_DATA.Employee[2]);
+    expect(isVerified).toBeTruthy();
   })
 
     test('6. Add employee with a profile picture', async () => {
@@ -83,7 +86,7 @@ test.describe("Adding employees VIA UI", () => {
     await addEmployeePage.validateUniqueIdError();
   })
 
-    test.only('9. Verify duplicate Employee ID validation', async () => {
+    test('9. Verify duplicate Employee ID validation', async () => {
     await addEmployeePage.clickOnAddButton();
     await addEmployeePage.addEmployeeViaWizardWithProfilePic(PIM_DATA.UI_DATA.Employee[4],inValidProfilePath);
     await addEmployeePage.validateProfilePicType();

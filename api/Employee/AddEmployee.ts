@@ -89,7 +89,7 @@ export class AddEmployee {
     const apiresponse = await response.json();
     const body = await response.text();
     if (response.ok()) {
-      console.log (emp.firstName +" "+ emp.middleName +" "+ emp.lastName + "Successfully added witht the employee ID : " + emp.employeeId )
+      console.log (emp.firstName +" "+ emp.middleName +" "+ emp.lastName + " Successfully added witht the employee ID : " + emp.employeeId )
     }
     else{
       throw new Error(await response.text());

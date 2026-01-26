@@ -30,14 +30,14 @@ test.describe("PIM Validation", () => {
 
 
   test('1. Validate Admin has the access to view the PIM', async ({ logger }) => {
-      await employeeAccessPage.loginasCustomAdmin(PIM_DATA.API_date.user[0].username, PIM_DATA.API_date.user[0].password);
+      await employeeAccessPage.loginasCustomAdmin(PIM_DATA.API_DATA.User[0].username, PIM_DATA.API_DATA.User[0].password);
       await employeeAccessPage.validateUIasAdmin()
 
   });
 
 
   test('2. Validate ESS has no access to view the PIM', async ({ logger }) => {
-      await employeeAccessPage.loginasCustomESS(PIM_DATA.API_date.user[1].username, PIM_DATA.API_date.user[1].password);
+      await employeeAccessPage.loginasCustomESS(PIM_DATA.API_DATA.User[1].username, PIM_DATA.API_DATA.User[1].password);
       await employeeAccessPage.validateUIasESS()
   });
 
