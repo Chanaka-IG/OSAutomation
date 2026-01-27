@@ -18,7 +18,15 @@ export interface EmployeeWithUser {
     confirmPassword: string;
 }
 
-
+export interface EmployeeFilter {
+    employeeName: string
+    employeeId: string,
+    employeeStatus: string,
+    include: string,
+    supervisorName: string,
+    jobTitle: string,
+    subUnit: string
+}
 
 export const PIM_DATA = {
 
@@ -34,6 +42,19 @@ export const PIM_DATA = {
             firstName: "Perry",
             lastName: "johan",
             middleName: "Diana"
+        },
+        ],
+        EmployeeforFilter: [{
+            employeeId: "1300",
+            firstName: "James",
+            lastName: "Packer",
+            middleName: "William"
+        },
+        {
+            employeeId: "1301",
+            firstName: "James",
+            lastName: "Vince",
+            middleName: "Madona"
         },
         ],
         User: [{
@@ -110,7 +131,36 @@ export const PIM_DATA = {
             confirmPassword: "admin@OHRM123",
             status: "enabled",
         }],
+        EmployeeFilter: [{
+            employeeName: "James William Packer",
+            employeeId: "1300",
+            employeeStatus: "",
+            include: "",
+            supervisorName: "",
+            jobTitle: "",
+            subUnit: ""
+        },
+        {
+            employeeName: "",
+            employeeId: "Julia",
+            employeeStatus: "Sharapowa",
+            include: "",
+            supervisorName: "",
+            jobTitle: "",
+            subUnit: ""
+        },
+        {
+            employeeName: "",
+            employeeId: "Julia",
+            employeeStatus: "Sharapowa",
+            include: "",
+            supervisorName: "",
+            jobTitle: "",
+            subUnit: ""
+        },
+        ]
 
     },
+
 }
 

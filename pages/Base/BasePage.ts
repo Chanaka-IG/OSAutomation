@@ -13,7 +13,7 @@ export class BasePage {
   private readonly successToastContent: Locator;
   private readonly successHeader: Locator;
   private readonly successToastMsg: Locator;
-
+  private readonly waitLoader: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -27,6 +27,7 @@ export class BasePage {
     this.successToastContent = this.page.locator("#oxd-toaster_1")
     this.successHeader = this.page.getByText("Success", {exact:true})
     this.successToastMsg = this.page.getByText("Successfully Saved", {exact:true})
+    this.waitLoader = this.page.locator(".oxd-table-loader")
 
 
   }
@@ -83,6 +84,14 @@ export class BasePage {
             await test.expect(this.successHeader).toBeVisible();
             await test.expect(this.successToastMsg).toBeVisible();
         })
+    })
+
+  }
+
+    async waitUntilLoaderDissapear(): Promise<void> {
+    return await this.pageStep('Login as Custom ESS', async () => {
+        await this.waitLoader.waitFor({ state: 'detached'});
+
     })
 
   }
