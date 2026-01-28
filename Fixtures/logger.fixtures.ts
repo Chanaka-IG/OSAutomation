@@ -1,12 +1,24 @@
-import { test as base } from '@playwright/test';
+import { test as base, expect, request } from '@playwright/test';
 
+/**
+ * Function type for logging
+ */
 export type LoggerFn = (message: string) => void;
 
+/**
+ * Logger object type
+ */
+export type Logger = {
+  log: LoggerFn;
+  error: LoggerFn;
+};
+
 export const test = base.extend<{
-  logger: { log: LoggerFn; error: LoggerFn };
+  logger: Logger;
 }>({
   logger: async ({}, use, testInfo) => {
-    const log = (message: string) => {
+
+    const log: LoggerFn = (message: string) => {
       console.log(`ℹ️ [${testInfo.title}] ${message}`);
       testInfo.attach('log', {
         body: `${message}\n`,
@@ -14,7 +26,7 @@ export const test = base.extend<{
       });
     };
 
-    const error = (message: string) => {
+    const error: LoggerFn = (message: string) => {
       console.error(`❌ [${testInfo.title}] ${message}`);
       testInfo.attach('error', {
         body: `${message}\n`,
@@ -26,4 +38,4 @@ export const test = base.extend<{
   },
 });
 
-export { expect,request } from '@playwright/test';
+export { expect, request };
