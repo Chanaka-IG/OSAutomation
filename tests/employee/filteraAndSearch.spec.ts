@@ -2,7 +2,6 @@ import { test, expect, request } from '../../Fixtures/logger.fixtures';
 import { FilterAndSearchPage } from '../../pages/PIM/FilterAndSearchPage';
 import { PIM_DATA } from '../../data/PIM';
 import { AddEmployee } from '../../api/Employee/AddEmployee';
-import path from 'node:path';
 
 
 test.describe("Filter and search Employees", () => {
@@ -17,8 +16,8 @@ test.describe("Filter and search Employees", () => {
     //     await addEmployee.addEmployees(PIM_DATA.API_DATA.EmployeeforFilter);
     // })
 
-    test.beforeEach(async ({ page }) => {
-        filterAndSearchPage = new FilterAndSearchPage(page);
+    test.beforeEach(async ({ page,logger }) => {
+        filterAndSearchPage = new FilterAndSearchPage(page, logger);
         await page.goto("/")
         await filterAndSearchPage.loginasAdmin();
         await filterAndSearchPage.navigateToPim();
@@ -28,7 +27,7 @@ test.describe("Filter and search Employees", () => {
         await filterAndSearchPage.fillFilterValues(PIM_DATA.UI_DATA.EmployeeFilter[0]);
         await filterAndSearchPage.clickSearch();
         await filterAndSearchPage.waitUntilLoaderDissapear();
-        const isVerified = await filterAndSearchPage.verifyEmployeeDetails(PIM_DATA.UI_DATA.EmployeeFilter[0]);
+        const isVerified = await filterAndSearchPage.verifyEmployeeDetails(PIM_DATA.UI_DATA.EmployeeFilterValidation[0]);
         expect(isVerified).toBeTruthy();
     })
 

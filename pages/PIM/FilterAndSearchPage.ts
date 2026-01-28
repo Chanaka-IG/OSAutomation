@@ -1,6 +1,8 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from '../Base/BasePage'
 import type { EmployeeFilter, Employee } from '../../data/PIM';
+import { Logger } from '../../Fixtures/logger.fixtures';
+
 
 
 export class FilterAndSearchPage extends BasePage {
@@ -19,11 +21,14 @@ export class FilterAndSearchPage extends BasePage {
     private readonly filterHeader: Locator;
     private readonly recordCount: Locator;
     private readonly employeeListtable: Locator;
+    protected readonly logger: Logger;
 
 
 
-    constructor(page: Page) {
+
+    constructor(page: Page, logger: Logger) {
         super(page);
+        this.logger = logger;
         this.PIMmenu = page.getByRole("link", { name: 'PIM' })
         this.employeeNameInput = page.locator("(//label[text()='Employee Name']/following::input)[1]")
         this.employeeIdInput = page.locator("(//label[normalize-space(text())='Employee Id']/following::input)[1]")
@@ -39,6 +44,7 @@ export class FilterAndSearchPage extends BasePage {
         this.recordCount = page.getByText("Records Found")
         this.employeeListtable = page.locator(".orangehrm-employee-list")
 
+
     }
 
     async navigateToPim(): Promise<void> {
@@ -52,6 +58,7 @@ export class FilterAndSearchPage extends BasePage {
     async fillFilterValues(employeeFilter: EmployeeFilter): Promise<void> {
 
         await this.pageStep("Fill filter values and search", async () => {
+            this.logger.log("Filling filter values");
             await this.filterHeader.waitFor({ state: 'visible' });
             await this.fillEmployeeName(employeeFilter.employeeName);
             await this.fillEmployeeID(employeeFilter.employeeId);
@@ -62,7 +69,6 @@ export class FilterAndSearchPage extends BasePage {
             await this.fillSubUnit(employeeFilter.subUnit);
 
         })
-
 
     }
 
@@ -167,6 +173,7 @@ export class FilterAndSearchPage extends BasePage {
     }
 
     async clickSearch(): Promise<void> {
+
         return await this.pageStep("Click Search", async () => {
             await this.searchBtn.click();
         }
@@ -174,10 +181,11 @@ export class FilterAndSearchPage extends BasePage {
     }
 
     async verifyEmployeeDetails(empData: EmployeeFilter): Promise<boolean> {
-        return await this.pageStep("Set employee profile picture", async () => {
+        return await this.pageStep("Validate full employee details in the table", async () => {
+            let flag = true;
             const parts = empData.employeeName.split(' ');
             const firstName = parts.slice(0, 2).join(' ');
-           const lastName = parts[parts.length - 1];
+            const lastName = parts[parts.length - 1];
             await this.employeeListtable.waitFor({ state: 'visible' });
             const employeeName = `${empData.employeeName}`.trim().replace(/\s+/g, ' ');
             const empId = empData.employeeId;
@@ -188,12 +196,32 @@ export class FilterAndSearchPage extends BasePage {
             const empstatus = row.locator('.oxd-table-cell:nth-child(6) div');
             const subunit = row.locator('.oxd-table-cell:nth-child(7) div');
             const supervisor = row.locator('.oxd-table-cell:nth-child(8) div');
-            if (firstName === await fandm.textContent() && lastName === await lastN.textContent()) {
-                return true;
+            if (firstName !== await fandm.textContent() && lastName !== await lastN.textContent()) {
+                this.logger.error(`Job Title does not match. Expected: ${firstName} ${lastName}, Actual: ${await fandm.textContent()} ${await lastN.textContent()}  `);
+                flag = false;
             }
-            else {
-                return false;
+
+            if (empData.jobTitle !== await jobtitle.textContent()) {
+                this.logger.error(`Job Title does not match. Expected: ${empData.jobTitle}, Actual: ${await jobtitle.textContent()}`);
+                this.logger.log(`Expected: ${empData.jobTitle}, Actual: ${await jobtitle.textContent()}`);
+                flag = false;
             }
+            if (empData.employeeStatus !== await empstatus.textContent()) {
+                this.logger.error(`Employee Status does not match. Expected: ${empData.employeeStatus}, Actual: ${await empstatus.textContent()}`);
+                flag = false;
+            }
+            if (empData.subUnit !== await subunit.textContent()) {
+                this.logger.error(`Sub Unit does not match. Expected: ${empData.subUnit}, Actual: ${await subunit.textContent()}`);
+                this.logger.error("Sub Unit does not match");
+                flag = false;
+            }
+            if (empData.supervisorName !== await supervisor.textContent()) {
+                this.logger.error(`Supervisor Name does not match. Expected: ${empData.supervisorName}, Actual: ${await supervisor.textContent()}`);
+                this.logger.error("Supervisor Name does not match");
+                flag = false;
+            }
+
+            return flag;
         })
     }
 }

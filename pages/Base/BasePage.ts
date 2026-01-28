@@ -1,6 +1,7 @@
 import { Page, Locator, test } from '@playwright/test';
 import 'dotenv/config';
 
+
 export class BasePage {
   protected page: Page;
   private readonly adminUsername: any;

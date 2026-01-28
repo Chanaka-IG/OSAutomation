@@ -158,6 +158,34 @@ export const PIM_DATA = {
             jobTitle: "",
             subUnit: ""
         },
+        ],
+          EmployeeFilterValidation: [{
+            employeeName: "James William Packer",
+            employeeId: "1300",
+            employeeStatus: "",
+            include: "",
+            supervisorName: "",
+            jobTitle: "",
+            subUnit: ""
+        },
+        {
+            employeeName: "",
+            employeeId: "Julia",
+            employeeStatus: "Sharapowa",
+            include: "",
+            supervisorName: "",
+            jobTitle: "",
+            subUnit: ""
+        },
+        {
+            employeeName: "",
+            employeeId: "Julia",
+            employeeStatus: "Sharapowa",
+            include: "",
+            supervisorName: "",
+            jobTitle: "",
+            subUnit: ""
+        },
         ]
 
     },
