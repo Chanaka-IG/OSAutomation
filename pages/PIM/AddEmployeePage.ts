@@ -1,7 +1,7 @@
 
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from '../Base/BasePage'
-import type { Employee, EmployeeWithUser } from '../../data/PIM';
+import type { Employee, EmployeeWithUser } from '../../data/PIM/addNewEMployee';
 import path from 'path/win32';
 
 export class AddEmployeePage extends BasePage {

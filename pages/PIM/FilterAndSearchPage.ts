@@ -1,6 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from '../Base/BasePage'
-import type { EmployeeFilter, Employee } from '../../data/PIM';
+import type { EmployeeFilter, Employee } from '../../data/PIM/addNewEMployee';
 import { Logger } from '../../Fixtures/logger.fixtures';
 
 
