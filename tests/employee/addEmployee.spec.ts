@@ -1,6 +1,6 @@
 import { test, expect,request } from '../../Fixtures/logger.fixtures';
 import { AddEmployeePage } from '../../pages/PIM/AddEmployeePage';
-import { PIM_DATA } from '../../data/PIM';
+import { PIM_DATA } from '../../data/PIM/addNewEMployee';
 import {AddEmployee} from '../../api/Employee/AddEmployee';
 import path from 'node:path';
 

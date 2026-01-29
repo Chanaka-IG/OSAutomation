@@ -5,7 +5,7 @@ import { AddUsers } from '../../api/Admin/AddUsers'
 import { Database } from '../../utils/db';
 
 
-import { PIM_DATA } from '../../data/PIM'
+import { PIM_DATA } from '../../data/PIM/addNewEMployee'
 
 
 test.describe("PIM Validation", () => {

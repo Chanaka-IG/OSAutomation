@@ -1,4 +1,3 @@
-import { stat } from "node:fs";
 
 export interface Employee {
     employeeId: string;
@@ -131,63 +130,6 @@ export const PIM_DATA = {
             confirmPassword: "admin@OHRM123",
             status: "enabled",
         }],
-        EmployeeFilter: [{
-            employeeName: "James William Packer",
-            employeeId: "1300",
-            employeeStatus: "",
-            include: "",
-            supervisorName: "",
-            jobTitle: "",
-            subUnit: ""
-        },
-        {
-            employeeName: "",
-            employeeId: "Julia",
-            employeeStatus: "Sharapowa",
-            include: "",
-            supervisorName: "",
-            jobTitle: "",
-            subUnit: ""
-        },
-        {
-            employeeName: "",
-            employeeId: "Julia",
-            employeeStatus: "Sharapowa",
-            include: "",
-            supervisorName: "",
-            jobTitle: "",
-            subUnit: ""
-        },
-        ],
-          EmployeeFilterValidation: [{
-            employeeName: "James William Packer",
-            employeeId: "1300",
-            employeeStatus: "",
-            include: "",
-            supervisorName: "",
-            jobTitle: "",
-            subUnit: ""
-        },
-        {
-            employeeName: "",
-            employeeId: "Julia",
-            employeeStatus: "Sharapowa",
-            include: "",
-            supervisorName: "",
-            jobTitle: "",
-            subUnit: ""
-        },
-        {
-            employeeName: "",
-            employeeId: "Julia",
-            employeeStatus: "Sharapowa",
-            include: "",
-            supervisorName: "",
-            jobTitle: "",
-            subUnit: ""
-        },
-        ]
-
     },
 
 }
