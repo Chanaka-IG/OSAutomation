@@ -14,6 +14,7 @@ export class BasePage {
   private readonly successToastContent: Locator;
   private readonly successHeader: Locator;
   private readonly successToastMsg: Locator;
+  private readonly successToastMsgForDelete: Locator;
   private readonly waitLoader: Locator;
 
   constructor(page: Page) {
@@ -28,6 +29,7 @@ export class BasePage {
     this.successToastContent = this.page.locator("#oxd-toaster_1")
     this.successHeader = this.page.getByText("Success", {exact:true})
     this.successToastMsg = this.page.getByText("Successfully Saved", {exact:true})
+    this.successToastMsgForDelete = this.page.getByText("Successfully Deleted", {exact:true})
     this.waitLoader = this.page.locator(".oxd-table-loader")
 
 
@@ -50,7 +52,7 @@ export class BasePage {
 
 
   async loginasESS(): Promise<void> {
-    return await this.pageStep('Login as System Admin', async () => {
+    return await this.pageStep('Login as ESS user', async () => {
       await this.userNameInput.fill(this.essUsername);
       await this.passwordInput.fill(this.essPassword);
       await this.submitButton.click();
@@ -60,7 +62,7 @@ export class BasePage {
   }
 
   async loginasCustomAdmin(Username: string, Password: string): Promise<void> {
-    return await this.pageStep('Login as Custom System Admin', async () => {
+    return await this.pageStep('Login as Custom Admin', async () => {
       await this.userNameInput.fill(Username);
       await this.passwordInput.fill(Password);
       await this.submitButton.click();
@@ -80,10 +82,20 @@ export class BasePage {
   }
 
   async verifySuccessToast(): Promise<void> {
-    return await this.pageStep('Login as Custom ESS', async () => {
+    return await this.pageStep('Verify Success toast message', async () => {
         await this.successToastContent.waitFor({ state: 'visible'}).then (async () => {
             await test.expect(this.successHeader).toBeVisible();
             await test.expect(this.successToastMsg).toBeVisible();
+        })
+    })
+
+  }
+
+    async verifySuccessToastforDeletion(): Promise<void> {
+    return await this.pageStep('Verify Success toast message for deletion', async () => {
+        await this.successToastContent.waitFor({ state: 'visible'}).then (async () => {
+            await test.expect(this.successHeader).toBeVisible();
+            await test.expect(this.successToastMsgForDelete).toBeVisible();
         })
     })
 
