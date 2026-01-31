@@ -4,18 +4,17 @@ export interface JobDetails {
     subunitId: number,
 }
 
-export const UPDATE_JOB_DATA = {
+export const UPDATE_JOB_DATA = [
+    {
+        jobTitleId: 3,
+        empStatusId: 1,
+        subunitId: 1,
 
-    firstEMployee : [{
+    },
+    {
         jobTitleId: 1,
         empStatusId: 2,
         subunitId: 2,
-    }],
-    secondEMployee : [{
-        jobTitleId: 3,
-        empStatusId: 2,
-        subunitId: 2,
-    }],
-
-}
+    },
+]
 
