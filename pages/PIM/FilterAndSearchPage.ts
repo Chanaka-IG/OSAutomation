@@ -1,6 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from '../Base/BasePage'
-import type { EmployeeFilter, Employee } from '../../data/PIM/addNewEMployee';
+import type { EmployeeFilter, Employee, EmployeeIdList } from '../../data/PIM/addNewEMployee';
 import { Logger } from '../../Fixtures/logger.fixtures';
 
 
@@ -23,7 +23,9 @@ export class FilterAndSearchPage extends BasePage {
     private readonly recordCount: Locator;
     private readonly employeeListtable: Locator;
     protected readonly logger: Logger;
-
+    private readonly deleteModalPopup: Locator;
+    private readonly yesDeleteBtn: Locator;
+    private readonly deleteSelectedBtn : Locator;
 
 
 
@@ -45,7 +47,9 @@ export class FilterAndSearchPage extends BasePage {
         this.recordCount = page.getByText("Records Found")
         this.employeeListtable = page.locator(".orangehrm-employee-list")
         this.pimCard = page.locator(".orangehrm-paper-container")
-
+        this.deleteModalPopup = page.locator(".oxd-sheet")
+        this.yesDeleteBtn = page.getByRole("button", { name: ' Yes, Delete ' })
+        this.deleteSelectedBtn = page.getByRole("button", { name: ' Delete Selected ' })
     }
 
     async navigateToPim(): Promise<void> {
@@ -237,6 +241,7 @@ export class FilterAndSearchPage extends BasePage {
         return await this.pageStep("Search and navigate tot the employee profile", async () => {
             await this.pimCard.waitFor({ state: 'visible' });
             const row = this.page.locator(".oxd-table-row").filter({ hasText: employeeData.employeeId });
+            console.log(row)
             const empId = row.locator('.oxd-table-cell:nth-child(2) div')
             if (await empId.textContent() !== " ") {
                 await empId.click();
@@ -254,7 +259,7 @@ export class FilterAndSearchPage extends BasePage {
             const supervisorName = await this.supervisorNameInput.textContent();
             const jobTitle = await this.jobTitleDropdown.textContent();
             const subUnit = await this.subUnitDropdown.textContent();
-            console.log(employeeStatus,jobTitle,subUnit);
+            console.log(employeeStatus, jobTitle, subUnit);
             if (employeeName !== "") {
                 this.logger.error("Employee Name filter has not reset");
                 flag = false;
@@ -296,8 +301,49 @@ export class FilterAndSearchPage extends BasePage {
             }
             const recordCountInTable = await this.page.locator(".oxd-table-row").count();
 
-            expect(recordCount).toBe(recordCountInTable-1);
-            
+            expect(recordCount).toBe(recordCountInTable - 1);
+
+        })
+    }
+
+    async searchAndDelete(employeeID: string): Promise<void> {
+        return await this.pageStep("Delete one employee from the employee list", async () => {
+            await this.pimCard.waitFor({ state: 'visible' });
+            const row = this.page.locator(".oxd-table-row").filter({ hasText: employeeID })
+            const deleteIcon = row.locator("button:has(i.bi-trash)")
+            await deleteIcon.waitFor({ state: 'visible' })
+            if (await deleteIcon.isVisible()) {
+                await deleteIcon.click();
+            }
+            else {
+                this.logger.log(`Employee was not found with the EployeeID of ${employeeID}`)
+            }
+
+        })
+    }
+
+    async searchAndSelectMultiple(employeeIDList: any): Promise<void> {
+        return await this.pageStep("Delete multiple employees from the employee list", async () => {
+            await this.pimCard.waitFor({ state: 'visible' });
+            for (const empId of employeeIDList) {
+                const row = this.page.locator(".oxd-table-row").filter({ hasText: empId.employeeId })
+                 await row.locator('.oxd-checkbox-input').click();
+            }
+
+        })
+    }
+
+    async clickDeleteOnPupup(): Promise<void> {
+        return await this.pageStep("Click on Delete button in opened popub box", async () => {
+            await this.deleteModalPopup.waitFor({ state: 'visible' });
+            await this.yesDeleteBtn.click();
+
+        })
+    }
+
+    async clickDeleteSelected(): Promise <void>{
+        return await this.pageStep("Click on Delete Selected Button", async () => {
+            await this.deleteSelectedBtn.click();
         })
     }
 }

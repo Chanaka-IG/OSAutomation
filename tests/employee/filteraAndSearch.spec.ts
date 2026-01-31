@@ -5,7 +5,7 @@ import { LogAsAdmin } from '../../api/logAsAdmin';
 import { UPDATE_JOB_DATA } from '../../data/PIM/updateJob';
 import { PIM_FILTER_DATA } from '../../data/PIM/employeeFilter';
 import { UpdateEmployee } from '../../api/Employee/UpdateEMployee';
-import {AddEmployee} from '../../api/Employee/AddEmployee'
+import { AddEmployee } from '../../api/Employee/AddEmployee'
 import { LoggerFn } from '../../Fixtures/logger.fixtures';
 
 
@@ -15,7 +15,7 @@ test.describe("Filter and search Employees", () => {
     let filterAndSearchPage: FilterAndSearchPage;
     let logAdmin: LogAsAdmin;
     let updateEmployee: UpdateEmployee;
-    let addEmployee:AddEmployee;
+    let addEmployee: AddEmployee;
 
     test.beforeAll(async () => {
         const apiContext = await request.newContext();
@@ -34,8 +34,7 @@ test.describe("Filter and search Employees", () => {
     })
 
     test("0. Update employees via API as test data", async ({ page }) => {
-    //    await logAdmin.loginAsAdmin();
-        for (let i = 0; i < PIM_DATA.API_DATA.EmployeeforFilter.length; i++) {
+        for (let i = 0; i < 2; i++) {
             await filterAndSearchPage.navigateToPim();
             await filterAndSearchPage.searchAndNavigatetoProfile(PIM_DATA.API_DATA.EmployeeforFilter[i]);
             const url = page.url();
@@ -88,5 +87,19 @@ test.describe("Filter and search Employees", () => {
     test("6.Records found text verification", async () => {
         await filterAndSearchPage.validateRecordsFoundText();
     })
+
+    test("7.Delete one employee from the PIM list", async () => {
+        await filterAndSearchPage.searchAndDelete(PIM_DATA.API_DATA.EmployeeforFilter[2].employeeId);
+        await filterAndSearchPage.clickDeleteOnPupup();
+        await filterAndSearchPage.verifySuccessToastforDeletion();
+    })
+
+    test("8.Delete multiple employees from the list", async () => {
+        await filterAndSearchPage.searchAndSelectMultiple(PIM_DATA.EmployeeIdList);
+        await filterAndSearchPage.clickDeleteSelected();
+        await filterAndSearchPage.clickDeleteOnPupup()
+        await filterAndSearchPage.verifySuccessToastforDeletion(); 
+    })
+
 
 })

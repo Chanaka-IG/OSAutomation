@@ -27,6 +27,10 @@ export interface EmployeeFilter {
     subUnit: string
 }
 
+export interface EmployeeIdList {
+    employeeId: string;
+}
+
 export const PIM_DATA = {
 
     API_DATA: {
@@ -54,6 +58,30 @@ export const PIM_DATA = {
             firstName: "James",
             lastName: "Vince",
             middleName: "Madona"
+        },
+        {
+            employeeId: "1302",
+            firstName: "Michel",
+            lastName: "Vaugn",
+            middleName: "Riyad"
+        },
+        {
+            employeeId: "1303",
+            firstName: "Jim",
+            lastName: "Smith",
+            middleName: "Lohash"
+        },
+        {
+            employeeId: "1304",
+            firstName: "Tim",
+            lastName: "Southee",
+            middleName: "Kastal"
+        },
+        {
+            employeeId: "1305",
+            firstName: "Jason",
+            lastName: "Roy",
+            middleName: "Chethan"
         },
         ],
         User: [{
@@ -131,6 +159,17 @@ export const PIM_DATA = {
             status: "enabled",
         }],
     },
+    EmployeeIdList : [
+        {
+            employeeId: "1303"
+        },
+         {
+            employeeId: "1304"
+        },
+         {
+            employeeId: "1305"
+        }
+    ]
 
 }
 
