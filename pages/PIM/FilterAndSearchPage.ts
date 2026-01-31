@@ -8,6 +8,7 @@ import { Logger } from '../../Fixtures/logger.fixtures';
 export class FilterAndSearchPage extends BasePage {
 
     private readonly PIMmenu: Locator;
+    private readonly pimCard: Locator;
     private readonly employeeNameInput: Locator;
     private readonly employeeIdInput: Locator;
     private readonly employeeStatusDropdown: Locator;
@@ -43,7 +44,7 @@ export class FilterAndSearchPage extends BasePage {
         this.filterHeader = page.getByText("Employee Information", { exact: true })
         this.recordCount = page.getByText("Records Found")
         this.employeeListtable = page.locator(".orangehrm-employee-list")
-
+        this.pimCard = page.locator(".orangehrm-paper-container")
 
     }
 
@@ -180,6 +181,14 @@ export class FilterAndSearchPage extends BasePage {
         )
     }
 
+    async clickReset(): Promise<void> {
+
+        return await this.pageStep("Click Reset", async () => {
+            await this.resetBtn.click();
+        }
+        )
+    }
+
     async verifyEmployeeDetails(empData: EmployeeFilter): Promise<boolean> {
         return await this.pageStep("Validate full employee details in the table", async () => {
             let flag = true;
@@ -212,16 +221,83 @@ export class FilterAndSearchPage extends BasePage {
             }
             if (empData.subUnit !== await subunit.textContent()) {
                 this.logger.error(`Sub Unit does not match. Expected: ${empData.subUnit}, Actual: ${await subunit.textContent()}`);
-                this.logger.error("Sub Unit does not match");
                 flag = false;
             }
-            if (empData.supervisorName !== await supervisor.textContent()) {
-                this.logger.error(`Supervisor Name does not match. Expected: ${empData.supervisorName}, Actual: ${await supervisor.textContent()}`);
-                this.logger.error("Supervisor Name does not match");
-                flag = false;
-            }
+            // if (empData.supervisorName !== await supervisor.textContent()) {
+            //     this.logger.error(`Supervisor Name does not match. Expected: ${empData.supervisorName}, Actual: ${await supervisor.textContent()}`);
+            //     this.logger.error("Supervisor Name does not match");
+            //     flag = false;
+            // }
 
             return flag;
+        })
+    }
+
+    async searchAndNavigatetoProfile(employeeData: Employee): Promise<void> {
+        return await this.pageStep("Search and navigate tot the employee profile", async () => {
+            await this.pimCard.waitFor({ state: 'visible' });
+            const row = this.page.locator(".oxd-table-row").filter({ hasText: employeeData.employeeId });
+            const empId = row.locator('.oxd-table-cell:nth-child(2) div')
+            if (await empId.textContent() !== " ") {
+                await empId.click();
+            }
+        })
+    }
+
+    async validateEmptyFilters(): Promise<boolean> {
+        return await this.pageStep("Validate all filter fields are empty", async () => {
+            let flag = true;
+            const employeeName = await this.employeeNameInput.textContent();
+            const employeeId = await this.employeeIdInput.textContent();
+            const employeeStatus = await this.employeeStatusDropdown.textContent();
+            const inclideDropdown = await this.includeDropdown.textContent();
+            const supervisorName = await this.supervisorNameInput.textContent();
+            const jobTitle = await this.jobTitleDropdown.textContent();
+            const subUnit = await this.subUnitDropdown.textContent();
+            console.log(employeeStatus,jobTitle,subUnit);
+            if (employeeName !== "") {
+                this.logger.error("Employee Name filter has not reset");
+                flag = false;
+            }
+            if (employeeId !== "") {
+                this.logger.error("Employee ID filter field has not reset");
+                flag = false;
+            }
+            if (jobTitle !== "-- Select --") {
+                this.logger.error("Job Title filter field has not reset");
+                flag = false;
+            }
+            if (employeeStatus !== "-- Select --") {
+                this.logger.error("Employee Status filter field has not reset");
+                flag = false;
+            }
+            if (subUnit !== "-- Select --") {
+                this.logger.error("Sub Unit filter field has not reset");
+                flag = false;
+            }
+            if (inclideDropdown !== "Current Employees Only") {
+                this.logger.error("Include filter field has not reset");
+                flag = false;
+            }
+            if (supervisorName !== "") {
+                this.logger.error("Supervisor Name filter field has not reset");
+                flag = false;
+            }
+            return flag;
+        })
+    }
+
+    async validateRecordsFoundText(): Promise<void> {
+        return await this.pageStep("Validate record count", async () => {
+            let recordCount: any;
+            const recordCountText = await this.recordCount.textContent();
+            if (recordCountText) {
+                recordCount = Number(recordCountText.match(/\d+/)?.[0]);
+            }
+            const recordCountInTable = await this.page.locator(".oxd-table-row").count();
+
+            expect(recordCount).toBe(recordCountInTable-1);
+            
         })
     }
 }

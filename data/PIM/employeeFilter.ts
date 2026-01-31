@@ -21,25 +21,6 @@ export const PIM_FILTER_DATA = {
         },
         {
             employeeName: "",
-            employeeId: "Julia",
-            employeeStatus: "Sharapowa",
-            include: "",
-            supervisorName: "",
-            jobTitle: "",
-            subUnit: ""
-        },
-        {
-            employeeName: "",
-            employeeId: "Julia",
-            employeeStatus: "Sharapowa",
-            include: "",
-            supervisorName: "",
-            jobTitle: "",
-            subUnit: ""
-        },
-        ],
-          EmployeeFilterValidation: [{
-            employeeName: "James William Packer",
             employeeId: "1300",
             employeeStatus: "",
             include: "",
@@ -49,12 +30,31 @@ export const PIM_FILTER_DATA = {
         },
         {
             employeeName: "",
-            employeeId: "Julia",
-            employeeStatus: "Sharapowa",
+            employeeId: "",
+            employeeStatus: "Permanent",
             include: "",
             supervisorName: "",
-            jobTitle: "",
-            subUnit: ""
+            jobTitle: "UI Engineer",
+            subUnit: "Automation"
+        },
+        {
+            employeeName: "James William Packer",
+            employeeId: "1300",
+            employeeStatus: "Permanent",
+            include: "",
+            supervisorName: "",
+            jobTitle: "UI Engineer",
+            subUnit: "Automation"
+        },
+        ],
+          EmployeeFilterValidation: [{
+            employeeName: "James William Packer",
+            employeeId: "1300",
+            employeeStatus: "Permanent",
+            include: "",
+            supervisorName: "",
+            jobTitle: "UI Engineer",
+            subUnit: "Automation"
         },
         {
             employeeName: "",
@@ -66,5 +66,4 @@ export const PIM_FILTER_DATA = {
             subUnit: ""
         },
         ]
-
 }

@@ -10,7 +10,7 @@ export class UpdateEmployee {
     }
 
 
-    async updateEmployeeDetails(EmployeeNumber: number, employeeDetails: JobDetails): Promise<void> {
+    async updateEmployeeJobDetails(EmployeeNumber: number, employeeDetails: JobDetails): Promise<void> {
 
         try {
 
