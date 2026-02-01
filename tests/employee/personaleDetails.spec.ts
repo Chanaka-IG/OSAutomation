@@ -17,8 +17,8 @@ test.describe("Test cases for update data in Personal Details tab", () => {
         const apiContext = await request.newContext();
         logAdmin = new LogAsAdmin(apiContext)
         addEmployee = new AddEmployee(apiContext)
-        // await logAdmin.loginAsAdmin();
-        // await addEmployee.addEmployees(personalData.AddEmployee);
+        await logAdmin.loginAsAdmin();
+        await addEmployee.addEmployees(personalData.AddEmployee);
 
     })
     test.beforeEach(async ({ page, logger }) => {
@@ -36,7 +36,7 @@ test.describe("Test cases for update data in Personal Details tab", () => {
         await personalDetailsPage.verifySuccessToastForUpdate();
     })
 
-    test.only("2. Update data in perosnal tab and Verify", async ({ page }) => {
+    test("2. Update data in perosnal tab and Verify", async ({ page }) => {
         await personalDetailsPage.navigateToEMployeeProfile(personalData.AddEmployee[1])
         await personalDetailsPage.waitUntilLoaderDissapear();
         await personalDetailsPage.fillPersonalDetails(personalData.PersonalDetails[1], attachmentPath);
