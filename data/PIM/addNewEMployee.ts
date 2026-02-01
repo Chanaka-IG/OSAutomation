@@ -159,7 +159,7 @@ export const PIM_DATA = {
             status: "enabled",
         }],
     },
-    EmployeeIdList : [
+    EmployeeIdListForDelete : [
         {
             employeeId: "1303"
         },
