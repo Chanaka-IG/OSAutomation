@@ -16,6 +16,7 @@ export class BasePage {
   private readonly successToastMsg: Locator;
   private readonly successToastMsgForDelete: Locator;
   private readonly waitLoader: Locator;
+  private readonly successToastMsgForUpdate : Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -30,6 +31,7 @@ export class BasePage {
     this.successHeader = this.page.getByText("Success", {exact:true})
     this.successToastMsg = this.page.getByText("Successfully Saved", {exact:true})
     this.successToastMsgForDelete = this.page.getByText("Successfully Deleted", {exact:true})
+    this.successToastMsgForUpdate = this.page.getByText("Successfully Updated", {exact:true})
     this.waitLoader = this.page.locator(".oxd-table-loader")
 
 
@@ -86,6 +88,16 @@ export class BasePage {
         await this.successToastContent.waitFor({ state: 'visible'}).then (async () => {
             await test.expect(this.successHeader).toBeVisible();
             await test.expect(this.successToastMsg).toBeVisible();
+        })
+    })
+
+  }
+
+    async verifySuccessToastForUpdate(): Promise<void> {
+    return await this.pageStep('Verify Success toast message for update', async () => {
+        await this.successToastContent.waitFor({ state: 'visible'}).then (async () => {
+            await test.expect(this.successHeader).toBeVisible();
+            await test.expect(this.successToastMsgForUpdate).toBeVisible();
         })
     })
 

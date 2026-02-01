@@ -95,7 +95,7 @@ test.describe("Filter and search Employees", () => {
     })
 
     test("8.Delete multiple employees from the list", async () => {
-        await filterAndSearchPage.searchAndSelectMultiple(PIM_DATA.EmployeeIdList);
+        await filterAndSearchPage.searchAndSelectMultiple(PIM_DATA.EmployeeIdListForDelete);
         await filterAndSearchPage.clickDeleteSelected();
         await filterAndSearchPage.clickDeleteOnPupup()
         await filterAndSearchPage.verifySuccessToastforDeletion(); 

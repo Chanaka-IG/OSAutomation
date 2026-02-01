@@ -9,8 +9,8 @@ test.describe("Adding employees VIA UI", () => {
 
   let addEmployeePage: AddEmployeePage;
   let addEmployee : AddEmployee;
-  const validProfilePath='../../data/Images/profilepic.jpg';
-  const inValidProfilePath='../../data/Images/test_invalid.pdf';
+  const validProfilePath='../../data/Attachments/profilepic.jpg';
+  const inValidProfilePath='../../data/Attachments/test_invalid.pdf';
 
 
   test.beforeAll(async () => {
