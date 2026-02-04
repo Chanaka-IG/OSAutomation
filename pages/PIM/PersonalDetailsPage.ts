@@ -22,12 +22,20 @@ export class PersonalDetailsPage extends BasePage {
     private readonly maleCheckBox: Locator;
     private readonly femaleCheckBox: Locator;
     private readonly addAttachment: Locator;
+    private readonly fileSelectText: Locator;
     private readonly comment: Locator;
     private readonly uploadBtn: Locator;
-    private readonly saveBtn: Locator;
+    private readonly saveBtnforPersonal: Locator;
+    private readonly saveBtnforAttchment: Locator;
     private readonly licenseNumberAfterFill: Locator;
     private readonly maleLabel: Locator;
     private readonly femaleLabel: Locator;
+    private readonly attachmentArea: Locator;
+    private readonly invalidDateErrorforLicenseExpiry: Locator;
+    private readonly invalidDateErrorforDOB: Locator;
+    private readonly dateFieldlicense: Locator;
+    private readonly dateFielddob: Locator;
+    private readonly tableContainer: Locator;
     protected readonly logger: Logger;
 
 
@@ -51,11 +59,19 @@ export class PersonalDetailsPage extends BasePage {
         this.maleCheckBox = page.getByText('Male', { exact: true })
         this.femaleCheckBox = page.getByText('Female', { exact: true })
         this.addAttachment = page.getByRole('button', { name: 'Add' })
+        this.fileSelectText = page.locator("//div[text()='Browse']/following-sibling::div")
         this.comment = page.getByPlaceholder('Type comment here')
         this.uploadBtn = page.getByText('Browse', { exact: true })
-        this.saveBtn = page.getByRole('button', { name: 'Save' }).first();
-        this.maleLabel = page.getByLabel('Male')
-        this.femaleLabel = page.getByLabel('Female')
+        this.saveBtnforPersonal = page.getByRole('button', { name: 'Save' }).first();
+        this.saveBtnforAttchment = page.getByRole('button', { name: 'Save' }).nth(1);
+        this.maleLabel = page.getByLabel('Male', { exact: true })
+        this.femaleLabel = page.getByLabel('Female', { exact: true })
+        this.invalidDateErrorforLicenseExpiry = page.getByText('Should be a valid date in yyyy-mm-dd format', { exact: true }).first();
+        this.invalidDateErrorforDOB = page.getByText('Should be a valid date in yyyy-mm-dd format', { exact: true }).first();
+        this.dateFieldlicense = page.locator(".oxd-date-wrapper").first();
+        this.dateFielddob = page.locator(".oxd-date-wrapper").nth(1);
+        this.attachmentArea = page.locator(".orangehrm-container")
+        this.tableContainer = page.locator(".orangehrm-container")
 
     }
 
@@ -81,10 +97,18 @@ export class PersonalDetailsPage extends BasePage {
 
     }
 
-    async clickOnSave(): Promise<void> {
+    async clickOnSaveforPersonal(): Promise<void> {
 
         return await this.pageStep("Navigate to PIM section", async () => {
-            await this.saveBtn.click();
+            await this.saveBtnforPersonal.click();
+        })
+
+    }
+
+    async clickOnSaveforAttachments(): Promise<void> {
+
+        return await this.pageStep("Navigate to PIM section", async () => {
+            await this.saveBtnforAttchment.click();
         })
 
     }
@@ -103,6 +127,27 @@ export class PersonalDetailsPage extends BasePage {
             await this.selectNational(personaleDetails.nationality);
             await this.selectMaritalStatus(personaleDetails.maritalStatus);
             await this.dob.fill(personaleDetails.dob);
+            await this.selectGender(personaleDetails.gender);
+            await this.uploadAttachment(attachmentPath);
+            await this.comment.fill(personaleDetails.comment)
+        })
+
+    }
+
+    async fillPersonalDetailsWithDatePicker(personaleDetails: PersonalDetails, attachmentPath: string): Promise<void> {
+        return await this.pageStep("Fill personal details on selected employee", async () => {
+            await this.personalDetailsCard.waitFor({ state: 'visible' });
+            await this.waitUntilLoaderDissapear();
+            await this.firstName.fill(personaleDetails.firstName);
+            await this.middleName.fill(personaleDetails.middleName);
+            await this.lastName.fill(personaleDetails.lastName);
+            await this.empID.fill(personaleDetails.EmployeeId);
+            await this.otherID.fill(personaleDetails.otherID);
+            await this.licenseNumber.fill(personaleDetails.licenseNumber);
+            await this.pickLicenseExpiryDate(personaleDetails.licenseExpiryDate);
+            await this.selectNational(personaleDetails.nationality);
+            await this.selectMaritalStatus(personaleDetails.maritalStatus);
+            await this.pickDOB(personaleDetails.dob);
             await this.selectGender(personaleDetails.gender);
             await this.uploadAttachment(attachmentPath);
             await this.comment.fill(personaleDetails.comment)
@@ -137,6 +182,24 @@ export class PersonalDetailsPage extends BasePage {
         })
 
     }
+
+    async pickLicenseExpiryDate(expiryDate: string): Promise<void> {
+        return await this.pageStep("Select gender from the dropdown", async () => {
+            await this.pickDateFromDatePicker(expiryDate, this.dateFieldlicense)
+
+        })
+
+    }
+
+    async pickDOB(dob: string): Promise<void> {
+        return await this.pageStep("Select gender from the dropdown", async () => {
+            await this.pickDateFromDatePicker(dob, this.dateFielddob)
+
+
+        })
+
+    }
+
 
     async uploadAttachment(attachmentPath: string): Promise<void> {
         return await this.pageStep("Select gender from the dropdown", async () => {
@@ -226,10 +289,42 @@ export class PersonalDetailsPage extends BasePage {
 
                 }
             }
-
-
             return flag
         })
     }
 
+    async validateAttachmentDetails(personaleDetails: PersonalDetails): Promise<boolean> {
+        let flag = false;
+        const fileName = "test-upload-attachment.pdf";
+        await this.tableContainer.waitFor({ state: 'visible' })
+        await this.page.waitForTimeout(3000)
+        const rowVisibility = await this.page.locator(".oxd-table-card").filter({ hasText: fileName }).isVisible();
+        if (rowVisibility) {
+            const row = this.page.locator(".oxd-table-card").filter({ hasText: fileName })
+            let attachmentName = await row.locator("(//div[@role='cell']//div)[3]").textContent();
+            let comment = await row.locator("(//div[@role='cell']//div)[4]").textContent();
+            if (attachmentName === "test-upload-attachment.pdf" && comment === personaleDetails.comment) {
+                flag = true;
+            }
+            else {
+                flag = false;
+                this.logger.error("Attachment name or Comment mismatched")
+                this.logger.error(`Expected Attachment Name : test-upload-attachment.pdf. Actual Attachment Name : ${attachmentName}`)
+                this.logger.error(`Expected comment : ${personaleDetails.comment}. Actual Attachment Name : ${comment}`)
+
+            }
+
+        }
+
+
+        return flag;
+    }
+
+    async validateInvalidDateError(): Promise<void> {
+        return await this.pageStep("Validate error messgae for Invalid Date", async () => {
+            expect(this.invalidDateErrorforLicenseExpiry).toBeVisible();
+            expect(this.invalidDateErrorforDOB).toBeVisible();
+        })
+
+    }
 }

@@ -34,6 +34,18 @@ export const personalData = {
         lastName: "Messy",
         middleName: "Arge"
     },
+    {
+        employeeId: "1502",
+        firstName: "Robert",
+        lastName: "MUgave",
+        middleName: "Finaca"
+    },
+    {
+        employeeId: "1503",
+        firstName: "ALbert",
+        lastName: "Mosrani",
+        middleName: "Firoge"
+    },
     ],
     PersonalDetails: [{
         firstName: "christina",
@@ -60,6 +72,34 @@ export const personalData = {
         nationality: "Thai",
         maritalStatus: "Married",
         dob: "1995-02-08",
+        gender: "Female",
+        comment: "This is a test comment",
+    },
+    {
+        firstName: "test",
+        middleName: 'test',
+        lastName: "test",
+        EmployeeId: "test",
+        otherID: "test",
+        licenseNumber: "test",
+        licenseExpiryDate: "2025-15-59",
+        nationality: "Thai",
+        maritalStatus: "Married",
+        dob: "test",
+        gender: "Female",
+        comment: "This is a test comment",
+    },
+     {
+        firstName: "test",
+        middleName: 'test',
+        lastName: "test",
+        EmployeeId: "test",
+        otherID: "test",
+        licenseNumber: "test",
+        licenseExpiryDate: "2023-06-09",
+        nationality: "Thai",
+        maritalStatus: "Married",
+        dob: "1985-12-31",
         gender: "Female",
         comment: "This is a test comment",
     },
