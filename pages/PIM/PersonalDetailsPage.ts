@@ -30,7 +30,6 @@ export class PersonalDetailsPage extends BasePage {
     private readonly licenseNumberAfterFill: Locator;
     private readonly maleLabel: Locator;
     private readonly femaleLabel: Locator;
-    private readonly attachmentArea: Locator;
     private readonly invalidDateErrorforLicenseExpiry: Locator;
     private readonly invalidDateErrorforDOB: Locator;
     private readonly dateFieldlicense: Locator;
@@ -70,7 +69,6 @@ export class PersonalDetailsPage extends BasePage {
         this.invalidDateErrorforDOB = page.getByText('Should be a valid date in yyyy-mm-dd format', { exact: true }).first();
         this.dateFieldlicense = page.locator(".oxd-date-wrapper").first();
         this.dateFielddob = page.locator(".oxd-date-wrapper").nth(1);
-        this.attachmentArea = page.locator(".orangehrm-container")
         this.tableContainer = page.locator(".orangehrm-container")
 
     }
