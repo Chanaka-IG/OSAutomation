@@ -27,8 +27,14 @@ export class ContactDetailsPage extends BasePage {
     private readonly saveBtnforAttachment: Locator;
     private readonly uploadBtn: Locator;
     private readonly comment: Locator;
-
-
+    private readonly streetOneError: Locator;
+    private readonly streetTwoError: Locator;
+    private readonly cityError: Locator;
+    private readonly homeTpError: Locator;
+    private readonly mobileTpError: Locator;
+    private readonly workTpError: Locator;
+    private readonly workEmailError: Locator;
+    private readonly otherEmailError: Locator;
 
 
 
@@ -49,6 +55,14 @@ export class ContactDetailsPage extends BasePage {
         this.workT = page.locator("(//label[normalize-space(text())='Work']/following::input)[1]")
         this.workEmail = page.locator("(//label[normalize-space(text())='Work Email']/following::input)[1]")
         this.otherEmail = page.locator("(//label[normalize-space(text())='Other Email']/following::input)[1]")
+        this.streetOneError = page.locator("(//label[text()='Street 1']/following::span)[1]")
+        this.streetTwoError = page.locator("(//label[text()='Street 2']/following::span)[1]")
+        this.cityError = page.locator("(//label[text()='City']/following::span)[1]")
+        this.homeTpError = page.locator("(//label[text()='Home']/following::span)[1]")
+        this.mobileTpError = page.locator("(//label[text()='Mobile']/following::span)[1]")
+        this.workTpError = page.locator("(//label[text()='Work']/following::span)[1]")
+        this.workEmailError = page.locator("(//label[text()='Work Email']/following::span)[1]")
+        this.otherEmailError = page.locator("(//label[text()='Other Email']/following::span)[1]")
         this.saveBtnforContact = page.getByRole('button', { name: 'Save' }).first();
         this.saveBtnforAttachment = page.getByRole('button', { name: 'Save' }).nth(1);
         this.addBtn = page.getByRole('button', { name: 'Add' });
@@ -107,6 +121,53 @@ export class ContactDetailsPage extends BasePage {
         })
     }
 
+    async validateAddedDetails(contactDetails: contactDetails): Promise<boolean> {
+        return await this.pageStep("Validate added data in Contact details menu", async () => {
+            let flag = true;
+            await this.page.waitForTimeout(3000)
+            await this.streetOne.waitFor({ state: 'visible' }).then(async () => {
+                if (contactDetails.addressOne !== await this.streetOne.inputValue()) {
+                    flag = false;
+                    this.logger.error(`Street1 mismatched. Actual -${await this.streetOne.inputValue()} , Expected - ${contactDetails.addressOne}`)
+                }
+                if (contactDetails.addressTwo !== await this.streetTwo.inputValue()) {
+                    flag = false;
+                    this.logger.error(`Street2 mismatched. Actual -${await this.streetTwo.inputValue()} , Expected - ${contactDetails.addressTwo}`)
+                }
+                if (contactDetails.city !== await this.city.inputValue()) {
+                    flag = false;
+                    this.logger.error(`City mismatched. Actual -${await this.city.inputValue()} , Expected - ${contactDetails.city}`)
+                }
+                if (contactDetails.state !== await this.state.inputValue()) {
+                    flag = false;
+                    this.logger.error(`State mismatched. Actual -${await this.state.inputValue()} , Expected - ${contactDetails.state}`)
+                }
+                if (contactDetails.zip !== await this.zip.inputValue()) {
+                    flag = false;
+                    this.logger.error(`zip mismatched. Actual -${await this.zip.inputValue()} , Expected - ${contactDetails.zip}`)
+                }
+                if (contactDetails.country !== await this.country.textContent()) {
+                    flag = false;
+                    this.logger.error(`country mismatched. Actual -${await this.streetOne.inputValue()} , Expected - ${contactDetails.addressOne}`)
+                }
+                if (contactDetails.homeT !== await this.homeT.inputValue()) {
+                    flag = false;
+                    this.logger.error(`homeT mismatched. Actual -${await this.homeT.inputValue()} , Expected - ${contactDetails.homeT}`)
+                }
+                if (contactDetails.mobileT !== await this.mobileT.inputValue()) {
+                    flag = false;
+                    this.logger.error(`mobileT mismatched. Actual -${await this.mobileT.inputValue()} , Expected - ${contactDetails.mobileT}`)
+                }
+                if (contactDetails.workT !== await this.workT.inputValue()) {
+                    flag = false;
+                    this.logger.error(`workT mismatched. Actual -${await this.workT.inputValue()} , Expected - ${contactDetails.workT}`)
+                }
+            })
+            return flag;
+
+        })
+    }
+
     async clickOnSaveforContactDetails(): Promise<void> {
         return await this.pageStep("Click On save button for Contact Details section", async () => {
             await this.saveBtnforContact.click();
@@ -139,6 +200,40 @@ export class ContactDetailsPage extends BasePage {
     async clickOnSaveforAttachmentSection(): Promise<void> {
         return await this.pageStep("Click On save button for Contact Details section", async () => {
             await this.saveBtnforAttachment.click();
+        })
+    }
+
+    async validateLengthyErrors(): Promise<void> {
+        return await this.pageStep("Check the validation ", async () => {
+            const expectedError = "Should not exceed 70 characters"
+            const stretOneError = await this.streetOneError.textContent();
+            const stretSecondError = await this.streetTwoError.textContent();
+            const cityError = await this.cityError.textContent();
+            expect(stretOneError).toEqual(expectedError);
+            expect(stretSecondError).toEqual(expectedError);
+            expect(cityError).toEqual(expectedError);
+        })
+    }
+
+    async validateTpNumbers(): Promise<void> {
+        return await this.pageStep("Validate telephone number fields with invalid characters", async () => {
+            const expectedError = "Allows numbers and only + - / ( )"
+            const homeTP = await this.homeTpError.textContent();
+            const mobileTP = await this.mobileTpError.textContent();
+            const workTP = await this.workTpError.textContent();
+            expect(homeTP).toEqual(expectedError);
+            expect(mobileTP).toEqual(expectedError);
+            expect(workTP).toEqual(expectedError);
+        })
+    }
+
+    async validateEmailErrors(): Promise<void> {
+        return await this.pageStep("Validate telephone number fields with invalid characters", async () => {
+            const expectedError = "Expected format: admin@example.com"
+            const workEmailError = await this.workEmailError.textContent();
+            const otherEmailError = await this.otherEmailError.textContent();
+            expect(workEmailError).toEqual(expectedError);
+            expect(otherEmailError).toEqual(expectedError);
         })
     }
 }

@@ -34,8 +34,13 @@ export const addEmployeeData = [
         firstName: "Andrew",
         lastName: "Symonds",
         middleName: "Pothas"
+    },
+    {
+        employeeId: "7502",
+        firstName: "Mark",
+        lastName: "Boucher",
+        middleName: "Nick"
     }
-    
 
 ]
 
@@ -66,7 +71,50 @@ export const contactDetails = [{
     workEmail: "pellling@gmail.com",
     otherEmail: "sarah@moose.com",
     comment: "This is a test comment"
-}]
+},
+{
+    addressOne: "This is a long tex This is a long text This is a long text This is a long text",
+    addressTwo: "This is a long tex This is a long text This is a long text This is a long text",
+    city: "This is a long tex This is a long text This is a long text This is a long text",
+    state: "Coraldao",
+    zip: "56987",
+    country: "United States",
+    homeT: "98522458",
+    mobileT: "23355888",
+    workT: "48978635656",
+    workEmail: "pellling@gmail.com",
+    otherEmail: "sarah@moose.com",
+    comment: "This is a test comment"
+},
+{
+    addressOne: "Test",
+    addressTwo: "Testt",
+    city: "Test",
+    state: "Test",
+    zip: "56987",
+    country: "United States",
+    homeT: "98522458aaa",
+    mobileT: "aaa23355888",
+    workT: "489786yhvi35656",
+    workEmail: "pellling@gmail.com",
+    otherEmail: "sarah@moose.com",
+    comment: "This is a test comment"
+},
+{
+    addressOne: "Test",
+    addressTwo: "Testt",
+    city: "Test",
+    state: "Test",
+    zip: "56987",
+    country: "United States",
+    homeT: "98522458",
+    mobileT: "23355888",
+    workT: "48978635656",
+    workEmail: "pellling@gmailcom",
+    otherEmail: "sarahmoosecom",
+    comment: "This is a test comment"
+}
+]
 
 
 
