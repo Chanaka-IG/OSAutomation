@@ -39,17 +39,48 @@ test.describe(() => {
 
     })
 
-    test.only("2. Update contact Details and Attachment section", async () => {
-        await contactDetailsPage.navigateToEMployeeProfile(addEmployeeData[0]);
+    test("2. Update contact Details and Attachment section", async () => {
+        await contactDetailsPage.navigateToEMployeeProfile(addEmployeeData[1]);
         await contactDetailsPage.waitUntilLoaderDissapear();
         await contactDetailsPage.navigateToContactDetailsMenu();
         await contactDetailsPage.waitUntilLoaderDissapear();
-        await contactDetailsPage.fillContactDetails(contactDetails[0])
+        await contactDetailsPage.fillContactDetails(contactDetails[1])
         await contactDetailsPage.clickOnSaveforContactDetails();
         await contactDetailsPage.verifySuccessToastForUpdate();
-        await contactDetailsPage.fillAttachmentSection(contactDetails[0],attachmentPath)
+        await contactDetailsPage.fillAttachmentSection(contactDetails[1], attachmentPath)
         await contactDetailsPage.clickOnSaveforAttachmentSection();
         await contactDetailsPage.verifySuccessToastForUpdate();
+        expect(await contactDetailsPage.validateAddedDetails(contactDetails[1])).toBeTruthy();
+    })
+
+    test("3. Validate lengthy valiadtion message for streets", async () => {
+        await contactDetailsPage.navigateToEMployeeProfile(addEmployeeData[2]);
+        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.navigateToContactDetailsMenu();
+        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.fillContactDetails(contactDetails[2])
+        await contactDetailsPage.validateLengthyErrors()
+
+    })
+
+    test("4. Validate character values for phone numbers", async () => {
+        await contactDetailsPage.navigateToEMployeeProfile(addEmployeeData[2]);
+        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.navigateToContactDetailsMenu();
+        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.fillContactDetails(contactDetails[3])
+        await contactDetailsPage.validateTpNumbers()
+
+    })
+
+
+    test("5. Validate email field", async () => {
+        await contactDetailsPage.navigateToEMployeeProfile(addEmployeeData[2]);
+        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.navigateToContactDetailsMenu();
+        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.fillContactDetails(contactDetails[4])
+        await contactDetailsPage.validateEmailErrors()
 
     })
 
