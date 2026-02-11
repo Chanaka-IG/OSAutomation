@@ -15,11 +15,16 @@ export class BasePage {
   private readonly successHeader: Locator;
   private readonly successToastMsg: Locator;
   private readonly successToastMsgForDelete: Locator;
+  private readonly closeIconForToast: Locator;
   private readonly waitLoader: Locator;
   private readonly successToastMsgForUpdate: Locator;
   private readonly celenderPicker: Locator;
   private readonly monthDropDownIcon: Locator;
+  private readonly monthDropDownList: Locator;
   private readonly yearDropDownIcon: Locator;
+  private readonly yearDropDownList: Locator;
+  private readonly dateContent: Locator;
+
 
 
   constructor(page: Page) {
@@ -39,8 +44,11 @@ export class BasePage {
     this.waitLoader = this.page.locator(".oxd-table-loader")
     this.celenderPicker = page.locator(".oxd-date-input-calendar")
     this.monthDropDownIcon = page.locator('.oxd-icon.bi-caret-down-fill.oxd-icon-button__icon').first()
+    this.monthDropDownList = page.locator('.oxd-calendar-selector-month ul')
     this.yearDropDownIcon = page.locator(".oxd-icon.bi-caret-down-fill.oxd-icon-button__icon").nth(1)
-
+    this.yearDropDownList = page.locator('.oxd-calendar-selector-year ul')
+    this.dateContent = page.locator(".oxd-calendar-dates-grid")
+    this.closeIconForToast = page.locator(".oxd-toast-close oxd-toast-close--success")
 
   }
 
@@ -100,11 +108,33 @@ export class BasePage {
 
   }
 
+  async verifySuccessToastAndClose(): Promise<void> {
+    return await this.pageStep('Verify Success toast message', async () => {
+      await this.successToastContent.waitFor({ state: 'visible' }).then(async () => {
+        await test.expect(this.successHeader).toBeVisible();
+        await test.expect(this.successToastMsg).toBeVisible();
+        await this.closeIconForToast.click();
+      })
+    })
+
+  }
+
   async verifySuccessToastForUpdate(): Promise<void> {
     return await this.pageStep('Verify Success toast message for update', async () => {
       await this.successToastContent.waitFor({ state: 'visible' }).then(async () => {
         await test.expect(this.successHeader).toBeVisible();
         await test.expect(this.successToastMsgForUpdate).toBeVisible();
+      })
+    })
+
+  }
+
+  async verifySuccessToastForUpdateAndClose(): Promise<void> {
+    return await this.pageStep('Verify Success toast message for update', async () => {
+      await this.successToastContent.waitFor({ state: 'visible' }).then(async () => {
+        await test.expect(this.successHeader).toBeVisible();
+        await test.expect(this.successToastMsgForUpdate).toBeVisible();
+        await this.closeIconForToast.click();
       })
     })
 
@@ -120,6 +150,17 @@ export class BasePage {
 
   }
 
+  async verifySuccessToastforDeletionAndClose(): Promise<void> {
+    return await this.pageStep('Verify Success toast message for deletion', async () => {
+      await this.successToastContent.waitFor({ state: 'visible' }).then(async () => {
+        await test.expect(this.successHeader).toBeVisible();
+        await test.expect(this.successToastMsgForDelete).toBeVisible();
+        await this.closeIconForToast.click();
+      })
+    })
+
+  }
+
   async waitUntilLoaderDissapear(): Promise<void> {
     return await this.pageStep('Login as Custom ESS', async () => {
       await this.waitLoader.waitFor({ state: 'detached' });
@@ -128,9 +169,9 @@ export class BasePage {
 
   }
 
-  async pickDateFromDatePicker(expiryDate: string, dateField: Locator,): Promise<void> {
+  async pickDateFromDatePicker(inputDate: string, dateField: Locator,): Promise<void> {
     return await this.pageStep("Select the date from the date picker", async () => {
-      const [year, month, day] = expiryDate.split('-');
+      const [year, month, day] = inputDate.split('-');
       const monthMap: Record<string, string> = {
         "01": 'January',
         "02": 'February',
@@ -148,10 +189,10 @@ export class BasePage {
       await dateField.click();
       await this.celenderPicker.waitFor({ state: 'visible' })
       await this.monthDropDownIcon.click();
-      await this.page.getByText(monthMap[month], { exact: true }).click();
+      await this.monthDropDownList.getByText(monthMap[month], {exact:true}).click();
       await this.yearDropDownIcon.click();
-      await this.page.getByText(year, { exact: true }).click();
-      await this.page.getByText(String(Number(day)), { exact: true }).click();
+      await this.yearDropDownList.getByText(year, {exact:true}).click();
+      await this.dateContent.getByText(String(Number(day)), {exact : true}).click();
     })
   }
 
