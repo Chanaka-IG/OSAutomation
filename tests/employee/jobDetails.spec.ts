@@ -54,6 +54,7 @@ test.describe("Test cases for Job details updates", () => {
         await jobDetailsPage.verifySuccessToastForUpdate();
         await jobDetailsPage.attachmentCOnfig("Keep Current");
         await jobDetailsPage.clickOnSave();
+        await jobDetailsPage.waitUntilLoaderDissapear();
         await jobDetailsPage.validateAttachmentArea("Keep Current");
 
     })
