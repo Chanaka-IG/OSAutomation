@@ -10,6 +10,7 @@ test.describe("Test cases for Job details updates", () => {
     let addEmployee: AddEmployee;
     let logAsAdmin: LogAsAdmin;
     const attachmentPath = '../../data/Attachments/test-upload-attachment.pdf'
+    const replaceAttachmentPath = '../../data/Attachments/test-replace-attachment.pdf'
 
 
     test.beforeAll(async () => {
@@ -40,22 +41,60 @@ test.describe("Test cases for Job details updates", () => {
         await jobDetailsPage.navigateToEMployeeProfile(jobData.AddEmployee[1]);
         await jobDetailsPage.waitUntilLoaderDissapear();
         await jobDetailsPage.navigateToJobMenu();
-        await jobDetailsPage.fillJobDetails(jobData.JobData[1],attachmentPath);
+        await jobDetailsPage.fillJobDetails(jobData.JobData[1], attachmentPath);
         await jobDetailsPage.clickOnSave();
         await jobDetailsPage.verifySuccessToastForUpdate();
     })
 
-    test.only("3. Keep the akready added attachment from the job tab", async () => {
+    test("3. Keep the already added attachment from the job tab", async () => {
         await jobDetailsPage.navigateToEMployeeProfile(jobData.AddEmployee[2]);
         await jobDetailsPage.waitUntilLoaderDissapear();
         await jobDetailsPage.navigateToJobMenu();
-        await jobDetailsPage.fillJobDetails(jobData.JobData[2],attachmentPath);
+        await jobDetailsPage.fillJobDetails(jobData.JobData[2], attachmentPath);
         await jobDetailsPage.clickOnSave();
         await jobDetailsPage.verifySuccessToastForUpdate();
         await jobDetailsPage.attachmentCOnfig("Keep Current");
         await jobDetailsPage.clickOnSave();
         await jobDetailsPage.waitUntilLoaderDissapear();
         await jobDetailsPage.validateAttachmentArea("Keep Current");
+
+    })
+
+    test("4. Delete the already added attachment from the job tab", async () => {
+        await jobDetailsPage.navigateToEMployeeProfile(jobData.AddEmployee[3]);
+        await jobDetailsPage.waitUntilLoaderDissapear();
+        await jobDetailsPage.navigateToJobMenu();
+        await jobDetailsPage.fillJobDetails(jobData.JobData[2], attachmentPath);
+        await jobDetailsPage.clickOnSave();
+        await jobDetailsPage.verifySuccessToastForUpdate();
+        await jobDetailsPage.attachmentCOnfig("Delete Current");
+        await jobDetailsPage.clickOnSave();
+        await jobDetailsPage.waitUntilLoaderDissapear();
+        await jobDetailsPage.validateAttachmentArea("Delete Current");
+
+    })
+
+    test("5. Replace the already added attachment from the job tab", async () => {
+        await jobDetailsPage.navigateToEMployeeProfile(jobData.AddEmployee[4]);
+        await jobDetailsPage.waitUntilLoaderDissapear();
+        await jobDetailsPage.navigateToJobMenu();
+        await jobDetailsPage.fillJobDetails(jobData.JobData[2], attachmentPath);
+        await jobDetailsPage.clickOnSave();
+        await jobDetailsPage.verifySuccessToastForUpdate();
+        await jobDetailsPage.attachmentCOnfig("Replace Current", replaceAttachmentPath);
+        await jobDetailsPage.clickOnSave();
+        await jobDetailsPage.waitUntilFormLoaderDissapear();
+        await jobDetailsPage.validateAttachmentArea("Replace Current");
+
+    })
+
+    test.only("6. Terminate an employee", async () => {
+        await jobDetailsPage.navigateToEMployeeProfile(jobData.AddEmployee[5]);
+        await jobDetailsPage.navigateToJobMenu();
+        await jobDetailsPage.clickOnTerminateButton();
+        await jobDetailsPage.fillAndTerminate(jobData.terminationData[0]);
+        await jobDetailsPage.verifySuccessToastForUpdate();
+        await jobDetailsPage.verifySuccessTermination(jobData.terminationData[0]);
 
     })
 

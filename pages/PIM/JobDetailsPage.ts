@@ -1,7 +1,7 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from "../Base/BasePage";
 import { Logger } from '../../Fixtures/logger.fixtures';
-import type { AddEmployee, JobData } from '../../data/PIM/jobDetails'
+import type { AddEmployee, JobData, TerminationData } from '../../data/PIM/jobDetails'
 import path from 'path/win32';
 
 
@@ -19,6 +19,7 @@ export class JobDetailsPage extends BasePage {
     private readonly empStatus: Locator;
     private readonly jobDetailsMenu: Locator;
     private readonly saveBtn: Locator;
+    private readonly terminateBtn: Locator;
     private readonly contactStartDate: Locator;
     private readonly contactEndDate: Locator;
     private readonly browseBtn: Locator;
@@ -27,6 +28,8 @@ export class JobDetailsPage extends BasePage {
     private readonly deleteCurrent: Locator;
     private readonly replaceCurrent: Locator;
     private readonly attachmentName: Locator;
+    private readonly terminateText: Locator;
+
 
     constructor(page: Page, logger: Logger) {
         super(page);
@@ -42,6 +45,7 @@ export class JobDetailsPage extends BasePage {
         this.location = page.locator("(//label[text()='Location']/following::div)[1]")
         this.empStatus = page.locator("(//label[text()='Employment Status']/following::div)[1]")
         this.saveBtn = page.getByRole('button', { name: 'Save' })
+        this.terminateBtn = page.getByRole('button', { name: 'Terminate Employment' })
         this.contractDetailsToggle = page.locator("(//input[@type='checkbox']/following-sibling::span)[1]")
         this.contactStartDate = page.locator("(//label[normalize-space(text())='Contract Start Date']/following::input)[1]")
         this.contactEndDate = page.locator("(//label[normalize-space(text())='Contract End Date']/following::input)[1]")
@@ -50,7 +54,7 @@ export class JobDetailsPage extends BasePage {
         this.deleteCurrent = page.getByText('Delete Current')
         this.replaceCurrent = page.getByText('Replace Current')
         this.attachmentName = page.locator(".orangehrm-file-current p")
-
+        this.terminateText = page.locator("//h6[text()='Employee Termination / Activiation ']/child::p")
     }
 
     async navigateToPim(): Promise<void> {
@@ -66,7 +70,6 @@ export class JobDetailsPage extends BasePage {
         return await this.pageStep("Search and navigate tot the employee profile", async () => {
             await this.pimCard.waitFor({ state: 'visible' });
             const row = this.page.locator(".oxd-table-row").filter({ hasText: employeeData.employeeId });
-            console.log(row)
             const empId = row.locator('.oxd-table-cell:nth-child(2) div')
             if (await empId.textContent() !== " ") {
                 await empId.click();
@@ -129,16 +132,37 @@ export class JobDetailsPage extends BasePage {
         })
     }
 
-    async attachmentCOnfig(action: string): Promise<void> {
+
+    async attachmentCOnfig(action: string, attachmentPath?: string): Promise<void> {
         return await this.pageStep("Attachment functionalities and validate", async () => {
             if (action === "Keep Current") {
-                await this.keepCurrent.click();
+                const checkKeep = await this.keepCurrent.isChecked()
+                if (!checkKeep) {
+                    await this.keepCurrent.click();
+                }
+
             }
             if (action === "Delete Current") {
-                await this.deleteCurrent.click();
+                const checkDelete = await this.deleteCurrent.isChecked()
+                if (!checkDelete) {
+                    await this.deleteCurrent.click();
+                }
+
             }
             if (action === "Replace Current") {
-                await this.replaceCurrent.click();
+                const checkReplace = await this.replaceCurrent.isChecked()
+                if (!checkReplace) {
+                    await this.replaceCurrent.click();
+                    const [fileChoose] = await Promise.all([
+                        this.page.waitForEvent('filechooser'),
+                        this.browseBtn.click()
+
+                    ])
+                    if (attachmentPath) {
+                        const filePath = path.join(__dirname, attachmentPath).replace(/\\/g, '/');
+                        await fileChoose.setFiles(filePath)
+                    }
+                }
             }
         })
     }
@@ -146,15 +170,51 @@ export class JobDetailsPage extends BasePage {
     async validateAttachmentArea(action: string): Promise<void> {
         return await this.pageStep("Attachment area validation", async () => {
             const fileName = "test-upload-attachment.pdf"
+            const replaceFileName = "test-replace-attachment.pdf"
             if (action === "Keep Current") {
-                expect (await this.attachmentName.textContent()).toContainEqual(fileName);
+                expect(await this.attachmentName.textContent()).toContain(fileName);
             }
             if (action === "Delete Current") {
-               await expect(this.attachmentName).not.toBeVisible();
+                await expect(this.attachmentName).not.toBeVisible();
             }
             if (action === "Replace Current") {
-                await this.replaceCurrent.click();
+                console.log(await this.attachmentName.textContent())
+                expect(await this.attachmentName.textContent()).toContain(replaceFileName);
             }
         })
     }
+
+    async clickOnTerminateButton(): Promise<void> {
+        return await this.pageStep("Click on Terminate employee button", async () => {
+            await this.terminateBtn.click();
+        })
+    }
+
+    async fillAndTerminate(terminatedata: TerminationData): Promise<void> {
+        return await this.pageStep("Click on Terminate employee button", async () => {
+            const modal = this.page.locator('.orangehrm-dialog-modal');
+            await expect(modal).toBeVisible();
+            const terminateD = modal.locator("(//label[text()='Termination Date']/following::div)[1]")
+            const terminateR = modal.locator("(//label[text()='Termination Reason']/following::div)[1]")
+            const terminateList = modal.locator(".oxd-select-dropdown")
+            const notes = modal.getByPlaceholder("Type here")
+            const saveBtn = modal.getByRole('button', { name: 'Save' })
+            await this.pickDateFromDatePicker(terminatedata.date, terminateD);
+            await terminateR.click();
+            await terminateList.waitFor({ state: 'visible' })
+            await terminateList.getByText(terminatedata.terminationReason).click();
+            await notes.fill(terminatedata.note)
+            await saveBtn.click();
+
+        })
+    }
+
+    async verifySuccessTermination(terminatedata: TerminationData): Promise<void> {
+        return await this.pageStep("Click on Terminate employee button", async () => {
+            const terminateDate = terminatedata.date;
+            expect(await this.terminateText.textContent()).toContain(`Terminated on: ${terminatedata.date}`);
+
+        })
+    }
+
 }

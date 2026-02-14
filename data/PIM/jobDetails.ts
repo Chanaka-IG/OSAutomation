@@ -18,6 +18,12 @@ export interface JobData {
     contractEndDate: string;
 }
 
+export interface TerminationData {
+    terminationReason: string,
+    date: string,
+    note: string
+}
+
 
 export const jobData = {
     AddEmployee: [{
@@ -33,10 +39,28 @@ export const jobData = {
         middleName: "Macdona"
     },
     {
-        employeeId: "1702",
-        firstName: "Peter",
-        lastName: "Patigo",
-        middleName: "Grange"
+        employeeId: "1703",
+        firstName: "Kevin",
+        lastName: "Peterson",
+        middleName: "Madona"
+    },
+    {
+        employeeId: "1704",
+        firstName: "Johan",
+        lastName: "Blake",
+        middleName: "Gran"
+    },
+    {
+        employeeId: "1705",
+        firstName: "Jeffry",
+        lastName: "Bawa",
+        middleName: "Masano"
+    },
+    {
+        employeeId: "1706",
+        firstName: "Margret",
+        lastName: "Buhansa",
+        middleName: "Chikago"
     }
     ],
     JobData: [{
@@ -72,6 +96,13 @@ export const jobData = {
         contractStartDate: "2022-10-02",
         contractEndDate: "2024-10-02"
     },
+    ],
+    terminationData: [
+        {
+            terminationReason: "Laid-off",
+            date: "2026-02-23",
+            note: "This is a test Note"
+        }
     ]
 
 
