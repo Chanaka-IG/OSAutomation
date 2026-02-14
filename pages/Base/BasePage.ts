@@ -17,6 +17,7 @@ export class BasePage {
   private readonly successToastMsgForDelete: Locator;
   private readonly closeIconForToast: Locator;
   private readonly waitLoader: Locator;
+  private readonly waitFormLoader: Locator;
   private readonly successToastMsgForUpdate: Locator;
   private readonly celenderPicker: Locator;
   private readonly monthDropDownIcon: Locator;
@@ -42,6 +43,7 @@ export class BasePage {
     this.successToastMsgForDelete = this.page.getByText("Successfully Deleted", { exact: true })
     this.successToastMsgForUpdate = this.page.getByText("Successfully Updated", { exact: true })
     this.waitLoader = this.page.locator(".oxd-table-loader")
+    this.waitFormLoader = this.page.locator(".oxd-loading-spinner")
     this.celenderPicker = page.locator(".oxd-date-input-calendar")
     this.monthDropDownIcon = page.locator('.oxd-icon.bi-caret-down-fill.oxd-icon-button__icon').first()
     this.monthDropDownList = page.locator('.oxd-calendar-selector-month ul')
@@ -169,6 +171,17 @@ export class BasePage {
 
   }
 
+  async waitUntilFormLoaderDissapear(): Promise<void> {
+    return await this.pageStep('Login as Custom ESS', async () => {
+      await this.waitFormLoader.waitFor({ state: 'visible' })
+      if (await this.waitFormLoader.isVisible()) {
+        await this.waitFormLoader.waitFor({ state: 'detached' });
+
+      }
+    })
+
+  }
+
   async pickDateFromDatePicker(inputDate: string, dateField: Locator,): Promise<void> {
     return await this.pageStep("Select the date from the date picker", async () => {
       const [year, month, day] = inputDate.split('-');
@@ -189,10 +202,10 @@ export class BasePage {
       await dateField.click();
       await this.celenderPicker.waitFor({ state: 'visible' })
       await this.monthDropDownIcon.click();
-      await this.monthDropDownList.getByText(monthMap[month], {exact:true}).click();
+      await this.monthDropDownList.getByText(monthMap[month], { exact: true }).click();
       await this.yearDropDownIcon.click();
-      await this.yearDropDownList.getByText(year, {exact:true}).click();
-      await this.dateContent.getByText(String(Number(day)), {exact : true}).click();
+      await this.yearDropDownList.getByText(year, { exact: true }).click();
+      await this.dateContent.getByText(String(Number(day)), { exact: true }).click();
     })
   }
 

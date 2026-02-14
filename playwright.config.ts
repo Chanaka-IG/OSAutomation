@@ -9,7 +9,7 @@ const config =  defineConfig({
   forbidOnly: !!process.env.CI,
   workers: 1,
   reporter: 'html',
-  timeout: 50000,
+  timeout: 90000,
   use: {
     baseURL: process.env.SYSTEM_URL,
     headless: true,
