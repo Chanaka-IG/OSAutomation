@@ -1,4 +1,4 @@
-import { APIRequestContext,APIResponse } from '@playwright/test';
+import { APIRequestContext } from '@playwright/test';
 import { ENV } from '../../config/env';
 
 

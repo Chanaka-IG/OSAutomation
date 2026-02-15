@@ -2,6 +2,7 @@ import { test, expect, request } from '../../Fixtures/logger.fixtures';
 import { JobDetailsPage } from '../../pages/PIM/JobDetailsPage';
 import { LogAsAdmin } from '../../api/logAsAdmin'
 import { AddEmployee } from '../../api/Employee/AddEmployee';
+import { TerminateEmployee } from '../../api/Employee/TerminateEmployee';
 import { jobData } from '../../data/PIM/jobDetails'
 
 test.describe("Test cases for Job details updates", () => {
@@ -9,6 +10,7 @@ test.describe("Test cases for Job details updates", () => {
     let jobDetailsPage: JobDetailsPage;
     let addEmployee: AddEmployee;
     let logAsAdmin: LogAsAdmin;
+    let terminateEmployee: TerminateEmployee;
     const attachmentPath = '../../data/Attachments/test-upload-attachment.pdf'
     const replaceAttachmentPath = '../../data/Attachments/test-replace-attachment.pdf'
 
@@ -17,8 +19,9 @@ test.describe("Test cases for Job details updates", () => {
         const apiContext = await request.newContext();
         logAsAdmin = new LogAsAdmin(apiContext)
         addEmployee = new AddEmployee(apiContext)
+        terminateEmployee = new TerminateEmployee(apiContext)
         await logAsAdmin.loginAsAdmin();
-        await addEmployee.addEmployees(jobData.AddEmployee)
+        // await addEmployee.addEmployees(jobData.AddEmployee)
     })
 
     test.beforeEach(async ({ page, logger }) => {
@@ -26,6 +29,20 @@ test.describe("Test cases for Job details updates", () => {
         await page.goto("/")
         await jobDetailsPage.loginasAdmin();
         await jobDetailsPage.navigateToPim();
+    })
+
+
+
+    test.only("0. Update employees via API ass test data", async ({ page }) => {
+        for (let i = 0; i < 1; i++) {
+            await jobDetailsPage.navigateToPim();
+            await jobDetailsPage.navigateToEMployeeProfile(jobData.ApiAddEmployee[i]);
+            const url = page.url();
+            console.log(url);
+            const empNumber = Number(url.split('/').pop());
+            console.log("Employee Number :" + empNumber);
+            await terminateEmployee.terminateEMployee(empNumber, jobData.terminationData[0]);
+        }
     })
 
     test("1. Update job related data and verify", async () => {
@@ -88,7 +105,7 @@ test.describe("Test cases for Job details updates", () => {
 
     })
 
-    test.only("6. Terminate an employee", async () => {
+    test("6. Terminate an employee", async () => {
         await jobDetailsPage.navigateToEMployeeProfile(jobData.AddEmployee[5]);
         await jobDetailsPage.navigateToJobMenu();
         await jobDetailsPage.clickOnTerminateButton();
