@@ -24,6 +24,12 @@ export interface TerminationData {
     note: string
 }
 
+export interface apiDataTermination {
+    terminationReason: string,
+    date: string,
+    note: string
+}
+
 
 export const jobData = {
     AddEmployee: [{
@@ -61,13 +67,37 @@ export const jobData = {
         firstName: "Margret",
         lastName: "Buhansa",
         middleName: "Chikago"
+    },
+    {
+        employeeId: "1707",
+        firstName: "James",
+        lastName: "Packer",
+        middleName: "Mugabe"
+    },
+    {
+        employeeId: "1708",
+        firstName: "Peter",
+        lastName: "Patigo",
+        middleName: "Mosad"
     }
     ],
+    ApiAddEmployee: [{
+        employeeId: "1707",
+        firstName: "James",
+        lastName: "Packer",
+        middleName: "Mugabe"
+    },
+    {
+        employeeId: "1708",
+        firstName: "Peter",
+        lastName: "Patigo",
+        middleName: "Mosad"
+    }],
     JobData: [{
         JoinedDate: "2020-10-02",
         jobTItle: "BA",
         jobCategory: "Sales Workers",
-        subUnit: "Dept 1",
+        subUnit: "Laid-off",
         location: "Sydney",
         employementStatus: "Intern",
         includeContractDetails: false,
@@ -100,6 +130,13 @@ export const jobData = {
     terminationData: [
         {
             terminationReason: "Laid-off",
+            date: "2026-02-23",
+            note: "This is a test Note"
+        }
+    ],
+    apiDataTermination: [
+        {
+            terminationReason: 1,
             date: "2026-02-23",
             note: "This is a test Note"
         }
