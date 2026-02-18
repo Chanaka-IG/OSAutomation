@@ -17,9 +17,11 @@ export class JobDetailsPage extends BasePage {
     private readonly subUnit: Locator;
     private readonly location: Locator;
     private readonly empStatus: Locator;
+    private readonly searchBtn: Locator;
     private readonly jobDetailsMenu: Locator;
     private readonly saveBtn: Locator;
     private readonly terminateBtn: Locator;
+    private readonly activateBtn: Locator;
     private readonly contactStartDate: Locator;
     private readonly contactEndDate: Locator;
     private readonly browseBtn: Locator;
@@ -46,6 +48,7 @@ export class JobDetailsPage extends BasePage {
         this.empStatus = page.locator("(//label[text()='Employment Status']/following::div)[1]")
         this.saveBtn = page.getByRole('button', { name: 'Save' })
         this.terminateBtn = page.getByRole('button', { name: 'Terminate Employment' })
+        this.searchBtn = page.getByRole('button', { name: 'Search' })
         this.contractDetailsToggle = page.locator("(//input[@type='checkbox']/following-sibling::span)[1]")
         this.contactStartDate = page.locator("(//label[normalize-space(text())='Contract Start Date']/following::input)[1]")
         this.contactEndDate = page.locator("(//label[normalize-space(text())='Contract End Date']/following::input)[1]")
@@ -55,6 +58,7 @@ export class JobDetailsPage extends BasePage {
         this.replaceCurrent = page.getByText('Replace Current')
         this.attachmentName = page.locator(".orangehrm-file-current p")
         this.terminateText = page.locator("//h6[text()='Employee Termination / Activiation ']/child::p")
+        this.activateBtn = page.getByRole('button', { name: 'Activate Employment' })
     }
 
     async navigateToPim(): Promise<void> {
@@ -81,6 +85,13 @@ export class JobDetailsPage extends BasePage {
     async navigateToJobMenu(): Promise<void> {
         return await this.pageStep("Navigate to the Job details menu on selected emplpoyee", async () => {
             await this.jobDetailsMenu.click();
+        })
+    }
+
+
+    async clickOnSearchBtn(): Promise<void> {
+        return await this.pageStep("Click on Search button in the filter area", async () => {
+            await this.searchBtn.click();
         })
     }
 
@@ -190,6 +201,13 @@ export class JobDetailsPage extends BasePage {
         })
     }
 
+    async clickOnActivateButton(): Promise<void> {
+        return await this.pageStep("Click on Terminate employee button", async () => {
+            await this.activateBtn.click();
+        })
+    }
+
+
     async fillAndTerminate(terminatedata: TerminationData): Promise<void> {
         return await this.pageStep("Click on Terminate employee button", async () => {
             const modal = this.page.locator('.orangehrm-dialog-modal');
@@ -210,9 +228,16 @@ export class JobDetailsPage extends BasePage {
     }
 
     async verifySuccessTermination(terminatedata: TerminationData): Promise<void> {
-        return await this.pageStep("Click on Terminate employee button", async () => {
+        return await this.pageStep("Verify the UI after termination", async () => {
             const terminateDate = terminatedata.date;
             expect(await this.terminateText.textContent()).toContain(`Terminated on: ${terminatedata.date}`);
+
+        })
+    }
+
+    async verifySuccessRehire(): Promise<void> {
+        return await this.pageStep("Verify the UI after rehire", async () => {
+            expect(await this.terminateText).not.toBeVisible();
 
         })
     }

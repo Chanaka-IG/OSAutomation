@@ -25,10 +25,21 @@ export interface TerminationData {
 }
 
 export interface apiDataTermination {
-    terminationReason: string,
+    terminationReason: number,
     date: string,
     note: string
 }
+
+export interface EmployeeFilter {
+    employeeName: string
+    employeeId: string,
+    employeeStatus: string,
+    include: string,
+    supervisorName: string,
+    jobTitle: string,
+    subUnit: string
+}
+
 
 
 export const jobData = {
@@ -82,17 +93,12 @@ export const jobData = {
     }
     ],
     ApiAddEmployee: [{
-        employeeId: "1707",
-        firstName: "James",
-        lastName: "Packer",
-        middleName: "Mugabe"
-    },
-    {
-        employeeId: "1708",
-        firstName: "Peter",
-        lastName: "Patigo",
+        employeeId: "1709",
+        firstName: "Wilson",
+        lastName: "Martin",
         middleName: "Mosad"
-    }],
+    },
+    ],
     JobData: [{
         JoinedDate: "2020-10-02",
         jobTItle: "BA",
@@ -140,7 +146,15 @@ export const jobData = {
             date: "2026-02-23",
             note: "This is a test Note"
         }
+    ],
+    EmployeeFilter: [{
+        employeeName: "",
+        employeeId: "",
+        employeeStatus: "",
+        include: "Past Employees Only",
+        supervisorName: "",
+        jobTitle: "",
+        subUnit: ""
+    },
     ]
-
-
 }
