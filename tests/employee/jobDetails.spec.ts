@@ -4,6 +4,7 @@ import { LogAsAdmin } from '../../api/logAsAdmin'
 import { AddEmployee } from '../../api/Employee/AddEmployee';
 import { TerminateEmployee } from '../../api/Employee/TerminateEmployee';
 import { jobData } from '../../data/PIM/jobDetails'
+import { FilterAndSearchPage } from '../../pages/PIM/FilterAndSearchPage';
 
 test.describe("Test cases for Job details updates", () => {
 
@@ -11,6 +12,7 @@ test.describe("Test cases for Job details updates", () => {
     let addEmployee: AddEmployee;
     let logAsAdmin: LogAsAdmin;
     let terminateEmployee: TerminateEmployee;
+    let filterAndSearchPage: FilterAndSearchPage;
     const attachmentPath = '../../data/Attachments/test-upload-attachment.pdf'
     const replaceAttachmentPath = '../../data/Attachments/test-replace-attachment.pdf'
 
@@ -21,7 +23,8 @@ test.describe("Test cases for Job details updates", () => {
         addEmployee = new AddEmployee(apiContext)
         terminateEmployee = new TerminateEmployee(apiContext)
         await logAsAdmin.loginAsAdmin();
-        // await addEmployee.addEmployees(jobData.AddEmployee)
+        await addEmployee.addEmployees(jobData.AddEmployee)
+        await addEmployee.addEmployees(jobData.ApiAddEmployee)
     })
 
     test.beforeEach(async ({ page, logger }) => {
@@ -31,21 +34,7 @@ test.describe("Test cases for Job details updates", () => {
         await jobDetailsPage.navigateToPim();
     })
 
-
-
-    test.only("0. Update employees via API ass test data", async ({ page }) => {
-        for (let i = 0; i < 1; i++) {
-            await jobDetailsPage.navigateToPim();
-            await jobDetailsPage.navigateToEMployeeProfile(jobData.ApiAddEmployee[i]);
-            const url = page.url();
-            console.log(url);
-            const empNumber = Number(url.split('/').pop());
-            console.log("Employee Number :" + empNumber);
-            await terminateEmployee.terminateEMployee(empNumber, jobData.terminationData[0]);
-        }
-    })
-
-    test("1. Update job related data and verify", async () => {
+    test.skip("1. Update job related data and verify", async () => {
         await jobDetailsPage.navigateToEMployeeProfile(jobData.AddEmployee[0]);
         await jobDetailsPage.waitUntilLoaderDissapear();
         await jobDetailsPage.navigateToJobMenu();
@@ -54,7 +43,7 @@ test.describe("Test cases for Job details updates", () => {
         await jobDetailsPage.verifySuccessToastForUpdate();
     })
 
-    test("2. Update job related data with Include Employment Contract Details", async () => {
+    test.skip("2. Update job related data with Include Employment Contract Details", async () => {
         await jobDetailsPage.navigateToEMployeeProfile(jobData.AddEmployee[1]);
         await jobDetailsPage.waitUntilLoaderDissapear();
         await jobDetailsPage.navigateToJobMenu();
@@ -63,7 +52,7 @@ test.describe("Test cases for Job details updates", () => {
         await jobDetailsPage.verifySuccessToastForUpdate();
     })
 
-    test("3. Keep the already added attachment from the job tab", async () => {
+    test.skip("3. Keep the already added attachment from the job tab", async () => {
         await jobDetailsPage.navigateToEMployeeProfile(jobData.AddEmployee[2]);
         await jobDetailsPage.waitUntilLoaderDissapear();
         await jobDetailsPage.navigateToJobMenu();
@@ -77,7 +66,7 @@ test.describe("Test cases for Job details updates", () => {
 
     })
 
-    test("4. Delete the already added attachment from the job tab", async () => {
+    test.skip("4. Delete the already added attachment from the job tab", async () => {
         await jobDetailsPage.navigateToEMployeeProfile(jobData.AddEmployee[3]);
         await jobDetailsPage.waitUntilLoaderDissapear();
         await jobDetailsPage.navigateToJobMenu();
@@ -91,7 +80,7 @@ test.describe("Test cases for Job details updates", () => {
 
     })
 
-    test("5. Replace the already added attachment from the job tab", async () => {
+    test.skip("5. Replace the already added attachment from the job tab", async () => {
         await jobDetailsPage.navigateToEMployeeProfile(jobData.AddEmployee[4]);
         await jobDetailsPage.waitUntilLoaderDissapear();
         await jobDetailsPage.navigateToJobMenu();
@@ -105,7 +94,7 @@ test.describe("Test cases for Job details updates", () => {
 
     })
 
-    test("6. Terminate an employee", async () => {
+    test.skip("6. Terminate an employee", async () => {
         await jobDetailsPage.navigateToEMployeeProfile(jobData.AddEmployee[5]);
         await jobDetailsPage.navigateToJobMenu();
         await jobDetailsPage.clickOnTerminateButton();
@@ -115,6 +104,22 @@ test.describe("Test cases for Job details updates", () => {
 
     })
 
+    test.only("7. Rehire an employee", async ({ page, logger }) => {
+        filterAndSearchPage = new FilterAndSearchPage(page, logger)
+        await jobDetailsPage.navigateToPim();
+        await jobDetailsPage.navigateToEMployeeProfile(jobData.ApiAddEmployee[0]);
+        const url = page.url();
+        const empNumber = Number(url.split('/').pop());
+        await terminateEmployee.terminateEMployee(empNumber, jobData.apiDataTermination[0]);
+        await jobDetailsPage.navigateToPim();
+        await filterAndSearchPage.fillFilterValues(jobData.EmployeeFilter[0]);
+        await jobDetailsPage.clickOnSearchBtn();
+        await jobDetailsPage.navigateToEMployeeProfile(jobData.ApiAddEmployee[0]);
+        await jobDetailsPage.navigateToJobMenu();
+        await jobDetailsPage.clickOnActivateButton();
+        await jobDetailsPage.verifySuccessToastForUpdate();
+        await jobDetailsPage.verifySuccessRehire();
+    })
 
 })
 

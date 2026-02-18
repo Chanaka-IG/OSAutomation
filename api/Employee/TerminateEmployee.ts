@@ -41,7 +41,6 @@ export class TerminateEmployee {
                 note: terminationData.note
             }
         })
-        console.log(response)
         return response;
 
     }
