@@ -33,7 +33,6 @@ export class TerminateEmployee {
     }
 
     async terminateEmployee(empNumber: number, terminationData: apiDataTermination) {
-        console.log(empNumber)
         const response = await this.apiContext.post(`${ENV.baseUrl}/web/index.php/api/v2/pim/employees/${empNumber}/terminations`, {
             data: {
                 terminationReasonId: 1,

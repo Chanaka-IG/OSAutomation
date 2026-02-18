@@ -1,3 +1,6 @@
+import { Logger } from '../../Fixtures/logger.fixtures';
+
+
 import { FullConfig, request } from '@playwright/test';
 import { EmployeeMaster } from '../../api/masterdata/EmployeeMaster';
 import { JobTitleMaster } from '../../api/masterdata/JobTitleMaster';
@@ -5,7 +8,7 @@ import { EmpStatusMaster } from '../../api/masterdata/EmpStatusMaster';
 import { LocationMaster } from '../../api/masterdata/LocationMaster';
 import { SubUnitMaster } from '../../api/masterdata/SubUnitMaster';
 import { UsesMaster } from '../../api/masterdata/UsesMaster';
-
+import { PayGradeMaster } from '../../api/masterdata/PayGradeMaster';
 
 
 import { employees } from '../../data/masterdata/employee';
@@ -14,7 +17,7 @@ import { employStatus } from '../../data/masterdata/employementStatus';
 import { location } from '../../data/masterdata/location';
 import { subUnits } from '../../data/masterdata/subUnit';
 import { user } from '../../data/masterdata/users';
-
+import { payGrades } from '../../data/masterdata/payGrade';
 
 
 
@@ -31,6 +34,7 @@ async function globalSetup(config: FullConfig) {
         const locaiton = new LocationMaster(apiContext);
         const subUnit = new SubUnitMaster(apiContext);
         const users = new UsesMaster(apiContext);
+        const payGrade = new PayGradeMaster(apiContext);
         await employee.loginAsAdmin();
         await employee.addEmployees(employees);
         await jobTitle.addJobTitles(jobTitles);
@@ -38,6 +42,7 @@ async function globalSetup(config: FullConfig) {
         await locaiton.addLocation(location);
         await subUnit.addSubUnit(subUnits);
         await users.addUsers(user);
+        await payGrade.addPayGrade(payGrades);
     
     }
     else {
@@ -45,9 +50,6 @@ async function globalSetup(config: FullConfig) {
         return;
 
     }
-
-
-
 }
 
 export default globalSetup;
