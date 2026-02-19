@@ -17,7 +17,7 @@ import { employStatus } from '../../data/masterdata/employementStatus';
 import { location } from '../../data/masterdata/location';
 import { subUnits } from '../../data/masterdata/subUnit';
 import { user } from '../../data/masterdata/users';
-import { payGrades } from '../../data/masterdata/payGrade';
+import { payGrades,currency } from '../../data/masterdata/payGrade';
 
 
 
@@ -43,6 +43,7 @@ async function globalSetup(config: FullConfig) {
         await subUnit.addSubUnit(subUnits);
         await users.addUsers(user);
         await payGrade.addPayGrade(payGrades);
+        await payGrade.updatePayGradeCurrency(payGrades,currency[0]);
     
     }
     else {
