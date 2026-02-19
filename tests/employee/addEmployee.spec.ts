@@ -40,7 +40,7 @@ test.describe("Adding employees VIA UI", () => {
     await addEmployeePage.clickOnAddButton();
     await addEmployeePage.addEmployeeViaWizard(PIM_DATA.UI_DATA.Employee[0]);
     await addEmployeePage.clickonSave()
-    await addEmployeePage.verifySuccessToast();
+    await addEmployeePage.verifySuccessToastForSave();
   })
 
   test('3. Verify Employee ID auto generation', async () => {
@@ -52,14 +52,14 @@ test.describe("Adding employees VIA UI", () => {
     await addEmployeePage.clickOnAddButton();
     await addEmployeePage.addEmployeeViaWizard(PIM_DATA.UI_DATA.Employee[1]);
     await addEmployeePage.clickonSave()
-    await addEmployeePage.verifySuccessToast();
+    await addEmployeePage.verifySuccessToastForSave();
   })
 
   test.only('5. Add employee with all fields', async () => {
     await addEmployeePage.clickOnAddButton();
     await addEmployeePage.addEmployeeViaWizard(PIM_DATA.UI_DATA.Employee[2]);
     await addEmployeePage.clickonSave()
-    await addEmployeePage.verifySuccessToast();
+    await addEmployeePage.verifySuccessToastForSave();
     await addEmployeePage.navigateToEmployeeTab();
     const isVerified = await addEmployeePage.verifyEmployeeDetails(PIM_DATA.UI_DATA.Employee[2]);
     expect(isVerified).toBeTruthy();
@@ -69,7 +69,7 @@ test.describe("Adding employees VIA UI", () => {
     await addEmployeePage.clickOnAddButton();
     await addEmployeePage.addEmployeeViaWizardWithProfilePic(PIM_DATA.UI_DATA.Employee[3],validProfilePath);
     await addEmployeePage.clickonSave()
-    await addEmployeePage.verifySuccessToast();
+    await addEmployeePage.verifySuccessToastForSave();
   })
 
    test('7. Add employee with login credentials', async () => {
@@ -77,7 +77,7 @@ test.describe("Adding employees VIA UI", () => {
     await addEmployeePage.addEmployeeViaWizardWithProfilePic(PIM_DATA.UI_DATA.EmployeeWithUser[0],validProfilePath);
     await addEmployeePage.createLogin(PIM_DATA.UI_DATA.EmployeeWithUser[0]);
     await addEmployeePage.clickonSave()
-    await addEmployeePage.verifySuccessToast();
+    await addEmployeePage.verifySuccessToastForSave();
   })
 
      test('8. Verify duplicate Employee ID validation', async () => {

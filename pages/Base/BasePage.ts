@@ -13,7 +13,7 @@ export class BasePage {
   private readonly submitButton: Locator;
   private readonly successToastContent: Locator;
   private readonly successHeader: Locator;
-  private readonly successToastMsg: Locator;
+  private readonly successToastMsgForSave: Locator;
   private readonly successToastMsgForDelete: Locator;
   private readonly closeIconForToast: Locator;
   private readonly waitLoader: Locator;
@@ -39,7 +39,7 @@ export class BasePage {
     this.submitButton = this.page.getByRole('button', { name: ' Login ' })
     this.successToastContent = this.page.locator("#oxd-toaster_1")
     this.successHeader = this.page.getByText("Success", { exact: true })
-    this.successToastMsg = this.page.getByText("Successfully Saved", { exact: true })
+    this.successToastMsgForSave = this.page.getByText("Successfully Saved", { exact: true })
     this.successToastMsgForDelete = this.page.getByText("Successfully Deleted", { exact: true })
     this.successToastMsgForUpdate = this.page.getByText("Successfully Updated", { exact: true })
     this.waitLoader = this.page.locator(".oxd-table-loader")
@@ -100,11 +100,11 @@ export class BasePage {
 
   }
 
-  async verifySuccessToast(): Promise<void> {
+  async verifySuccessToastForSave(): Promise<void> {
     return await this.pageStep('Verify Success toast message', async () => {
       await this.successToastContent.waitFor({ state: 'visible' }).then(async () => {
         await test.expect(this.successHeader).toBeVisible();
-        await test.expect(this.successToastMsg).toBeVisible();
+        await test.expect(this.successToastMsgForSave).toBeVisible();
       })
     })
 
@@ -114,7 +114,7 @@ export class BasePage {
     return await this.pageStep('Verify Success toast message', async () => {
       await this.successToastContent.waitFor({ state: 'visible' }).then(async () => {
         await test.expect(this.successHeader).toBeVisible();
-        await test.expect(this.successToastMsg).toBeVisible();
+        await test.expect(this.successToastMsgForSave).toBeVisible();
         await this.closeIconForToast.click();
       })
     })
