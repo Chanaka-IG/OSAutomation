@@ -30,7 +30,7 @@ test.describe("Test cases for update data in Personal Details tab", () => {
 
     test("1. Update data in perosnal tab and save", async ({ page }) => {
         await personalDetailsPage.navigateToEMployeeProfile(personalData.AddEmployee[0])
-        await personalDetailsPage.waitUntilLoaderDissapear();
+        await personalDetailsPage.waitUntilTableLoaderDissapear();
         await personalDetailsPage.fillPersonalDetails(personalData.PersonalDetails[0], attachmentPath);
         await personalDetailsPage.clickOnSaveforPersonal();
         await personalDetailsPage.verifySuccessToastForUpdate();
@@ -38,12 +38,12 @@ test.describe("Test cases for update data in Personal Details tab", () => {
 
     test("2. Update data in perosnal tab and Verify", async ({ page }) => {
         await personalDetailsPage.navigateToEMployeeProfile(personalData.AddEmployee[1])
-        await personalDetailsPage.waitUntilLoaderDissapear();
+        await personalDetailsPage.waitUntilTableLoaderDissapear();
         await personalDetailsPage.fillPersonalDetails(personalData.PersonalDetails[1], attachmentPath);
         await personalDetailsPage.clickOnSaveforPersonal();
         await personalDetailsPage.verifySuccessToastForUpdate();
         await personalDetailsPage.clickOnSaveforAttachments();
-        await personalDetailsPage.waitUntilLoaderDissapear();
+        await personalDetailsPage.waitUntilTableLoaderDissapear();
         const isValidatedPersonalDetails = await personalDetailsPage.validatePersonalDetails(personalData.PersonalDetails[1]);
         expect (isValidatedPersonalDetails).toBeTruthy();
         const isValidatedAttachments = await personalDetailsPage.validateAttachmentDetails(personalData.PersonalDetails[1])
@@ -52,7 +52,7 @@ test.describe("Test cases for update data in Personal Details tab", () => {
     })
         test("3. Validate validation message for invalid leave date", async ({ page }) => {
         await personalDetailsPage.navigateToEMployeeProfile(personalData.AddEmployee[2])
-        await personalDetailsPage.waitUntilLoaderDissapear();
+        await personalDetailsPage.waitUntilTableLoaderDissapear();
         await personalDetailsPage.fillPersonalDetails(personalData.PersonalDetails[2], attachmentPath);
         await personalDetailsPage.validateInvalidDateError();
     
@@ -60,7 +60,7 @@ test.describe("Test cases for update data in Personal Details tab", () => {
 
         test("4. Update data in perosnal tab by picking date from the date picker", async ({ page }) => {
         await personalDetailsPage.navigateToEMployeeProfile(personalData.AddEmployee[3])
-        await personalDetailsPage.waitUntilLoaderDissapear();
+        await personalDetailsPage.waitUntilTableLoaderDissapear();
         await personalDetailsPage.fillPersonalDetailsWithDatePicker(personalData.PersonalDetails[3], attachmentPath);
         await personalDetailsPage.clickOnSaveforPersonal();
         await personalDetailsPage.verifySuccessToastForUpdate();
