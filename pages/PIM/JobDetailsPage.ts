@@ -99,7 +99,7 @@ export class JobDetailsPage extends BasePage {
 
         return await this.pageStep("Navigate to the job tab and fill data", async () => {
             await this.jobDetailsCard.waitFor({ state: 'visible' });
-            await this.waitUntilLoaderDissapear();
+            await this.waitUntilTableLoaderDissapear();
             await this.page.waitForTimeout(3000)
             await this.pickDateFromDatePicker(jobData.JoinedDate, this.joinDate);
             await this.jobTitle.click().then(async () => {

@@ -30,9 +30,9 @@ test.describe(() => {
 
     test("1. Update contact Details and save", async () => {
         await contactDetailsPage.navigateToEMployeeProfile(addEmployeeData[0]);
-        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.waitUntilTableLoaderDissapear();
         await contactDetailsPage.navigateToContactDetailsMenu();
-        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.waitUntilTableLoaderDissapear();
         await contactDetailsPage.fillContactDetails(contactDetails[0])
         await contactDetailsPage.clickOnSaveforContactDetails();
         await contactDetailsPage.verifySuccessToastForUpdate();
@@ -41,9 +41,9 @@ test.describe(() => {
 
     test("2. Update contact Details and Attachment section", async () => {
         await contactDetailsPage.navigateToEMployeeProfile(addEmployeeData[1]);
-        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.waitUntilTableLoaderDissapear();
         await contactDetailsPage.navigateToContactDetailsMenu();
-        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.waitUntilTableLoaderDissapear();
         await contactDetailsPage.fillContactDetails(contactDetails[1])
         await contactDetailsPage.clickOnSaveforContactDetails();
         await contactDetailsPage.verifySuccessToastForUpdate();
@@ -55,9 +55,9 @@ test.describe(() => {
 
     test("3. Validate lengthy valiadtion message for streets", async () => {
         await contactDetailsPage.navigateToEMployeeProfile(addEmployeeData[2]);
-        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.waitUntilTableLoaderDissapear();
         await contactDetailsPage.navigateToContactDetailsMenu();
-        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.waitUntilTableLoaderDissapear();
         await contactDetailsPage.fillContactDetails(contactDetails[2])
         await contactDetailsPage.validateLengthyErrors()
 
@@ -65,9 +65,9 @@ test.describe(() => {
 
     test("4. Validate character values for phone numbers", async () => {
         await contactDetailsPage.navigateToEMployeeProfile(addEmployeeData[2]);
-        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.waitUntilTableLoaderDissapear();
         await contactDetailsPage.navigateToContactDetailsMenu();
-        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.waitUntilTableLoaderDissapear();
         await contactDetailsPage.fillContactDetails(contactDetails[3])
         await contactDetailsPage.validateTpNumbers()
 
@@ -76,9 +76,9 @@ test.describe(() => {
 
     test("5. Validate email field", async () => {
         await contactDetailsPage.navigateToEMployeeProfile(addEmployeeData[2]);
-        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.waitUntilTableLoaderDissapear();
         await contactDetailsPage.navigateToContactDetailsMenu();
-        await contactDetailsPage.waitUntilLoaderDissapear();
+        await contactDetailsPage.waitUntilTableLoaderDissapear();
         await contactDetailsPage.fillContactDetails(contactDetails[4])
         await contactDetailsPage.validateEmailErrors()
 

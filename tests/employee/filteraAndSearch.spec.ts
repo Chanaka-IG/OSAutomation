@@ -48,7 +48,7 @@ test.describe("Filter and search Employees", () => {
     test("1.Search by Employee Name", async () => {
         await filterAndSearchPage.fillFilterValues(PIM_FILTER_DATA.EmployeeFilter[0]);
         await filterAndSearchPage.clickSearch();
-        await filterAndSearchPage.waitUntilLoaderDissapear();
+        await filterAndSearchPage.waitUntilTableLoaderDissapear();
         const isVerified = await filterAndSearchPage.verifyEmployeeDetails(PIM_FILTER_DATA.EmployeeFilterValidation[0]);
         expect(isVerified).toBeTruthy();
     })
@@ -56,7 +56,7 @@ test.describe("Filter and search Employees", () => {
     test("2.Search by Employee ID", async () => {
         await filterAndSearchPage.fillFilterValues(PIM_FILTER_DATA.EmployeeFilter[1]);
         await filterAndSearchPage.clickSearch();
-        await filterAndSearchPage.waitUntilLoaderDissapear();
+        await filterAndSearchPage.waitUntilTableLoaderDissapear();
         const isVerified = await filterAndSearchPage.verifyEmployeeDetails(PIM_FILTER_DATA.EmployeeFilterValidation[0]);
         expect(isVerified).toBeTruthy();
     })
@@ -64,7 +64,7 @@ test.describe("Filter and search Employees", () => {
     test("3.Filter by Job Title, Status, Sub Unit", async () => {
         await filterAndSearchPage.fillFilterValues(PIM_FILTER_DATA.EmployeeFilter[2]);
         await filterAndSearchPage.clickSearch();
-        await filterAndSearchPage.waitUntilLoaderDissapear();
+        await filterAndSearchPage.waitUntilTableLoaderDissapear();
         const isVerified = await filterAndSearchPage.verifyEmployeeDetails(PIM_FILTER_DATA.EmployeeFilterValidation[0]);
         expect(isVerified).toBeTruthy();
     })
@@ -72,14 +72,14 @@ test.describe("Filter and search Employees", () => {
     test("4.Combine multiple filters", async () => {
         await filterAndSearchPage.fillFilterValues(PIM_FILTER_DATA.EmployeeFilter[2]);
         await filterAndSearchPage.clickSearch();
-        await filterAndSearchPage.waitUntilLoaderDissapear();
+        await filterAndSearchPage.waitUntilTableLoaderDissapear();
         const isVerified = await filterAndSearchPage.verifyEmployeeDetails(PIM_FILTER_DATA.EmployeeFilterValidation[0]);
         expect(isVerified).toBeTruthy();
     })
     test("5.Reset filter functionality", async () => {
         await filterAndSearchPage.fillFilterValues(PIM_FILTER_DATA.EmployeeFilter[2]);
         await filterAndSearchPage.clickReset();
-        await filterAndSearchPage.waitUntilLoaderDissapear();
+        await filterAndSearchPage.waitUntilTableLoaderDissapear();
         const isVerified = await filterAndSearchPage.validateEmptyFilters();
         expect(isVerified).toBeTruthy();
     })

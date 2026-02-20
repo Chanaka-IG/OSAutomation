@@ -36,6 +36,18 @@ export const salarydata = {
             firstName: "Mack",
             lastName: "Pennis",
             middleName: "Fazeen"
+        },
+         {
+            employeeId: "1102",
+            firstName: "Peter",
+            lastName: "Siddle",
+            middleName: "Zahoot"
+        },
+                 {
+            employeeId: "1103",
+            firstName: "John",
+            lastName: "Kenedy",
+            middleName: "Sikago"
         }
     ],
     salaryComponent: [
@@ -64,7 +76,74 @@ export const salarydata = {
             accountType: "Savings",
             routingNumber: "26894587",
             amountVal: "45501"
+        },
+        {
+            component: "Tax deduction",
+            payGrade: "Grade 2",
+            payFrequency: "Monthly",
+            Currency: "Utd. Arab Emir. Dirham",
+            amount: '10000',
+            comment: "This is a test comment",
+            directDeposit: false,
+            accountNumber: "",
+            accountType: "",
+            routingNumber: "",
+            amountVal: ""
+        },
+          {
+            component: "",
+            payGrade: "",
+            payFrequency: "",
+            Currency: "",
+            amount: '',
+            comment: "",
+            directDeposit: true,
+            accountNumber: "",
+            accountType: "",
+            routingNumber: "",
+            amountVal: ""
         }
+    ],
+     multiplesalaryComponent: [
+        {
+            component: "Car allowance",
+            payGrade: "Grade 1",
+            payFrequency: "Hourly",
+            Currency: "Utd. Arab Emir. Dirham",
+            amount: '5500',
+            comment: "This is a test comment",
+            directDeposit: false,
+            accountNumber: "",
+            accountType: "",
+            routingNumber: "",
+            amountVal: ""
+        },
+        {
+            component: "Tax deduction",
+            payGrade: "Grade 2",
+            payFrequency: "Monthly",
+            Currency: "Utd. Arab Emir. Dirham",
+            amount: '5240',
+            comment: "This is a test comment",
+            directDeposit: true,
+            accountNumber: "256200126",
+            accountType: "Savings",
+            routingNumber: "26894587",
+            amountVal: "45501"
+        },
+        {
+            component: "Tax deduction",
+            payGrade: "Grade 2",
+            payFrequency: "Monthly",
+            Currency: "Utd. Arab Emir. Dirham",
+            amount: '10000',
+            comment: "This is a test comment",
+            directDeposit: false,
+            accountNumber: "",
+            accountType: "",
+            routingNumber: "",
+            amountVal: ""
+        },
     ],
 }
 

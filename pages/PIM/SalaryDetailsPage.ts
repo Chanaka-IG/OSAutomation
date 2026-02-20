@@ -24,7 +24,14 @@ export class SalaryDetailsPage extends BasePage {
     private readonly routingNumber: Locator;
     private readonly amountDeposit: Locator;
     private readonly saveBtn: Locator;
-
+    private readonly errorForAmount: Locator;
+    private readonly componentRequireMsg: Locator;
+    private readonly currencyRequireMsg: Locator;
+    private readonly amountRequireMsg: Locator;
+    private readonly accountNumberRequireMsg: Locator;
+    private readonly accountTypeRequireMsg: Locator;
+    private readonly routingNumberRequireMsg: Locator;
+    private readonly amountDirectRequireMsg: Locator;
 
     constructor(page: Page, logger: Logger) {
         super(page)
@@ -46,7 +53,14 @@ export class SalaryDetailsPage extends BasePage {
         this.routingNumber = page.locator("(//label[text()='Routing Number']/following::input)[1]")
         this.amountDeposit = page.locator("(//label[text()='Routing Number']/following::input)[2]")
         this.saveBtn = page.getByRole('button', { name: 'Save' })
-
+        this.errorForAmount = page.getByText('Should be within Min/Max values', { exact: true })
+        this.componentRequireMsg = page.locator("(//label[text()='Salary Component']/following::span)[1]")
+        this.currencyRequireMsg = page.locator("(//label[text()='Currency']/following::span)[1]")
+        this.amountRequireMsg = page.locator("(//label[text()='Amount']/following::span)[1]")
+        this.accountNumberRequireMsg = page.locator("(//label[text()='Account Number']/following::span)[1]")
+        this.accountTypeRequireMsg = page.locator("(//label[text()='Account Type']/following::span)[1]")
+        this.routingNumberRequireMsg = page.locator("(//label[text()='Routing Number']/following::span)[1]")
+        this.amountDirectRequireMsg = page.locator("(//label[text()='Routing Number']/following::span)[2]")
     }
 
 
@@ -77,48 +91,117 @@ export class SalaryDetailsPage extends BasePage {
 
     }
 
-    async fillSalaryDetails(salaryData: salaryComponent): Promise<void> {
+    async fillSalaryDetailsAndSave(salaryData: any): Promise<void> {
 
         return await this.pageStep("Fill salary data", async () => {
-            await this.salaryDetailsCard.waitFor({ state: 'visible' })
-            await this.addSalaryBtn.click();
-            await this.salaryComponent.fill(salaryData.component);
-            await this.payGrade.click().then(async () => {
-                await this.page.getByText(salaryData.payGrade, { exact: true }).click();
-            })
-            await this.payFrequency.click().then(async () => {
-                await this.page.getByText(salaryData.payFrequency, { exact: true }).click();
-            })
-            await this.currency.click().then(async () => {
-                await this.page.getByText(salaryData.Currency, { exact: true }).click();
-            })
 
-            await this.amount.fill(salaryData.amount);
+            const salaryArray = Array.isArray(salaryData)
+                ? salaryData
+                : [salaryData];
 
-            await this.comment.fill(salaryData.comment);
-
-            if (salaryData.directDeposit) {
-                const depositCheck = await this.directDepositToggle.isChecked();
-                if (!depositCheck){
-                    await this.directDepositToggle.click();
+            for (const salartVal of salaryArray) {
+                await this.salaryDetailsCard.waitFor({ state: 'visible' })
+                await expect(this.addSalaryBtn).toBeVisible();
+                await this.addSalaryBtn.click();
+                await this.salaryComponent.fill(salartVal.component);
+                if (salartVal.payGrade !== "") {
+                    await this.payGrade.click().then(async () => {
+                        await this.page.getByText(salartVal.payGrade, { exact: true }).click();
+                    })
                 }
-                await this.accountNumber.fill(salaryData.accountNumber)
-                
-                await this.accountType.click().then(async () => {
-                    await this.page.getByText(salaryData.accountType, { exact: true }).click();
-                })
 
-                await this.routingNumber.fill(salaryData.routingNumber)
-            
-                await this.amountDeposit.fill(salaryData.amountVal)
+                if (salartVal.payFrequency !== "") {
+                    await this.payFrequency.click().then(async () => {
+                        await this.page.getByText(salartVal.payFrequency, { exact: true }).click();
+                    })
+                }
+
+
+                if (salartVal.Currency !== "") {
+                    await this.currency.click().then(async () => {
+                        await this.page.getByText(salartVal.Currency, { exact: true }).click();
+                    })
+
+                }
+
+                await this.amount.fill(salartVal.amount);
+
+                await this.comment.fill(salartVal.comment);
+
+                if (salartVal.directDeposit) {
+                    const depositCheck = await this.directDepositToggle.isChecked();
+                    if (!depositCheck) {
+                        await this.directDepositToggle.click();
+                    }
+                    await this.accountNumber.fill(salartVal.accountNumber)
+
+                    if (salartVal.accountType !== "") {
+                        await this.accountType.click().then(async () => {
+                            await this.page.getByText(salartVal.accountType, { exact: true }).click();
+                        })
+                    }
+
+
+                    await this.routingNumber.fill(salartVal.routingNumber)
+
+                    await this.amountDeposit.fill(salartVal.amountVal)
+                }
+
+                await this.saveBtn.click();
             }
+
         })
 
     }
 
-        async clickOnSave(): Promise<void> {
+    async clickOnSave(): Promise<void> {
         return await this.pageStep("Click on Save after filling salary data", async () => {
             await this.saveBtn.click();
+        })
+    }
+
+    async validateErrorForAmount(): Promise<void> {
+        return await this.pageStep("Validate error message when the amont balance is more than maximum", async () => {
+            await expect(this.errorForAmount).toBeVisible();
+        })
+    }
+
+    async validateErrorForRequiredFields(): Promise<void> {
+        return await this.pageStep("Validate error message when the amont balance is more than maximum", async () => {
+            let flag = true;
+
+            await expect(this.componentRequireMsg).toHaveText("Required");
+
+            if (await this.componentRequireMsg.textContent() !== "Required") {
+                flag = false;
+                this.logger.error("Required message for SalaryComponent is not visible")
+            }
+            if (await this.currencyRequireMsg.textContent() !== "Required") {
+                flag = false;
+                this.logger.error("Required message for Currency is not visible")
+            }
+            if (await this.amountRequireMsg.textContent() !== "Required") {
+                flag = false;
+                this.logger.error("Required message for Amount is not visible")
+            }
+            if (await this.accountNumberRequireMsg.textContent() !== "Required") {
+                flag = false;
+                this.logger.error("Required message for Account Number is not visible")
+            }
+            if (await this.accountTypeRequireMsg.textContent() !== "Required") {
+                flag = false;
+                this.logger.error("Required message for Account type is not visible")
+            }
+            if (await this.routingNumberRequireMsg.textContent() !== "Required") {
+                flag = false;
+                this.logger.error("Required message for Routing number is not visible")
+            }
+            if (await this.amountDirectRequireMsg.textContent() !== "Required") {
+                flag = false;
+                this.logger.error("Required message for Amount is not visible")
+            }
+
+            expect(flag).toBeTruthy();
         })
     }
 

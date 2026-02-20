@@ -16,7 +16,7 @@ export class BasePage {
   private readonly successToastMsgForSave: Locator;
   private readonly successToastMsgForDelete: Locator;
   private readonly closeIconForToast: Locator;
-  private readonly waitLoader: Locator;
+  private readonly waitForTableLoader: Locator;
   private readonly waitFormLoader: Locator;
   private readonly successToastMsgForUpdate: Locator;
   private readonly celenderPicker: Locator;
@@ -42,7 +42,7 @@ export class BasePage {
     this.successToastMsgForSave = this.page.getByText("Successfully Saved", { exact: true })
     this.successToastMsgForDelete = this.page.getByText("Successfully Deleted", { exact: true })
     this.successToastMsgForUpdate = this.page.getByText("Successfully Updated", { exact: true })
-    this.waitLoader = this.page.locator(".oxd-table-loader")
+    this.waitForTableLoader = this.page.locator(".oxd-table-loader")
     this.waitFormLoader = this.page.locator(".oxd-loading-spinner")
     this.celenderPicker = page.locator(".oxd-date-input-calendar")
     this.monthDropDownIcon = page.locator('.oxd-icon.bi-caret-down-fill.oxd-icon-button__icon').first()
@@ -163,17 +163,17 @@ export class BasePage {
 
   }
 
-  async waitUntilLoaderDissapear(): Promise<void> {
-    return await this.pageStep('Login as Custom ESS', async () => {
-      await this.waitLoader.waitFor({ state: 'detached' });
+  async waitUntilTableLoaderDissapear(): Promise<void> {
+    return await this.pageStep('Wait untill the Table loaded dissapear', async () => {
+      await this.waitForTableLoader.waitFor({ state: 'detached' });
 
     })
 
   }
 
   async waitUntilFormLoaderDissapear(): Promise<void> {
-    return await this.pageStep('Login as Custom ESS', async () => {
-      await this.waitFormLoader.waitFor({ state: 'visible' })
+    return await this.pageStep('Wait untill the Form loaded dissapear', async () => {
+      await this.waitFormLoader.waitFor({ state: 'visible'})
       if (await this.waitFormLoader.isVisible()) {
         await this.waitFormLoader.waitFor({ state: 'detached' });
 
