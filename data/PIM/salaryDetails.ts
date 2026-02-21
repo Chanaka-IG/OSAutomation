@@ -136,14 +136,16 @@ export const salarydata = {
             payGrade: "Grade 2",
             payFrequency: "Monthly",
             Currency: "Utd. Arab Emir. Dirham",
-            amount: '10000',
+            amount: '4000',
             comment: "This is a test comment",
-            directDeposit: false,
-            accountNumber: "",
-            accountType: "",
-            routingNumber: "",
-            amountVal: ""
+            directDeposit: true,
+            accountNumber: "369875",
+            accountType: "Checking",
+            routingNumber: "4849885",
+            amountVal: "25000"
         },
     ],
+
+    
 }
 

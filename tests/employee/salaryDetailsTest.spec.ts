@@ -26,7 +26,7 @@ test.describe("Test cases for Salary details related scenarios", () => {
         await salaryDetailsPage.navigateToPim();
     })
 
-    test.only("1. Update salary component without direct deposit details", async () => {
+    test("1. Update salary component without direct deposit details", async () => {
         await salaryDetailsPage.navigateToEMployeeProfile(salarydata.employee[0]);
         await salaryDetailsPage.waitUntilTableLoaderDissapear();
         await salaryDetailsPage.navigateToSalaryMenu();
@@ -65,7 +65,7 @@ test.describe("Test cases for Salary details related scenarios", () => {
         await salaryDetailsPage.navigateToEMployeeProfile(salarydata.employee[3]);
         await salaryDetailsPage.waitUntilTableLoaderDissapear();
         await salaryDetailsPage.navigateToSalaryMenu();
-        await salaryDetailsPage.fillSalaryDetailsAndSave(salarydata.multiplesalaryComponent);
-
+        await salaryDetailsPage.fillMultipleSalaryDetailsAndSave(salarydata.multiplesalaryComponent);
+        await salaryDetailsPage.validateSalaryData(salarydata.multiplesalaryComponent);
     })
 })

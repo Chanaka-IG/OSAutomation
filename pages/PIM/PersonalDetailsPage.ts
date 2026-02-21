@@ -114,7 +114,7 @@ export class PersonalDetailsPage extends BasePage {
     async fillPersonalDetails(personaleDetails: PersonalDetails, attachmentPath: string): Promise<void> {
         return await this.pageStep("Fill personal details on selected employee", async () => {
             await this.personalDetailsCard.waitFor({ state: 'visible' });
-            await this.waitUntilLoaderDissapear();
+            await this.waitUntilTableLoaderDissapear();
             await this.firstName.fill(personaleDetails.firstName);
             await this.middleName.fill(personaleDetails.middleName);
             await this.lastName.fill(personaleDetails.lastName);
@@ -135,7 +135,7 @@ export class PersonalDetailsPage extends BasePage {
     async fillPersonalDetailsWithDatePicker(personaleDetails: PersonalDetails, attachmentPath: string): Promise<void> {
         return await this.pageStep("Fill personal details on selected employee", async () => {
             await this.personalDetailsCard.waitFor({ state: 'visible' });
-            await this.waitUntilLoaderDissapear();
+            await this.waitUntilTableLoaderDissapear();
             await this.firstName.fill(personaleDetails.firstName);
             await this.middleName.fill(personaleDetails.middleName);
             await this.lastName.fill(personaleDetails.lastName);
