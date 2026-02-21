@@ -106,20 +106,20 @@ export class SalaryDetailsPage extends BasePage {
                 await this.salaryComponent.fill(salartVal.component);
                 if (salartVal.payGrade !== "") {
                     await this.payGrade.click().then(async () => {
-                        await this.page.getByText(salartVal.payGrade, { exact: true }).click();
+                        await this.page.getByRole('option', {name : salartVal.payGrade, exact : true}).click();
                     })
                 }
 
                 if (salartVal.payFrequency !== "") {
                     await this.payFrequency.click().then(async () => {
-                        await this.page.getByText(salartVal.payFrequency, { exact: true }).click();
+                        await this.page.getByRole('option', {name :salartVal.payFrequency, exact : true }).click();
                     })
                 }
 
 
                 if (salartVal.Currency !== "") {
                     await this.currency.click().then(async () => {
-                        await this.page.getByText(salartVal.Currency, { exact: true }).click();
+                        await this.page.getByRole('option', {name :salartVal.Currency, exact : true }).click();
                     })
 
                 }
@@ -137,7 +137,7 @@ export class SalaryDetailsPage extends BasePage {
 
                     if (salartVal.accountType !== "") {
                         await this.accountType.click().then(async () => {
-                            await this.page.getByText(salartVal.accountType, { exact: true }).click();
+                            await this.page.getByRole('option', {name : salartVal.accountType, exact : true}).click();
                         })
                     }
 
@@ -148,6 +148,72 @@ export class SalaryDetailsPage extends BasePage {
                 }
 
                 await this.saveBtn.click();
+            }
+
+        })
+
+    }
+
+     async fillMultipleSalaryDetailsAndSave(salaryData: any): Promise<void> {
+
+        return await this.pageStep("Fill salary data", async () => {
+
+            const salaryArray = Array.isArray(salaryData)
+                ? salaryData
+                : [salaryData];
+
+            for (const salartVal of salaryArray) {
+                await this.salaryDetailsCard.waitFor({ state: 'visible' })
+                await expect(this.addSalaryBtn).toBeVisible();
+                await this.addSalaryBtn.click();
+                await this.salaryComponent.fill(salartVal.component);
+                if (salartVal.payGrade !== "") {
+                    await this.payGrade.click().then(async () => {
+                        await this.page.getByRole('option', {name : salartVal.payGrade, exact : true}).click();
+                    })
+                }
+
+                if (salartVal.payFrequency !== "") {
+                    await this.payFrequency.click().then(async () => {
+                        await this.page.getByRole('option', {name :salartVal.payFrequency, exact : true }).click();
+                    })
+                }
+
+
+                if (salartVal.Currency !== "") {
+                    await this.currency.click().then(async () => {
+                        await this.page.getByRole('option', {name :salartVal.Currency, exact : true }).click();
+                    })
+
+                }
+
+                await this.amount.fill(salartVal.amount);
+
+                await this.comment.fill(salartVal.comment);
+
+                if (salartVal.directDeposit) {
+                    const depositCheck = await this.directDepositToggle.isChecked();
+                    if (!depositCheck) {
+                        await this.directDepositToggle.click();
+                    }
+                    await this.accountNumber.fill(salartVal.accountNumber)
+
+                    if (salartVal.accountType !== "") {
+                        await this.accountType.click().then(async () => {
+                            await this.page.getByRole('option', {name : salartVal.accountType, exact : true}).click();
+                        })
+                    }
+
+
+                    await this.routingNumber.fill(salartVal.routingNumber)
+
+                    await this.amountDeposit.fill(salartVal.amountVal)
+                }
+
+                await this.saveBtn.click();
+                await this.verifySuccessToastForSave();
+                await this.waitUntilTableLoaderDissapear();
+                await this.waitUntilFormLoaderDissapear();
             }
 
         })
@@ -203,6 +269,29 @@ export class SalaryDetailsPage extends BasePage {
 
             expect(flag).toBeTruthy();
         })
+    }
+
+
+    async validateSalaryData (salaryData: any): Promise<void> {
+
+        for (const salaryValue of salaryData){
+            const row = this.page.locator(".oxd-table-row")
+            .filter({hasText : salaryValue.component})
+            .filter({hasText : salaryValue.amount})
+            .filter ({hasText : salaryValue.Currency})
+            .filter({hasText : salaryValue.payFrequency})
+            .filter({hasText : salaryValue.amountVal})
+
+            const rowCount = await row.count();
+
+            if (rowCount !== 1){
+                this.logger.error (`Mismatch found with following set \n` + 
+                    `Expected Value  for Component- ${salaryValue.component}`
+                )
+            }
+            await expect(row).toHaveCount(1);
+        }
+
     }
 
 }
