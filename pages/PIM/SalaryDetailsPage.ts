@@ -33,6 +33,7 @@ export class SalaryDetailsPage extends BasePage {
     private readonly routingNumberRequireMsg: Locator;
     private readonly amountDirectRequireMsg: Locator;
     private readonly salaryComponentTable: Locator;
+    private readonly deleteSelectedBtn: Locator;
 
     constructor(page: Page, logger: Logger) {
         super(page)
@@ -63,6 +64,7 @@ export class SalaryDetailsPage extends BasePage {
         this.routingNumberRequireMsg = page.locator("(//label[text()='Routing Number']/following::span)[1]")
         this.amountDirectRequireMsg = page.locator("(//label[text()='Routing Number']/following::span)[2]")
         this.salaryComponentTable = page.locator(".oxd-table-decorator-card")
+        this.deleteSelectedBtn = page.getByRole('button', { name: ' Delete Selected ' })
     }
 
 
@@ -274,76 +276,118 @@ export class SalaryDetailsPage extends BasePage {
 
     async validateSalaryData(salaryData: any): Promise<void> {
 
-        for (const salaryValue of salaryData) {
-            const row = this.page.locator(".oxd-table-row")
-                .filter({ hasText: salaryValue.component })
-                .filter({ hasText: salaryValue.amount })
-                .filter({ hasText: salaryValue.Currency })
-                .filter({ hasText: salaryValue.payFrequency })
-                .filter({ hasText: salaryValue.amountVal })
+        return await this.pageStep("Validate salary data in the table", async () => {
+            for (const salaryValue of salaryData) {
+                const row = this.page.locator(".oxd-table-row")
+                    .filter({ hasText: salaryValue.component })
+                    .filter({ hasText: salaryValue.amount })
+                    .filter({ hasText: salaryValue.Currency })
+                    .filter({ hasText: salaryValue.payFrequency })
+                    .filter({ hasText: salaryValue.amountVal })
 
-            const rowCount = await row.count();
+                const rowCount = await row.count();
 
-            if (rowCount !== 1) {
-                this.logger.error(`Mismatch found with following set - ${salaryValue.component}`
-                )
+                if (rowCount !== 1) {
+                    this.logger.error(`Mismatch found with following set - ${salaryValue.component}`
+                    )
+                }
+                await expect(row).toHaveCount(1);
             }
-            await expect(row).toHaveCount(1);
-        }
+        })
+
+
 
     }
 
     async deleteSalaryComponent(salaryComponent: any): Promise<void> {
 
-        await this.page.waitForTimeout(4000)
+        return await this.pageStep("Delete one salary componenet from the table", async () => {
+            await this.page.waitForTimeout(4000)
 
-        const selectedRow = this.page.locator(".oxd-table-row")
-            .filter({ hasText: salaryComponent.component })
-            .filter({ hasText: salaryComponent.amount })
-            .filter({ hasText: salaryComponent.Currency })
-            .filter({ hasText: salaryComponent.payFrequency })
-            .filter({ hasText: salaryComponent.amountVal });
+            const selectedRow = this.page.locator(".oxd-table-row")
+                .filter({ hasText: salaryComponent.component })
+                .filter({ hasText: salaryComponent.amount })
+                .filter({ hasText: salaryComponent.Currency })
+                .filter({ hasText: salaryComponent.payFrequency })
+                .filter({ hasText: salaryComponent.amountVal });
 
 
-        await selectedRow.locator('button:has(.bi-trash)').click();
-        const confirmPopup = this.page.locator(".oxd-sheet")
-        await confirmPopup.waitFor({ state: 'visible' })
-        await confirmPopup.getByRole('button', { name: ' Yes, Delete ' }).click();
+            await selectedRow.locator('button:has(.bi-trash)').click();
+            await this.clickYesDeleteBtn();
+        })
+
+
     }
+
+    async clickYesDeleteBtn(): Promise<void> {
+        return await this.pageStep("Click on yesDelete button", async () => {
+            const confirmPopup = this.page.locator(".oxd-sheet")
+            await confirmPopup.waitFor({ state: 'visible' })
+            await confirmPopup.getByRole('button', { name: ' Yes, Delete ' }).click();
+        })
+    }
+
 
     async deleteMultipleSalaryComponent(salaryComponent: any): Promise<void> {
 
-        await this.page.waitForTimeout(4000)
+        return await this.pageStep("Delete one multiple componenet from the table", async () => {
+            await this.page.waitForTimeout(4000)
 
-        const salaryArray = Array.isArray(salaryComponent)
-            ? salaryComponent
-            : [salaryComponent];
+            const salaryArray = Array.isArray(salaryComponent)
+                ? salaryComponent
+                : [salaryComponent];
 
-        for (const salVal of salaryArray) {
+            for (const salVal of salaryArray) {
 
-            const selectedRow = this.page.locator(".oxd-table-row")
-                .filter({ hasText: salVal.component })
-                .filter({ hasText: salVal.amount })
-                .filter({ hasText: salVal.Currency })
-                .filter({ hasText: salVal.payFrequency })
-                .filter({ hasText: salVal.amountVal });
+                const selectedRow = this.page.locator(".oxd-table-row")
+                    .filter({ hasText: salVal.component })
+                    .filter({ hasText: salVal.amount })
+                    .filter({ hasText: salVal.Currency })
+                    .filter({ hasText: salVal.payFrequency })
+                    .filter({ hasText: salVal.amountVal });
 
-            console.log("Count" + await selectedRow.count())
-            await selectedRow.locator('input[type="checkbox"]').click();
-        }
-        await this.page.waitForTimeout(8000)
+                await selectedRow.locator("//i[contains(@class,'oxd-icon bi-check')]").click();
+            }
+        })
+
+
     }
 
     async validateAfterDeletion(salaryComponent: any): Promise<void> {
 
-        const selectedRow = this.page.locator(".oxd-table-row")
-            .filter({ hasText: salaryComponent.component })
-            .filter({ hasText: salaryComponent.amount })
-            .filter({ hasText: salaryComponent.Currency })
-            .filter({ hasText: salaryComponent.payFrequency })
-            .filter({ hasText: salaryComponent.amountVal }).count();
+        return await this.pageStep("Validate the salary component in the table after deletion", async () => {
 
-        expect(selectedRow).not.toBe(1);
+            await this.waitUntilTableLoaderDissapear();
+            const salaryArray = Array.isArray(salaryComponent)
+                ? salaryComponent
+                : [salaryComponent];
+
+            let selectedRowcount : number = 0;
+
+            for (const salVal of salaryArray) {
+                let selectedRow =  this.page.locator(".oxd-table-row")
+                    .filter({ hasText: salVal.component })
+                    .filter({ hasText: salVal.amount })
+                    .filter({ hasText: salVal.Currency })
+                    .filter({ hasText: salVal.payFrequency })
+                    .filter({ hasText: salVal.amountVal });
+
+                if (await selectedRow.isVisible()){
+                    selectedRowcount ++;
+                }
+
+            }
+            expect(selectedRowcount).toBe(0);
+        })
+
+
+    }
+
+
+    async clickDeleteSelectedBtn(): Promise<void> {
+        return await this.pageStep("Click on delete selected button", async () => {
+            await this.deleteSelectedBtn.click();
+        })
     }
 
 }

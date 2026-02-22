@@ -80,10 +80,15 @@ test.describe("Test cases for Salary details related scenarios", () => {
     })
 
     test.only("7. Delete multiple salary records", async () => {
-        await salaryDetailsPage.navigateToEMployeeProfile(salarydata.employee[1]);
+        await salaryDetailsPage.navigateToEMployeeProfile(salarydata.employee[5]);
         await salaryDetailsPage.waitUntilTableLoaderDissapear();
         await salaryDetailsPage.navigateToSalaryMenu();
         await salaryDetailsPage.fillMultipleSalaryDetailsAndSave(salarydata.multiplesalaryComponent);
         await salaryDetailsPage.deleteMultipleSalaryComponent(salarydata.deletesalaryComponent);
+        await salaryDetailsPage.clickDeleteSelectedBtn();
+        await salaryDetailsPage.clickYesDeleteBtn();
+        await salaryDetailsPage.verifySuccessToastforDeletion();
+        await salaryDetailsPage.validateAfterDeletion(salarydata.deletesalaryComponent);
+
     })
 })
