@@ -32,6 +32,7 @@ export class SalaryDetailsPage extends BasePage {
     private readonly accountTypeRequireMsg: Locator;
     private readonly routingNumberRequireMsg: Locator;
     private readonly amountDirectRequireMsg: Locator;
+    private readonly salaryComponentTable: Locator;
 
     constructor(page: Page, logger: Logger) {
         super(page)
@@ -61,6 +62,7 @@ export class SalaryDetailsPage extends BasePage {
         this.accountTypeRequireMsg = page.locator("(//label[text()='Account Type']/following::span)[1]")
         this.routingNumberRequireMsg = page.locator("(//label[text()='Routing Number']/following::span)[1]")
         this.amountDirectRequireMsg = page.locator("(//label[text()='Routing Number']/following::span)[2]")
+        this.salaryComponentTable = page.locator(".oxd-table-decorator-card")
     }
 
 
@@ -106,20 +108,20 @@ export class SalaryDetailsPage extends BasePage {
                 await this.salaryComponent.fill(salartVal.component);
                 if (salartVal.payGrade !== "") {
                     await this.payGrade.click().then(async () => {
-                        await this.page.getByRole('option', {name : salartVal.payGrade, exact : true}).click();
+                        await this.page.getByRole('option', { name: salartVal.payGrade, exact: true }).click();
                     })
                 }
 
                 if (salartVal.payFrequency !== "") {
                     await this.payFrequency.click().then(async () => {
-                        await this.page.getByRole('option', {name :salartVal.payFrequency, exact : true }).click();
+                        await this.page.getByRole('option', { name: salartVal.payFrequency, exact: true }).click();
                     })
                 }
 
 
                 if (salartVal.Currency !== "") {
                     await this.currency.click().then(async () => {
-                        await this.page.getByRole('option', {name :salartVal.Currency, exact : true }).click();
+                        await this.page.getByRole('option', { name: salartVal.Currency, exact: true }).click();
                     })
 
                 }
@@ -137,7 +139,7 @@ export class SalaryDetailsPage extends BasePage {
 
                     if (salartVal.accountType !== "") {
                         await this.accountType.click().then(async () => {
-                            await this.page.getByRole('option', {name : salartVal.accountType, exact : true}).click();
+                            await this.page.getByRole('option', { name: salartVal.accountType, exact: true }).click();
                         })
                     }
 
@@ -154,7 +156,7 @@ export class SalaryDetailsPage extends BasePage {
 
     }
 
-     async fillMultipleSalaryDetailsAndSave(salaryData: any): Promise<void> {
+    async fillMultipleSalaryDetailsAndSave(salaryData: any): Promise<void> {
 
         return await this.pageStep("Fill salary data", async () => {
 
@@ -169,20 +171,20 @@ export class SalaryDetailsPage extends BasePage {
                 await this.salaryComponent.fill(salartVal.component);
                 if (salartVal.payGrade !== "") {
                     await this.payGrade.click().then(async () => {
-                        await this.page.getByRole('option', {name : salartVal.payGrade, exact : true}).click();
+                        await this.page.getByRole('option', { name: salartVal.payGrade, exact: true }).click();
                     })
                 }
 
                 if (salartVal.payFrequency !== "") {
                     await this.payFrequency.click().then(async () => {
-                        await this.page.getByRole('option', {name :salartVal.payFrequency, exact : true }).click();
+                        await this.page.getByRole('option', { name: salartVal.payFrequency, exact: true }).click();
                     })
                 }
 
 
                 if (salartVal.Currency !== "") {
                     await this.currency.click().then(async () => {
-                        await this.page.getByRole('option', {name :salartVal.Currency, exact : true }).click();
+                        await this.page.getByRole('option', { name: salartVal.Currency, exact: true }).click();
                     })
 
                 }
@@ -200,11 +202,9 @@ export class SalaryDetailsPage extends BasePage {
 
                     if (salartVal.accountType !== "") {
                         await this.accountType.click().then(async () => {
-                            await this.page.getByRole('option', {name : salartVal.accountType, exact : true}).click();
+                            await this.page.getByRole('option', { name: salartVal.accountType, exact: true }).click();
                         })
                     }
-
-
                     await this.routingNumber.fill(salartVal.routingNumber)
 
                     await this.amountDeposit.fill(salartVal.amountVal)
@@ -272,26 +272,78 @@ export class SalaryDetailsPage extends BasePage {
     }
 
 
-    async validateSalaryData (salaryData: any): Promise<void> {
+    async validateSalaryData(salaryData: any): Promise<void> {
 
-        for (const salaryValue of salaryData){
+        for (const salaryValue of salaryData) {
             const row = this.page.locator(".oxd-table-row")
-            .filter({hasText : salaryValue.component})
-            .filter({hasText : salaryValue.amount})
-            .filter ({hasText : salaryValue.Currency})
-            .filter({hasText : salaryValue.payFrequency})
-            .filter({hasText : salaryValue.amountVal})
+                .filter({ hasText: salaryValue.component })
+                .filter({ hasText: salaryValue.amount })
+                .filter({ hasText: salaryValue.Currency })
+                .filter({ hasText: salaryValue.payFrequency })
+                .filter({ hasText: salaryValue.amountVal })
 
             const rowCount = await row.count();
 
-            if (rowCount !== 1){
-                this.logger.error (`Mismatch found with following set \n` + 
-                    `Expected Value  for Component- ${salaryValue.component}`
+            if (rowCount !== 1) {
+                this.logger.error(`Mismatch found with following set - ${salaryValue.component}`
                 )
             }
             await expect(row).toHaveCount(1);
         }
 
+    }
+
+    async deleteSalaryComponent(salaryComponent: any): Promise<void> {
+
+        await this.page.waitForTimeout(4000)
+
+        const selectedRow = this.page.locator(".oxd-table-row")
+            .filter({ hasText: salaryComponent.component })
+            .filter({ hasText: salaryComponent.amount })
+            .filter({ hasText: salaryComponent.Currency })
+            .filter({ hasText: salaryComponent.payFrequency })
+            .filter({ hasText: salaryComponent.amountVal });
+
+
+        await selectedRow.locator('button:has(.bi-trash)').click();
+        const confirmPopup = this.page.locator(".oxd-sheet")
+        await confirmPopup.waitFor({ state: 'visible' })
+        await confirmPopup.getByRole('button', { name: ' Yes, Delete ' }).click();
+    }
+
+    async deleteMultipleSalaryComponent(salaryComponent: any): Promise<void> {
+
+        await this.page.waitForTimeout(4000)
+
+        const salaryArray = Array.isArray(salaryComponent)
+            ? salaryComponent
+            : [salaryComponent];
+
+        for (const salVal of salaryArray) {
+
+            const selectedRow = this.page.locator(".oxd-table-row")
+                .filter({ hasText: salVal.component })
+                .filter({ hasText: salVal.amount })
+                .filter({ hasText: salVal.Currency })
+                .filter({ hasText: salVal.payFrequency })
+                .filter({ hasText: salVal.amountVal });
+
+            console.log("Count" + await selectedRow.count())
+            await selectedRow.locator('input[type="checkbox"]').click();
+        }
+        await this.page.waitForTimeout(8000)
+    }
+
+    async validateAfterDeletion(salaryComponent: any): Promise<void> {
+
+        const selectedRow = this.page.locator(".oxd-table-row")
+            .filter({ hasText: salaryComponent.component })
+            .filter({ hasText: salaryComponent.amount })
+            .filter({ hasText: salaryComponent.Currency })
+            .filter({ hasText: salaryComponent.payFrequency })
+            .filter({ hasText: salaryComponent.amountVal }).count();
+
+        expect(selectedRow).not.toBe(1);
     }
 
 }
