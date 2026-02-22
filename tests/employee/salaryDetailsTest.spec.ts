@@ -15,8 +15,8 @@ test.describe("Test cases for Salary details related scenarios", () => {
         const apiContext = await request.newContext()
         logAsAdmin = new LogAsAdmin(apiContext);
         addEmployee = new AddEmployee(apiContext)
-        await logAsAdmin.loginAsAdmin();
-        await addEmployee.addEmployees(salarydata.employee)
+        // await logAsAdmin.loginAsAdmin();
+        // await addEmployee.addEmployees(salarydata.employee)
     })
 
     test.beforeEach(async ({ page, logger }) => {
@@ -67,5 +67,23 @@ test.describe("Test cases for Salary details related scenarios", () => {
         await salaryDetailsPage.navigateToSalaryMenu();
         await salaryDetailsPage.fillMultipleSalaryDetailsAndSave(salarydata.multiplesalaryComponent);
         await salaryDetailsPage.validateSalaryData(salarydata.multiplesalaryComponent);
+    })
+
+    test("6. Delete salary records", async () => {
+        await salaryDetailsPage.navigateToEMployeeProfile(salarydata.employee[4]);
+        await salaryDetailsPage.waitUntilTableLoaderDissapear();
+        await salaryDetailsPage.navigateToSalaryMenu();
+        await salaryDetailsPage.fillMultipleSalaryDetailsAndSave(salarydata.multiplesalaryComponent);
+        await salaryDetailsPage.deleteSalaryComponent(salarydata.deletesalaryComponent[0]);
+        await salaryDetailsPage.verifySuccessToastforDeletion();
+        await salaryDetailsPage.validateAfterDeletion(salarydata.deletesalaryComponent[0]);
+    })
+
+    test.only("7. Delete multiple salary records", async () => {
+        await salaryDetailsPage.navigateToEMployeeProfile(salarydata.employee[1]);
+        await salaryDetailsPage.waitUntilTableLoaderDissapear();
+        await salaryDetailsPage.navigateToSalaryMenu();
+        await salaryDetailsPage.fillMultipleSalaryDetailsAndSave(salarydata.multiplesalaryComponent);
+        await salaryDetailsPage.deleteMultipleSalaryComponent(salarydata.deletesalaryComponent);
     })
 })

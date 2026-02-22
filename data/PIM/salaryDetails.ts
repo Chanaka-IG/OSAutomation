@@ -31,23 +31,35 @@ export const salarydata = {
             lastName: "Doherty",
             middleName: "Sando"
         },
-         {
+        {
             employeeId: "1101",
             firstName: "Mack",
             lastName: "Pennis",
             middleName: "Fazeen"
         },
-         {
+        {
             employeeId: "1102",
             firstName: "Peter",
             lastName: "Siddle",
             middleName: "Zahoot"
         },
-                 {
+        {
             employeeId: "1103",
             firstName: "John",
             lastName: "Kenedy",
             middleName: "Sikago"
+        },
+        {
+            employeeId: "1104",
+            firstName: "Barack",
+            lastName: "Obama",
+            middleName: "Siddle"
+        },
+        {
+            employeeId: "1105",
+            firstName: "Hillsry",
+            lastName: "Clinton",
+            middleName: "Sodasa"
         }
     ],
     salaryComponent: [
@@ -90,7 +102,7 @@ export const salarydata = {
             routingNumber: "",
             amountVal: ""
         },
-          {
+        {
             component: "",
             payGrade: "",
             payFrequency: "",
@@ -104,7 +116,7 @@ export const salarydata = {
             amountVal: ""
         }
     ],
-     multiplesalaryComponent: [
+    multiplesalaryComponent: [
         {
             component: "Car allowance",
             payGrade: "Grade 1",
@@ -132,7 +144,7 @@ export const salarydata = {
             amountVal: "45501"
         },
         {
-            component: "Tax deduction",
+            component: "Housing Loan",
             payGrade: "Grade 2",
             payFrequency: "Monthly",
             Currency: "Utd. Arab Emir. Dirham",
@@ -146,6 +158,36 @@ export const salarydata = {
         },
     ],
 
-    
+    deletesalaryComponent: [
+        {
+            component: "Tax deduction",
+            payGrade: "Grade 2",
+            payFrequency: "Monthly",
+            Currency: "Utd. Arab Emir. Dirham",
+            amount: '5240',
+            comment: "This is a test comment",
+            directDeposit: true,
+            accountNumber: "256200126",
+            accountType: "Savings",
+            routingNumber: "26894587",
+            amountVal: "45501"
+        },
+        {
+            component: "Housing Loan",
+            payGrade: "Grade 2",
+            payFrequency: "Monthly",
+            Currency: "Utd. Arab Emir. Dirham",
+            amount: '4000',
+            comment: "This is a test comment",
+            directDeposit: true,
+            accountNumber: "369875",
+            accountType: "Checking",
+            routingNumber: "4849885",
+            amountVal: "25000"
+        },
+
+    ]
+
+
 }
 
