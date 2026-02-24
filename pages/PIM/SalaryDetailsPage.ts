@@ -2,6 +2,8 @@ import { Page, Locator, expect, test } from '@playwright/test';
 import { BasePage } from '../Base/BasePage'
 import { Logger } from '../../Fixtures/logger.fixtures';
 import type { employee, salaryComponent } from '../../data/PIM/salaryDetails'
+import path from 'path/win32';
+
 
 
 export class SalaryDetailsPage extends BasePage {
@@ -24,6 +26,7 @@ export class SalaryDetailsPage extends BasePage {
     private readonly routingNumber: Locator;
     private readonly amountDeposit: Locator;
     private readonly saveBtn: Locator;
+    private readonly saveBtnForAttchment: Locator;
     private readonly errorForAmount: Locator;
     private readonly componentRequireMsg: Locator;
     private readonly currencyRequireMsg: Locator;
@@ -34,6 +37,11 @@ export class SalaryDetailsPage extends BasePage {
     private readonly amountDirectRequireMsg: Locator;
     private readonly salaryComponentTable: Locator;
     private readonly deleteSelectedBtn: Locator;
+    private readonly browseBtn: Locator;
+    private readonly addAttachmentBtn: Locator;
+    private readonly attachmentTable: Locator;
+
+
 
     constructor(page: Page, logger: Logger) {
         super(page)
@@ -55,6 +63,7 @@ export class SalaryDetailsPage extends BasePage {
         this.routingNumber = page.locator("(//label[text()='Routing Number']/following::input)[1]")
         this.amountDeposit = page.locator("(//label[text()='Routing Number']/following::input)[2]")
         this.saveBtn = page.getByRole('button', { name: 'Save' })
+        this.saveBtnForAttchment = page.getByRole('button', { name: 'Save' }).nth(1);
         this.errorForAmount = page.getByText('Should be within Min/Max values', { exact: true })
         this.componentRequireMsg = page.locator("(//label[text()='Salary Component']/following::span)[1]")
         this.currencyRequireMsg = page.locator("(//label[text()='Currency']/following::span)[1]")
@@ -65,6 +74,9 @@ export class SalaryDetailsPage extends BasePage {
         this.amountDirectRequireMsg = page.locator("(//label[text()='Routing Number']/following::span)[2]")
         this.salaryComponentTable = page.locator(".oxd-table-decorator-card")
         this.deleteSelectedBtn = page.getByRole('button', { name: ' Delete Selected ' })
+        this.browseBtn = page.getByText('Browse', { exact: true })
+        this.addAttachmentBtn = page.locator("(//h6[text()='Attachments']/following::button)[1]")
+        this.attachmentTable = page.locator(".oxd-table-body").nth(1)
     }
 
 
@@ -107,6 +119,70 @@ export class SalaryDetailsPage extends BasePage {
                 await this.salaryDetailsCard.waitFor({ state: 'visible' })
                 await expect(this.addSalaryBtn).toBeVisible();
                 await this.addSalaryBtn.click();
+                await this.salaryComponent.fill(salartVal.component);
+                if (salartVal.payGrade !== "") {
+                    await this.payGrade.click().then(async () => {
+                        await this.page.getByRole('option', { name: salartVal.payGrade, exact: true }).click();
+                    })
+                }
+
+                if (salartVal.payFrequency !== "") {
+                    await this.payFrequency.click().then(async () => {
+                        await this.page.getByRole('option', { name: salartVal.payFrequency, exact: true }).click();
+                    })
+                }
+
+
+                if (salartVal.Currency !== "") {
+                    await this.currency.click().then(async () => {
+                        await this.page.getByRole('option', { name: salartVal.Currency, exact: true }).click();
+                    })
+
+                }
+
+                await this.amount.fill(salartVal.amount);
+
+                await this.comment.fill(salartVal.comment);
+
+                if (salartVal.directDeposit) {
+                    const depositCheck = await this.directDepositToggle.isChecked();
+                    if (!depositCheck) {
+                        await this.directDepositToggle.click();
+                    }
+                    await this.accountNumber.fill(salartVal.accountNumber)
+
+                    if (salartVal.accountType !== "") {
+                        await this.accountType.click().then(async () => {
+                            await this.page.getByRole('option', { name: salartVal.accountType, exact: true }).click();
+                        })
+                    }
+
+
+                    await this.routingNumber.fill(salartVal.routingNumber)
+
+                    await this.amountDeposit.fill(salartVal.amountVal)
+                }
+
+                await this.saveBtn.click();
+            }
+
+        })
+
+    }
+
+    async updateDetailsAndSave(salaryData: any): Promise<void> {
+
+        return await this.pageStep("Fill salary data", async () => {
+
+
+            const salaryArray = Array.isArray(salaryData)
+                ? salaryData
+                : [salaryData];
+
+            await this.page.waitForTimeout(3000)
+
+            for (const salartVal of salaryArray) {
+                await this.salaryDetailsCard.waitFor({ state: 'visible' })
                 await this.salaryComponent.fill(salartVal.component);
                 if (salartVal.payGrade !== "") {
                     await this.payGrade.click().then(async () => {
@@ -222,9 +298,15 @@ export class SalaryDetailsPage extends BasePage {
 
     }
 
-    async clickOnSave(): Promise<void> {
+    async clickOnSaveBtn(): Promise<void> {
         return await this.pageStep("Click on Save after filling salary data", async () => {
             await this.saveBtn.click();
+        })
+    }
+
+    async clickOnSaveforAttachment(): Promise<void> {
+        return await this.pageStep("Click on Save after filling attachment", async () => {
+            await this.saveBtnForAttchment.click();
         })
     }
 
@@ -277,6 +359,8 @@ export class SalaryDetailsPage extends BasePage {
     async validateSalaryData(salaryData: any): Promise<void> {
 
         return await this.pageStep("Validate salary data in the table", async () => {
+
+            await this.page.waitForTimeout(3000);
             for (const salaryValue of salaryData) {
                 const row = this.page.locator(".oxd-table-row")
                     .filter({ hasText: salaryValue.component })
@@ -314,6 +398,25 @@ export class SalaryDetailsPage extends BasePage {
 
             await selectedRow.locator('button:has(.bi-trash)').click();
             await this.clickYesDeleteBtn();
+        })
+
+
+    }
+
+    async clickOnEditIcon(salaryComponent: any): Promise<void> {
+
+        return await this.pageStep("Click on Edit icon for salary componenet from the table", async () => {
+            await this.page.waitForTimeout(4000)
+
+            const selectedRow = this.page.locator(".oxd-table-row")
+                .filter({ hasText: salaryComponent.component })
+                .filter({ hasText: salaryComponent.amount })
+                .filter({ hasText: salaryComponent.Currency })
+                .filter({ hasText: salaryComponent.payFrequency })
+                .filter({ hasText: salaryComponent.amountVal });
+
+
+            await selectedRow.locator('button:has(.bi-pencil-fill)').click();
         })
 
 
@@ -362,18 +465,18 @@ export class SalaryDetailsPage extends BasePage {
                 ? salaryComponent
                 : [salaryComponent];
 
-            let selectedRowcount : number = 0;
+            let selectedRowcount: number = 0;
 
             for (const salVal of salaryArray) {
-                let selectedRow =  this.page.locator(".oxd-table-row")
+                let selectedRow = this.page.locator(".oxd-table-row")
                     .filter({ hasText: salVal.component })
                     .filter({ hasText: salVal.amount })
                     .filter({ hasText: salVal.Currency })
                     .filter({ hasText: salVal.payFrequency })
                     .filter({ hasText: salVal.amountVal });
 
-                if (await selectedRow.isVisible()){
-                    selectedRowcount ++;
+                if (await selectedRow.isVisible()) {
+                    selectedRowcount++;
                 }
 
             }
@@ -389,6 +492,31 @@ export class SalaryDetailsPage extends BasePage {
             await this.deleteSelectedBtn.click();
         })
     }
+
+    async uploadAttachment(attachmentPath: string): Promise<void> {
+        return await this.pageStep("Upload an attachment", async () => {
+            await this.addAttachmentBtn.click();
+            const [fileChoose] = await Promise.all([
+                this.page.waitForEvent('filechooser'),
+                this.browseBtn.click()
+
+            ])
+            const filePath = path.join(__dirname, attachmentPath).replace(/\\/g, '/');
+            await fileChoose.setFiles(filePath)
+        })
+    }
+
+    async validateAttachmentArea(): Promise<void> {
+        return await this.pageStep("Attachment area validation", async () => {
+            const fileName = "test-upload-attachment.pdf";
+
+            await this.attachmentTable.waitFor({state: 'visible'});
+            const attachmentTable = this.page.locator(".oxd-table-body").nth(1);
+            const row = await attachmentTable.locator(".oxd-table-row").filter({hasText: fileName}).count();
+            expect (row).toBe(1);
+        })
+    }
+
 
 }
 

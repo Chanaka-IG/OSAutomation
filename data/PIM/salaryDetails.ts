@@ -60,6 +60,18 @@ export const salarydata = {
             firstName: "Hillsry",
             lastName: "Clinton",
             middleName: "Sodasa"
+        },
+          {
+            employeeId: "1106",
+            firstName: "Roosan",
+            lastName: "Macmillan",
+            middleName: "Johas"
+        },
+          {
+            employeeId: "1107",
+            firstName: "Harry",
+            lastName: "Brook",
+            middleName: "Root"
         }
     ],
     salaryComponent: [
@@ -186,7 +198,22 @@ export const salarydata = {
             amountVal: "25000"
         },
 
-    ]
+    ],
+    updateSalaryComponent: [
+        {
+            component: "Housing loan",
+            payGrade: "Grade 1",
+            payFrequency: "Hourly",
+            Currency: "Utd. Arab Emir. Dirham",
+            amount: '4800',
+            comment: "This is a test comment",
+            directDeposit: true,
+            accountNumber: "5515155",
+            accountType: "Savings",
+            routingNumber: "8491858",
+            amountVal: "2500"
+        },
+    ],
 
 
 }
