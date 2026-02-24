@@ -9,14 +9,15 @@ test.describe("Test cases for Salary details related scenarios", () => {
     let logAsAdmin: LogAsAdmin;
     let addEmployee: AddEmployee;
     let salaryDetailsPage: SalaryDetailsPage;
+    const filePath = '../../data/Attachments/test-upload-attachment.pdf'
 
 
     test.beforeAll(async () => {
         const apiContext = await request.newContext()
         logAsAdmin = new LogAsAdmin(apiContext);
         addEmployee = new AddEmployee(apiContext)
-        // await logAsAdmin.loginAsAdmin();
-        // await addEmployee.addEmployees(salarydata.employee)
+        await logAsAdmin.loginAsAdmin();
+        await addEmployee.addEmployees(salarydata.employee)
     })
 
     test.beforeEach(async ({ page, logger }) => {
@@ -79,7 +80,7 @@ test.describe("Test cases for Salary details related scenarios", () => {
         await salaryDetailsPage.validateAfterDeletion(salarydata.deletesalaryComponent[0]);
     })
 
-    test.only("7. Delete multiple salary records", async () => {
+    test("7. Delete multiple salary records", async () => {
         await salaryDetailsPage.navigateToEMployeeProfile(salarydata.employee[5]);
         await salaryDetailsPage.waitUntilTableLoaderDissapear();
         await salaryDetailsPage.navigateToSalaryMenu();
@@ -89,6 +90,32 @@ test.describe("Test cases for Salary details related scenarios", () => {
         await salaryDetailsPage.clickYesDeleteBtn();
         await salaryDetailsPage.verifySuccessToastforDeletion();
         await salaryDetailsPage.validateAfterDeletion(salarydata.deletesalaryComponent);
+
+    })
+
+    test("8. Update salary records", async () => {
+        await salaryDetailsPage.navigateToEMployeeProfile(salarydata.employee[6]);
+        await salaryDetailsPage.waitUntilTableLoaderDissapear();
+        await salaryDetailsPage.navigateToSalaryMenu();
+        await salaryDetailsPage.fillMultipleSalaryDetailsAndSave(salarydata.multiplesalaryComponent);
+        await salaryDetailsPage.clickOnEditIcon(salarydata.salaryComponent[0]);
+        await salaryDetailsPage.waitUntilTableLoaderDissapear();
+        await salaryDetailsPage.updateDetailsAndSave(salarydata.updateSalaryComponent);
+        await salaryDetailsPage.verifySuccessToastForUpdate();
+        await salaryDetailsPage.validateSalaryData(salarydata.updateSalaryComponent);
+
+    })
+
+    test("9. Update salary component without direct deposit details", async () => {
+        await salaryDetailsPage.navigateToEMployeeProfile(salarydata.employee[7]);
+        await salaryDetailsPage.waitUntilTableLoaderDissapear();
+        await salaryDetailsPage.navigateToSalaryMenu();
+        await salaryDetailsPage.fillSalaryDetailsAndSave(salarydata.salaryComponent[0]);
+        await salaryDetailsPage.verifySuccessToastForSave();
+        await salaryDetailsPage.uploadAttachment(filePath);
+        await salaryDetailsPage.clickOnSaveforAttachment();
+        await salaryDetailsPage.waitUntilTableLoaderDissapear();
+        await salaryDetailsPage.validateAttachmentArea();
 
     })
 })
