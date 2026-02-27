@@ -81,7 +81,7 @@ export const reportToData = {
             lastName: "Lee",
             middleName: "Bruce"
         },
-         {
+        {
             employeeId: "1202",
             firstName: "Joe",
             lastName: "Root",
@@ -104,6 +104,24 @@ export const reportToData = {
             lastName: "Trott",
             middleName: "David",
             reportMethod: "Direct"
+        },
+    ],
+    apiSupervisor: [
+        {
+            employeeId: "1206",
+            firstName: "William",
+            lastName: "Harris",
+            middleName: "Oliver",
+            reportMethod: 1
+        },
+    ],
+    apiSubordinate: [
+        {
+             employeeId: "1207",
+            firstName: "Sophia",
+            lastName: "Walker",
+            middleName: "Marie",
+            reportMethod: 2
         },
     ],
     MultipleSupervisors: [
