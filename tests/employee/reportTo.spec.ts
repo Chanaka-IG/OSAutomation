@@ -22,13 +22,12 @@ test.describe('Test cases for assigning supervisors and subordinates', () => {
         await addEmployee.addEmployees(reportToData.AddEmployee)
         const employeeList = await addEmployee.getEmployees();
         const supervisor = employeeList.data.find(
-            (emp: any) => emp.employeeId === reportToData.Supervisor[0].employeeId);
+            (emp: any) => emp.employeeId === reportToData.apiSupervisor[0].employeeId);
 
         const subordinate = employeeList.data.find(
-            (emp: any) => emp.employeeId === reportToData.Subordinate[0].employeeId);
+            (emp: any) => emp.employeeId === reportToData.apiSubordinate[0].employeeId);
 
-        console.log('Employee found:', supervisor);
-        console.log('Employee found:', subordinate);
+        await reportTo.assignSupervisor(reportToData.apiSupervisor[0],subordinate,supervisor)
     })
 
     test.beforeEach(async ({ page, logger }) => {
