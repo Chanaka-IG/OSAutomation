@@ -54,7 +54,7 @@ export class AddEmployee {
 
   }
 
-  async getEmployees(): Promise<void> {
+  async getEmployees(): Promise<any> {
     const response = await this.apiContext.get(
       `${ENV.baseUrl}/web/index.php/api/v2/pim/employees`,
     );
@@ -63,11 +63,10 @@ export class AddEmployee {
     const emp = await response.json();
     const body = await response.text();
 
-    console.log('Employee List', body);
-
     if (!response.ok()) {
       throw new Error(`Login failed`);
     }
+    return emp;
   }
 
   async addEmployees(employees:any): Promise<void> {

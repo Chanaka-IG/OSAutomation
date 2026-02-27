@@ -1,4 +1,4 @@
-import { Page, Locator, test } from '@playwright/test';
+import { Page, Locator, test,expect } from '@playwright/test';
 import 'dotenv/config';
 
 
@@ -170,6 +170,13 @@ export class BasePage {
     })
 
   }
+
+  async waitUntilMultipleTableLoaderDissapear(): Promise<void> {
+  return await this.pageStep('Wait until all table loaders disappear', async () => {
+    const loaders = this.page.locator('.oxd-table-loader');
+    await expect(loaders).toHaveCount(0);
+  });
+}
 
   async waitUntilFormLoaderDissapear(): Promise<void> {
     return await this.pageStep('Wait untill the Form loaded dissapear', async () => {
