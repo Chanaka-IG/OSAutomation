@@ -11,33 +11,28 @@ export class ReportTo {
 
     async assignSupervisor(supervisorFullData: any, subordinateData: any, supervisorData: any): Promise<void> {
 
-        try {
+        for (let i = 0; i < supervisorData.length; i++) {
+            try {
 
-        const apiResponse = await this.assignOneSupervisor(supervisorFullData,subordinateData, supervisorData);
+                const apiResponse = await this.assignOneSupervisor(supervisorFullData[i], subordinateData, supervisorData[i]);
 
-            if (apiResponse.ok()) {
-                console.log("Supervisor assigned successfully for employee :" + subordinateData.firstName + " " + subordinateData.lastName)
+                if (apiResponse.ok()) {
+                    console.log("Supervisor assigned successfully for employee :" + subordinateData.firstName + " " + subordinateData.lastName+ "." + " Supervisor: " + supervisorData[i].firstName + " " + supervisorData[i].lastName)
+                }
+                else {
+                    console.log("Failed to assign supervisor for employee Number :" + subordinateData.empNumber + " Error: " + await apiResponse.text())
+                }
+
             }
-            else {
-                console.log("Failed to assign supervisor for employee Number :" + subordinateData.empNumber + " Error: " + await apiResponse.text())
+            catch (error) {
+                console.log(error)
             }
 
         }
-        catch (error) {
-            console.log(error)
-        }
-       
     }
 
 
-    async assignOneSupervisor (supervisorFullData: any,subordinateData: any, supervisorData: any){
-        console.log(subordinateData.empNumber)
-        console.log(supervisorData.empNumber)
-        console.log(supervisorFullData.reportMethod)
-        console.log(typeof(subordinateData.empNumber))
-        console.log(typeof(supervisorData.empNumber))
-        console.log(typeof(supervisorFullData.reportMethod))
-        console.log(ENV.baseUrl)
+    async assignOneSupervisor(supervisorFullData: any, subordinateData: any, supervisorData: any) {
         const response = await this.apiContext.post(
             `${ENV.baseUrl}/web/index.php/api/v2/pim/employees/${subordinateData.empNumber}/supervisors`,
             {
@@ -47,7 +42,6 @@ export class ReportTo {
                 }
             }
         );
-        console.log(response)
         return response;
     }
 }

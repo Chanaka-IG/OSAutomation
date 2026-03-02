@@ -80,8 +80,8 @@ export class BasePage {
 
   }
 
-  async loginasCustomAdmin(Username: string, Password: string): Promise<void> {
-    return await this.pageStep('Login as Custom Admin', async () => {
+  async loginasCustomUser(Username: string, Password: string): Promise<void> {
+    return await this.pageStep('Login as Custom User', async () => {
       await this.userNameInput.fill(Username);
       await this.passwordInput.fill(Password);
       await this.submitButton.click();

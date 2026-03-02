@@ -15,6 +15,16 @@ export interface Supervisor {
     reportMethod: string;
 }
 
+export interface userList {
+
+    username: string,
+    password: string,
+    status: boolean,
+    userRoleId: number,
+    empNumber: number
+
+}
+
 
 export const reportToData = {
     AddEmployee: [
@@ -71,6 +81,12 @@ export const reportToData = {
             firstName: "Daniel",
             lastName: "Clark",
             middleName: "Henry"
+        },
+        {
+            employeeId: "1209",
+            firstName: "Oliver",
+            lastName: "Smith",
+            middleName: "James",
         }
 
     ],
@@ -106,7 +122,7 @@ export const reportToData = {
             reportMethod: "Direct"
         },
     ],
-    apiSupervisor: [
+    apiSupervisors: [
         {
             employeeId: "1206",
             firstName: "William",
@@ -114,10 +130,24 @@ export const reportToData = {
             middleName: "Oliver",
             reportMethod: 1
         },
+        {
+            employeeId: "1208",
+            firstName: "Daniel",
+            lastName: "Clark",
+            middleName: "Henry",
+            reportMethod: 1
+        },
+        {
+            employeeId: "1209",
+            firstName: "Oliver",
+            lastName: "Smith",
+            middleName: "James",
+            reportMethod: 1
+        },
     ],
     apiSubordinate: [
         {
-             employeeId: "1207",
+            employeeId: "1207",
             firstName: "Sophia",
             lastName: "Walker",
             middleName: "Marie",
@@ -145,6 +175,14 @@ export const reportToData = {
             lastName: "Thompson",
             middleName: "Grace",
             reportMethod: "Direct"
+        },
+    ],
+    userList: [
+        {
+            username: "William",
+            password: "admin@OHRM123",
+            status: true,
+            userRoleId: 2,
         },
     ],
 }
