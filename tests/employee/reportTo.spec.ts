@@ -4,6 +4,7 @@ import { LogAsAdmin } from '../../api/logAsAdmin'
 import { AddEmployee } from '../../api/Employee/AddEmployee';
 import { reportToData } from '../../data/PIM/reportTo'
 import { ReportTo } from '../../api/Employee/ReportTo';
+import { CustomUsers } from '../../api/masterdata/CustomUsers';
 
 test.describe('Test cases for assigning supervisors and subordinates', () => {
 
@@ -11,6 +12,7 @@ test.describe('Test cases for assigning supervisors and subordinates', () => {
     let addEmployee: AddEmployee;
     let logAsAdmin: LogAsAdmin;
     let reportTo: ReportTo;
+    let customUsers: CustomUsers;
 
 
     test.beforeAll(async () => {
@@ -18,19 +20,33 @@ test.describe('Test cases for assigning supervisors and subordinates', () => {
         logAsAdmin = new LogAsAdmin(apiContext);
         reportTo = new ReportTo(apiContext);
         addEmployee = new AddEmployee(apiContext);
+        customUsers = new CustomUsers(apiContext);
         await logAsAdmin.loginAsAdmin()
         await addEmployee.addEmployees(reportToData.AddEmployee)
         const employeeList = await addEmployee.getEmployees();
-        const supervisor = employeeList.data.find(
-            (emp: any) => emp.employeeId === reportToData.apiSupervisor[0].employeeId);
-
         const subordinate = employeeList.data.find(
             (emp: any) => emp.employeeId === reportToData.apiSubordinate[0].employeeId);
 
-        await reportTo.assignSupervisor(reportToData.apiSupervisor[0],subordinate,supervisor)
+        const supervisorList = employeeList.data.filter((emp: any) =>
+            reportToData.apiSupervisors.some(
+                (sup: any) => sup.employeeId === emp.employeeId
+            )
+        );
+        await reportTo.assignSupervisor(reportToData.apiSupervisors, subordinate, supervisorList)
+        for (const supervisor of supervisorList) {
+            if (supervisor.employeeId === reportToData.apiSupervisors[0].employeeId) {
+                console.log(supervisor)
+                await customUsers.addUsers(supervisor, reportToData.userList[0])
+            }
+        }
+
     })
 
-    test.beforeEach(async ({ page, logger }) => {
+    test.beforeEach(async ({ page, logger }, testInfo) => {
+        if (testInfo.title.includes('Log as Supervisor')) {
+            await page.goto('/');
+            return;
+        }
         reportToPage = new ReportToPage(page, logger);
         await page.goto('/');
         await reportToPage.loginasAdmin();
@@ -38,7 +54,7 @@ test.describe('Test cases for assigning supervisors and subordinates', () => {
 
     })
 
-    test('Assign supervisor to an employee', async () => {
+    test('1. Assign supervisor to an employee', async () => {
         await reportToPage.navigateToEMployeeProfile(reportToData.SelectEmployee[0]);
         await reportToPage.waitUntilTableLoaderDissapear();
         await reportToPage.navigateToReportTo();
@@ -46,11 +62,19 @@ test.describe('Test cases for assigning supervisors and subordinates', () => {
         await reportToPage.verifySuccessToastForSave();
     })
 
-    test.only('Assign multiple supervisors to an employee', async () => {
+    test('2. Assign multiple supervisors to an employee', async () => {
         await reportToPage.navigateToEMployeeProfile(reportToData.SelectEmployee[1]);
         await reportToPage.waitUntilTableLoaderDissapear();
         await reportToPage.navigateToReportTo();
         await reportToPage.assignMultipleSupervisors(reportToData.MultipleSupervisors);
+        await reportToPage.validateReportToData(reportToData.MultipleSupervisors);
+    })
+
+    test.only('3. Log as Supervisor and validate report to data', async () => {
+        await reportToPage.loginasCustomUser(reportToData.userList[0].username, reportToData.userList[0].password);
+        await reportToPage.navigateToEMployeeProfile(reportToData.SelectEmployee[1]);
+        await reportToPage.waitUntilTableLoaderDissapear();
+        await reportToPage.navigateToReportTo();
         await reportToPage.validateReportToData(reportToData.MultipleSupervisors);
     })
 })
