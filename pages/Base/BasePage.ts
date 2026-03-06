@@ -82,6 +82,7 @@ export class BasePage {
 
   async loginasCustomUser(Username: string, Password: string): Promise<void> {
     return await this.pageStep('Login as Custom User', async () => {
+      console.log(`Logging in with username: ${Username} and password: ${Password}`);
       await this.userNameInput.fill(Username);
       await this.passwordInput.fill(Password);
       await this.submitButton.click();
