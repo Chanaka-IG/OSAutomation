@@ -129,6 +129,34 @@ export class ReportToPage extends BasePage {
 
 
     }
+
+    async validateSubordinatesInList(subordinateData: any): Promise<void> {
+
+        return await this.pageStep("Validate subordinate data in the table", async () => {
+
+            const selectedRowData = this.page.locator(".oxd-table-row").filter({ hasText: subordinateData[0].employeeId });
+
+            await this.page.waitForTimeout(3000);
+            for (const subordinateValue of subordinateData) {
+                const row = this.page.locator(".oxd-table-row")
+                    .filter({ hasText: subordinateValue.employeeId })
+                    .filter({ hasText: subordinateValue.firstName + " " + subordinateValue.middleName})
+                    .filter({ hasText: subordinateValue.lastName })
+
+                const rowCount = await row.count();
+
+                if (rowCount !== 1) {
+                    this.logger.error(`Mismatch found with following set - ${subordinateValue.component}`
+                    )
+                }
+                await expect(row).toHaveCount(1);
+            }
+        })
+
+
+
+    }
+
 }
 
 
