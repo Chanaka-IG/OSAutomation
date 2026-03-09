@@ -9,6 +9,7 @@ export class ReportToPage extends BasePage {
 
     private logger: Logger;
     private readonly PIMmenu: Locator;
+    private readonly myInfoMenu: Locator;
     private readonly reportToMenu: Locator;
     private readonly pimCard: Locator;
     private readonly reportToCard: Locator;
@@ -23,6 +24,7 @@ export class ReportToPage extends BasePage {
         super(page)
         this.logger = logger;
         this.PIMmenu = page.getByRole("link", { name: 'PIM' })
+        this.myInfoMenu = page.getByRole("link", { name: 'My Info' })
         this.reportToMenu = page.getByRole("link", { name: 'Report-to' })
         this.pimCard = page.locator(".orangehrm-paper-container")
         this.reportToCard = page.locator(".orangehrm-card-container")
@@ -37,6 +39,14 @@ export class ReportToPage extends BasePage {
 
         return await this.pageStep("Navigate to PIM section", async () => {
             await this.PIMmenu.click();
+        })
+
+    }
+
+    async navigateToMyInfo(): Promise<void> {
+
+        return await this.pageStep("Navigate to My Info section", async () => {
+            await this.myInfoMenu.click();
         })
 
     }
@@ -75,7 +85,7 @@ export class ReportToPage extends BasePage {
             })
             await this.reportMethod.click();
             await this.page.getByRole("option", { name: supervisorData.reportMethod, exact: true },).click();
-            await this.supervisorSaveBtn.click();supervisorData
+            await this.supervisorSaveBtn.click(); supervisorData
         })
 
     }
@@ -110,8 +120,10 @@ export class ReportToPage extends BasePage {
 
         return await this.pageStep("Validate supervisor data in the table", async () => {
 
+            const supervisorArray = Array.isArray(supervisorData) ? supervisorData : [supervisorData];
+
             await this.page.waitForTimeout(3000);
-            for (const supervisorValue of supervisorData) {
+            for (const supervisorValue of supervisorArray) {
                 const row = this.page.locator(".oxd-table-row")
                     .filter({ hasText: supervisorValue.firstName + " " + supervisorValue.lastName })
                     .filter({ hasText: supervisorValue.reportMethod })
@@ -140,7 +152,7 @@ export class ReportToPage extends BasePage {
             for (const subordinateValue of subordinateData) {
                 const row = this.page.locator(".oxd-table-row")
                     .filter({ hasText: subordinateValue.employeeId })
-                    .filter({ hasText: subordinateValue.firstName + " " + subordinateValue.middleName})
+                    .filter({ hasText: subordinateValue.firstName + " " + subordinateValue.middleName })
                     .filter({ hasText: subordinateValue.lastName })
 
                 const rowCount = await row.count();

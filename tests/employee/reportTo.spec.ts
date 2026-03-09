@@ -21,30 +21,35 @@ test.describe('Test cases for assigning supervisors and subordinates', () => {
         reportTo = new ReportTo(apiContext);
         addEmployee = new AddEmployee(apiContext);
         customUsers = new CustomUsers(apiContext);
-        // await logAsAdmin.loginAsAdmin()
-        // await addEmployee.addEmployees(reportToData.AddEmployee)
-        // const employeeList = await addEmployee.getEmployees();
-        // const subordinate = employeeList.data.find(
-        //     (emp: any) => emp.employeeId === reportToData.apiSubordinate[0].employeeId);
+        await logAsAdmin.loginAsAdmin()
+        await addEmployee.addEmployees(reportToData.AddEmployee)
+        const employeeList = await addEmployee.getEmployees();
+        const subordinate = employeeList.data.find(
+            (emp: any) => emp.employeeId === reportToData.apiSubordinate[0].employeeId);
 
-        // const supervisorList = employeeList.data.filter((emp: any) =>
-        //     reportToData.apiSupervisors.some(
-        //         (sup: any) => sup.employeeId === emp.employeeId
-        //     )
-        // );
-        // await reportTo.assignSupervisor(reportToData.apiSupervisors, subordinate, supervisorList)
-        // for (const supervisor of supervisorList) {
-        //     if (supervisor.employeeId === reportToData.apiSupervisors[0].employeeId) {
-        //         await customUsers.addUsers(supervisor, reportToData.userList[0])
-        //     }
-        // }
+        const supervisorList = employeeList.data.filter((emp: any) =>
+            reportToData.apiSupervisors.some(
+                (sup: any) => sup.employeeId === emp.employeeId
+            )
+        );
+        await reportTo.assignSupervisor(reportToData.apiSupervisors, subordinate, supervisorList)
+        for (const supervisor of supervisorList) {
+            if (supervisor.employeeId === reportToData.apiSupervisors[0].employeeId) {
+                await customUsers.addUsers(supervisor, reportToData.userList[0])
+            }
+        }
+        await customUsers.addUsers(subordinate, reportToData.userList[1])
 
     })
 
     test.beforeEach(async ({ page, logger }, testInfo) => {
         reportToPage = new ReportToPage(page, logger);
         if (testInfo.title.includes('Log as Supervisor')) {
-            console.log("Logging in as Supervisor, skipping login steps in beforeEach hook");
+            logger.log("Logging in as Supervisor, skipping login steps in beforeEach hook");
+            await page.goto('/');
+        }
+        else if (testInfo.title.includes('Log as ESS')) {
+            logger.log("Logging in as ESS, skipping login steps in beforeEach hook");
             await page.goto('/');
         }
         else {
@@ -72,10 +77,20 @@ test.describe('Test cases for assigning supervisors and subordinates', () => {
         await reportToPage.validateReportToData(reportToData.MultipleSupervisors);
     })
 
-    test.only('3. Log as Supervisor and validate report to data', async () => {
+    test('3. Log as Supervisor and validate report to data', async () => {
         await reportToPage.loginasCustomUser(reportToData.userList[0].username, reportToData.userList[0].password);
         await reportToPage.navigateToPim();
         await reportToPage.validateSubordinatesInList(reportToData.apiSubordinate);
+        await reportToPage.navigateToEMployeeProfile(reportToData.SelectEmployee[0]);
+        await reportToPage.navigateToReportTo();
+        await reportToPage.validateReportToData(reportToData.apiSupervisorsValidate[0]);
+    })
+
+    test.only('4. Log as ESS and validate report to data', async () => {
+        await reportToPage.loginasCustomUser(reportToData.userList[1].username, reportToData.userList[1].password);
+        await reportToPage.navigateToMyInfo();
+        await reportToPage.navigateToReportTo();
+        await reportToPage.validateReportToData(reportToData.apiSupervisorsValidate[0]);
     })
 })
 
