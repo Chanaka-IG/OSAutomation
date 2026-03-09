@@ -92,10 +92,16 @@ export const reportToData = {
     ],
     SelectEmployee: [
         {
-            employeeId: "1200",
-            firstName: "Breat",
-            lastName: "Lee",
-            middleName: "Bruce"
+            employeeId: "1207",
+            firstName: "Sophia",
+            lastName: "Walker",
+            middleName: "Marie",
+        },
+        {
+            employeeId: "1202",
+            firstName: "Joe",
+            lastName: "Root",
+            middleName: "Steven"
         },
         {
             employeeId: "1202",
@@ -112,6 +118,7 @@ export const reportToData = {
             middleName: "David",
             reportMethod: "Direct"
         },
+
     ],
     Subordinate: [
         {
@@ -128,14 +135,14 @@ export const reportToData = {
             firstName: "William",
             lastName: "Harris",
             middleName: "Oliver",
-            reportMethod: 1
+            reportMethod: 1,
         },
         {
             employeeId: "1208",
             firstName: "Daniel",
             lastName: "Clark",
             middleName: "Henry",
-            reportMethod: 1
+            reportMethod: 1,
         },
         {
             employeeId: "1209",
@@ -144,6 +151,14 @@ export const reportToData = {
             middleName: "James",
             reportMethod: 1
         },
+    ],
+    apiSupervisorsValidate: [
+        {
+            firstName: "William",
+            lastName: "Harris",
+            middleName: "Oliver",
+            reportMethodInWord: "Direct",
+        }
     ],
     apiSubordinate: [
         {
@@ -183,6 +198,13 @@ export const reportToData = {
             password: "admin@OHRM123",
             status: true,
             userRoleId: 2,
+        },
+        {
+            username: "Sophia",
+            password: "admin@OHRM123",
+            status: true,
+            userRoleId: 2,
+
         },
     ],
 }
