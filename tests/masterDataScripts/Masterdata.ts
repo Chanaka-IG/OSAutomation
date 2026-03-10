@@ -9,6 +9,7 @@ import { LocationMaster } from '../../api/masterdata/LocationMaster';
 import { SubUnitMaster } from '../../api/masterdata/SubUnitMaster';
 import { UsesMaster } from '../../api/masterdata/UsesMaster';
 import { PayGradeMaster } from '../../api/masterdata/PayGradeMaster';
+import { Members } from '../../api/Admin/Members';
 
 
 import { employees } from '../../data/masterdata/employee';
@@ -18,6 +19,7 @@ import { location } from '../../data/masterdata/location';
 import { subUnits } from '../../data/masterdata/subUnit';
 import { user } from '../../data/masterdata/users';
 import { payGrades,currency } from '../../data/masterdata/payGrade';
+import { MembershipDataList } from '../../data/masterdata/membership';
 
 
 
@@ -35,6 +37,7 @@ async function globalSetup(config: FullConfig) {
         const subUnit = new SubUnitMaster(apiContext);
         const users = new UsesMaster(apiContext);
         const payGrade = new PayGradeMaster(apiContext);
+        const members = new Members(apiContext);
         await employee.loginAsAdmin();
         await employee.addEmployees(employees);
         await jobTitle.addJobTitles(jobTitles);
@@ -44,6 +47,7 @@ async function globalSetup(config: FullConfig) {
         await users.addUsers(user);
         await payGrade.addPayGrade(payGrades);
         await payGrade.updatePayGradeCurrency(payGrades,currency[0]);
+        await members.addMembers(MembershipDataList);
     
     }
     else {
