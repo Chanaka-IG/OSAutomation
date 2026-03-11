@@ -13,6 +13,9 @@ const MembershipData : any []= [
     },
      {
         memebershipName: "Health Club Membership",
+    },
+       {
+        memebershipName: "Chess Club Membership",
     }
 ]
 
