@@ -1,4 +1,4 @@
-import { Page, Locator, test,expect } from '@playwright/test';
+import { Page, Locator, test, expect } from '@playwright/test';
 import 'dotenv/config';
 
 
@@ -166,26 +166,36 @@ export class BasePage {
 
   async waitUntilTableLoaderDissapear(): Promise<void> {
     return await this.pageStep('Wait untill the Table loaded dissapear', async () => {
-      await this.waitForTableLoader.waitFor({ state: 'detached' });
+      try {
+        await this.waitForTableLoader.waitFor({ state: 'visible', timeout: 2000 });
+        await this.waitForTableLoader.waitFor({ state: 'detached' });
+      }
+      catch {
+        //ignore silently if the loader did not appear rather than failing the test, as in some cases the loader may not appear based on the response time of the application
+      }
+    
 
     })
 
   }
 
   async waitUntilMultipleTableLoaderDissapear(): Promise<void> {
-  return await this.pageStep('Wait until all table loaders disappear', async () => {
-    const loaders = this.page.locator('.oxd-table-loader');
-    await expect(loaders).toHaveCount(0);
-  });
-}
+    return await this.pageStep('Wait until all table loaders disappear', async () => {
+      const loaders = this.page.locator('.oxd-table-loader');
+      await expect(loaders).toHaveCount(0);
+    });
+  }
 
   async waitUntilFormLoaderDissapear(): Promise<void> {
     return await this.pageStep('Wait untill the Form loaded dissapear', async () => {
-      await this.waitFormLoader.waitFor({ state: 'visible'})
-      if (await this.waitFormLoader.isVisible()) {
-        await this.waitFormLoader.waitFor({ state: 'detached' });
-
+      try {
+        await this.waitFormLoader.waitFor({ state: 'visible', timeout: 2000 });
+        await this.waitFormLoader.waitFor({ state: 'hidden' });
       }
+      catch {
+       //ignore silently if the loader did not appear rather than failing the test, as in some cases the loader may not appear based on the response time of the application
+      }
+
     })
 
   }
@@ -214,6 +224,7 @@ export class BasePage {
       await this.yearDropDownIcon.click();
       await this.yearDropDownList.getByText(year, { exact: true }).click();
       await this.dateContent.getByText(String(Number(day)), { exact: true }).click();
+      await this.celenderPicker.waitFor({ state: 'detached' })
     })
   }
 
