@@ -107,21 +107,21 @@ export class MembershipsPage extends BasePage {
 
             for (const memebershipData of membershipDataList) {
 
-                    await this.addBtn.waitFor({state: 'visible', timeout: 2000});
-                    if (await this.addBtn.isVisible()) {
-                        await this.addBtn.click();
-                    }
-                
+                await this.addBtn.waitFor({ state: 'visible', timeout: 2000 });
+                if (await this.addBtn.isVisible()) {
+                    await this.addBtn.click();
+                }
+
                 await this.membership.click().then(() =>
-                    this.page.locator("(//label[text()='Membership']/following::div)[6]").getByText(memebershipData.memebershipName, { exact: true }).click());
+                    this.page.getByRole("option", { name: memebershipData.memebershipName, exact: true }).click());
 
                 await this.subscription.click().then(() =>
-                    this.page.locator("(//label[text()='Subscription Paid By']/following::div)[6]").getByText(memebershipData.subscriptionPaidBy, { exact: true }).click());
-
+                    this.page.getByRole("option", { name: memebershipData.subscriptionPaidBy, exact: true }).click());
+                
                 await this.subscriptionAmount.fill(memebershipData.subscriptionAmount);
 
                 await this.currency.click().then(() =>
-                    this.page.locator("(//label[text()='Currency']/following::div)[6]").getByText(memebershipData.currency, { exact: true }).click());
+                    this.page.getByRole("option", { name: memebershipData.currency, exact: true }).click());
 
                 await this.pickDateFromDatePicker(memebershipData.subscriptionCommenceDate, this.commenceDate);
                 await this.pickDateFromDatePicker(memebershipData.subscriptionExpiryDate, this.renewalDate);

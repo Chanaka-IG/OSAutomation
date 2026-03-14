@@ -14,13 +14,13 @@ test.describe("PIM Validation", () => {
   let employee: AddEmployee;
   let users: AddUsers;
 
-  // test.beforeAll(async ({ request, logger }) => {
-  //   employee = new AddEmployee(request);
-  //   users = new AddUsers(request);
-  //   await employee.loginAsAdmin();
-  //   await employee.addEmployees(PIM_DATA.API_date.employee);
-  //   await users.addUsers(PIM_DATA.API_date.user)
-  // })
+  test.beforeAll(async ({ request, logger }) => {
+    employee = new AddEmployee(request);
+    users = new AddUsers(request);
+    await employee.loginAsAdmin();
+    await employee.addEmployees(PIM_DATA.API_DATA.Employee);
+    await users.addUsers(PIM_DATA.API_DATA.User)
+  })
 
   test.beforeEach(async ({ page, logger }) => {
     employeeAccessPage = new PimAccessPage(page, logger.log);
@@ -30,7 +30,7 @@ test.describe("PIM Validation", () => {
 
 
   test('1. Validate Admin has the access to view the PIM', async ({ logger }) => {
-      await employeeAccessPage.loginasCustomAdmin(PIM_DATA.API_DATA.User[0].username, PIM_DATA.API_DATA.User[0].password);
+      await employeeAccessPage.loginasCustomUser(PIM_DATA.API_DATA.User[0].username, PIM_DATA.API_DATA.User[0].password);
       await employeeAccessPage.validateUIasAdmin()
 
   });
@@ -42,4 +42,3 @@ test.describe("PIM Validation", () => {
   });
 
 })
-
