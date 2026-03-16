@@ -1,6 +1,7 @@
 import { APIRequestContext, APIResponse } from '@playwright/test';
 import { ENV } from '../../config/env';
 import type { JobDetails } from '../../data/PIM/updateJob';
+import { updateEmployeeWithId } from '../../data/PIM/report'
 
 export class UpdateEmployee {
 
@@ -10,10 +11,9 @@ export class UpdateEmployee {
     }
 
 
-    async updateEmployeeJobDetails(EmployeeNumber: number, employeeDetails: JobDetails): Promise<void> {
+    async updateEmployeeJobDetails(EmployeeNumber: number, employeeDetails: JobDetails | updateEmployeeWithId): Promise<void> {
 
         try {
-
             const apiResonse = await this.updateJob(EmployeeNumber, employeeDetails);
 
             const response = await apiResonse.json();
@@ -33,7 +33,6 @@ export class UpdateEmployee {
 
 
     async updateJob(EmployeeNumber: number, employeeDetails: any): Promise<APIResponse> {
-        console.log(employeeDetails)
         const response = await this.apiContext.put(`${ENV.baseUrl}/web/index.php/api/v2/pim/employees/${EmployeeNumber}/job-details`, {
             data: {
                 jobTitleId: employeeDetails.jobTitleId,

@@ -13,6 +13,21 @@ export interface AddReport {
     }[];
 }
 
+export interface updateEmployeeWithId {
+    employeeId: string,
+    jobTitle: number,
+    empStatus: number,
+    subUnit: number
+}
+
+export interface validateReport {
+    employeeId: string,
+        firstName: string,
+        lastName: string,
+        empStatusId: string,
+        subunitId: string,
+}
+
 
 export const ReportData = {
     AddEmployee: [{
@@ -37,36 +52,23 @@ export const ReportData = {
 
     AddReport: [
         {
-            reportName: "Test Report",
+            reportName: "Test Report 1",
             criteria: [
                 {
-                    criteriaName: "Pay Grade",
-                    values: "Grade 1"
-                },
-                {
                     criteriaName: "Job Title",
-                    values: "BA"
-                },
-                {
-                    criteriaName: "Employment Status",
-                    values: "Intern"
+                    values: "UI Engineer"
                 }
             ],
             include: "Current Employees Only",
             displayFields: [
                 {
                     group: "Personal",
-                    field: ["Employee ID", "Employee First Name", "Date of Birth"],
+                    field: ["Employee ID", "Employee First Name", "Employee Last Name"],
                     includeHeader: true
                 },
                 {
-                    group: "Contact Details",
-                    field: ["Address", "Mobile", "Work Email"],
-                    includeHeader: false
-                },
-                {
                     group: "Job",
-                    field: ["Job Title", "Location", "Sub Unit"],
+                    field: ["Employment Status", "Sub Unit"],
                     includeHeader: true
                 }
             ],
@@ -106,6 +108,47 @@ export const ReportData = {
                 }
             ],
         }
-    ]
+    ],
+    UpdateEmployee: [{
+        employeeId: "2100",
+        jobTitleId: 3,
+        empStatusId: 1,
+        subunitId: 1,
+    },
+    {
+        employeeId: "2101",
+        jobTitleId: 3,
+        empStatusId: 1,
+        subunitId: 1,
+    },
+    {
+        employeeId: "2102",
+        jobTitleId: 3,
+        empStatusId: 1,
+        subunitId: 1,
+    },
+    ],
+    validateReport: [{
+        employeeId: "2100",
+        firstName: "Ross",
+        lastName: "Taylor",
+        empStatusId: "Permanent",
+        subunitId: "Automation",
+    },
+    {
+        employeeId: "2101",
+        firstName: "Gramhem",
+        lastName: "Smith",
+        empStatusId: "Permanent",
+        subunitId: "Automation",
+    },
+    {
+        employeeId: "2102",
+        firstName: "Rick",
+        lastName: "Ponting",
+        empStatusId: "Permanent",
+        subunitId: "Automation",
+    },
+    ],
 
 }

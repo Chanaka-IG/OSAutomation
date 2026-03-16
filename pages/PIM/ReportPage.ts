@@ -1,7 +1,7 @@
 import { Page, Locator, test, expect } from '@playwright/test';
 import { BasePage } from '../Base/BasePage'
 import { Logger } from '../../Fixtures/logger.fixtures';
-import type { AddReport } from '../../data/PIM/report';
+import type { AddReport, validateReport } from '../../data/PIM/report';
 
 
 export class ReportPage extends BasePage {
@@ -23,7 +23,7 @@ export class ReportPage extends BasePage {
     private readonly fieldGroup: Locator;
     private readonly displayField: Locator;
     private readonly displayFieldPlus: Locator;
-
+    private readonly saveBtn: Locator;
 
 
     constructor(page: Page, logger: Logger) {
@@ -45,6 +45,7 @@ export class ReportPage extends BasePage {
         this.fieldGroup = page.locator("//label[normalize-space(text())='Select Display Field Group']/following::div").nth(1);
         this.displayField = page.locator("//label[normalize-space(text())='Select Display Field']/following::div").nth(1);
         this.displayFieldPlus = page.locator("(//i[@class='oxd-icon bi-plus'])[2]")
+        this.saveBtn = page.getByRole('button', { name: 'Save' })
     }
 
     async navigateToPim(): Promise<void> {
@@ -136,13 +137,44 @@ export class ReportPage extends BasePage {
                 await this.page.getByRole('option', { name: displayFieldSet.group }).click();
                 for (const settingfield of fieldsets) {
                     await this.displayField.click();
-                    await this.page.getByRole('option',{name :settingfield}).click();
+                    await this.page.getByRole('option', { name: settingfield }).click();
                     await this.displayFieldPlus.click();
-
                 }
+                if (displayFieldSet.includeHeader) {
+                    await this.page.locator(`(//p[text()='${displayFieldSet.group}']/following::div[@class='oxd-switch-wrapper'])`).click();
+                }
+
             }
 
         });
+    }
+
+
+    async clickOnSaveBtn(): Promise<void> {
+
+        return await this.pageStep("Click on Save button", async () => {
+            await this.saveBtn.click();
+        })
+
+    }
+
+    async validateInReport(reportData: validateReport[]): Promise<void> {
+
+        return await this.pageStep("Validate report data", async () => {
+            await this.page.waitForTimeout(6000)
+            const reportValidation = Array.isArray(reportData) ? reportData : [reportData];
+
+            for (const data of reportValidation){
+                let row = this.page.locator(".oxd-table-row");
+
+                for (const val of Object.values(data)){
+                    row = row.filter({hasText : val}) 
+                }
+                await expect(row).toHaveCount(1);
+            }
+
+        })
+
     }
 
 }
