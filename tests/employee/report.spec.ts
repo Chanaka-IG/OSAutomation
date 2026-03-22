@@ -21,12 +21,13 @@ test.describe("Test cases for Report page in PIM module", () => {
         await addEmployee.addEmployees(ReportData.AddEmployee);
         const employeeSet = await addEmployee.getEmployees();
         const empSet = employeeSet.data;
-        const updateEmpData = ReportData.UpdateEmployee;
+        const updateEmpData = ReportData.UpdateEmployeeData;
 
         for (const updateEmp of updateEmpData) {
             for (const empSystem of empSet) {
                 if (updateEmp.employeeId === empSystem.employeeId) {
                     await updateEmployee.updateEmployeeJobDetails(empSystem.empNumber, updateEmp)
+                    await updateEmployee.updateEmployeePersonalDetails(empSystem.empNumber, updateEmp)
                 }
             }
         }
@@ -62,7 +63,7 @@ test.describe("Test cases for Report page in PIM module", () => {
         await reportPage.waitUntilFormLoaderDissapear();
     })
 
-    test.only("4. Add report and validate data", async ({ page }) => {
+    test("4. Add report with Job Title as select criteria and validate data", async ({ page }) => {
         await reportPage.navigateToReportPage();
         await reportPage.waitUntilTableLoaderDissapear();
         await reportPage.clickOnAddBtn();
@@ -71,8 +72,19 @@ test.describe("Test cases for Report page in PIM module", () => {
         await reportPage.clickOnSaveBtn();
         await reportPage.verifySuccessToastForSave();
         await reportPage.waitUntilFormLoaderDissapear();
-        await reportPage.validateInReport(ReportData.validateReport);
+        await reportPage.validateInReport(ReportData.validateReportForJobTitle);
     })
 
+        test.only("5. Add report with Employment Status as select criteria and validate data", async ({ page }) => {
+        await reportPage.navigateToReportPage();
+        await reportPage.waitUntilTableLoaderDissapear();
+        await reportPage.clickOnAddBtn();
+        await reportPage.waitUntilFormLoaderDissapear();
+        await reportPage.fillReportForm(ReportData.AddReport[1]);
+        await reportPage.clickOnSaveBtn();
+        await reportPage.verifySuccessToastForSave();
+        await reportPage.waitUntilFormLoaderDissapear();
+        await reportPage.validateInReport(ReportData.validateReportForEmpStatus);
+    })
 
 })

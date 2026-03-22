@@ -1,7 +1,7 @@
 import { Page, Locator, test, expect } from '@playwright/test';
 import { BasePage } from '../Base/BasePage'
 import { Logger } from '../../Fixtures/logger.fixtures';
-import type { AddReport, validateReport } from '../../data/PIM/report';
+import type { AddReport, validateReportforJobTitle, validateReportforEmpStatus } from '../../data/PIM/report';
 
 
 export class ReportPage extends BasePage {
@@ -24,10 +24,12 @@ export class ReportPage extends BasePage {
     private readonly displayField: Locator;
     private readonly displayFieldPlus: Locator;
     private readonly saveBtn: Locator;
+    private readonly logger: Logger;
 
 
     constructor(page: Page, logger: Logger) {
         super(page);
+        this.logger = logger;
         this.PIMmenu = page.getByRole("link", { name: 'PIM' })
         this.reportMenu = page.getByRole("link", { name: 'Reports' })
         this.EmployeeReportFilterSection = page.locator(".oxd-table-filter-area")
@@ -158,18 +160,28 @@ export class ReportPage extends BasePage {
 
     }
 
-    async validateInReport(reportData: validateReport[]): Promise<void> {
+    async validateInReport(reportData: validateReportforJobTitle[] | validateReportforEmpStatus[]): Promise<void> {
 
         return await this.pageStep("Validate report data", async () => {
-            await this.page.waitForTimeout(6000)
+            await this.waitUntilFormLoaderDissapear();
+            await this.page.locator(".rgRow").nth(0).waitFor({state: 'visible', timeout : 3000})
             const reportValidation = Array.isArray(reportData) ? reportData : [reportData];
 
-            for (const data of reportValidation){
-                let row = this.page.locator(".oxd-table-row");
+            for (const data of reportValidation) {
+                let row = this.page.locator(".rgRow");
 
-                for (const val of Object.values(data)){
-                    row = row.filter({hasText : val}) 
+                for (const val of Object.values(data)) {
+                    row = row.filter({ hasText: val })
                 }
+
+                if (await row.count() === 1) {
+                    this.logger.log(`Found a matching record for ${data.firstName }  in the table`)
+                }
+                else {
+                    this.logger.log(`Failed to found a record for ${data.firstName } in the table`)
+
+                }
+
                 await expect(row).toHaveCount(1);
             }
 

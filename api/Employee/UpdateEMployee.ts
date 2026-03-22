@@ -1,7 +1,8 @@
 import { APIRequestContext, APIResponse } from '@playwright/test';
 import { ENV } from '../../config/env';
 import type { JobDetails } from '../../data/PIM/updateJob';
-import { updateEmployeeWithId } from '../../data/PIM/report'
+import type { updateEmployeeWithId } from '../../data/PIM/report'
+
 
 export class UpdateEmployee {
 
@@ -11,17 +12,50 @@ export class UpdateEmployee {
     }
 
 
-    async updateEmployeeJobDetails(EmployeeNumber: number, employeeDetails: JobDetails | updateEmployeeWithId): Promise<void> {
+    async updateEmployeeJobDetails(EmployeeNumber: number, employeeDetails: any | updateEmployeeWithId): Promise<void> {
 
         try {
-            const apiResonse = await this.updateJob(EmployeeNumber, employeeDetails);
+            const response = await this.apiContext.put(`${ENV.baseUrl}/web/index.php/api/v2/pim/employees/${EmployeeNumber}/job-details`, {
+                data: {
+                    jobTitleId: employeeDetails.jobTitleId,
+                    empStatusId: employeeDetails.empStatusId,
+                    subunitId: employeeDetails.subunitId,
+                    locationId : employeeDetails.locationId
+                }
+            })
 
-            const response = await apiResonse.json();
-            if (apiResonse.ok()) {
-                console.log("Employee details updated successfully for Employee Number :" + EmployeeNumber)
+            if (response.ok()) {
+                console.log("Employee job details updated successfully for Employee Number :" + EmployeeNumber)
             }
             else {
-                console.log("Employee details updation failed" + await apiResonse.text())
+                console.log("Employee job details updation failed" + await response.text())
+            }
+
+        }
+        catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    async updateEmployeePersonalDetails(EmployeeNumber: number, employeeDetails: JobDetails | any): Promise<void> {
+
+        try {
+            const response = await this.apiContext.put(`${ENV.baseUrl}/web/index.php/api/v2/pim/employees/${EmployeeNumber}/personal-details`, {
+                data: {
+                    employeeId: employeeDetails.employeeId,
+                    firstName: employeeDetails.firstName,
+                    lastName : employeeDetails.lastName,
+                    birthday: employeeDetails.birthday,
+                    maritalStatus: employeeDetails.maritalStatus,
+                    gender: employeeDetails.gender,
+                }
+            })
+            if (response.ok()) {
+                console.log("Employee personal details updated successfully for Employee Number :" + EmployeeNumber)
+            }
+            else {
+                console.log("Employee personal details updation failed" + await response.text())
             }
 
         }
@@ -32,15 +66,16 @@ export class UpdateEmployee {
     }
 
 
-    async updateJob(EmployeeNumber: number, employeeDetails: any): Promise<APIResponse> {
-        const response = await this.apiContext.put(`${ENV.baseUrl}/web/index.php/api/v2/pim/employees/${EmployeeNumber}/job-details`, {
+    async updatePersonal(EmployeeNumber: number, employeeDetails: any): Promise<APIResponse> {
+        const response = await this.apiContext.put(`${ENV.baseUrl}/web/index.php/api/v2/pim/employees/${EmployeeNumber}/personal-details`, {
             data: {
-                jobTitleId: employeeDetails.jobTitleId,
-                empStatusId: employeeDetails.empStatusId,
-                subunitId: employeeDetails.subunitId,
+                birthday: employeeDetails.birthday,
+                maritalStatus: employeeDetails.maritalStatus,
+                gender: employeeDetails.gender,
             }
         })
         return response;
     }
+
 
 }
