@@ -4,6 +4,7 @@ import { LogAsAdmin } from '../../api/logAsAdmin'
 import { AddEmployee } from '../../api/Employee/AddEmployee'
 import { ReportData } from '../../data/PIM/report'
 import { UpdateEmployee } from '../../api/Employee/UpdateEMployee'
+import { TerminateEmployee } from '../../api/Employee/TerminateEmployee'
 
 
 test.describe("Test cases for Report page in PIM module", () => {
@@ -12,22 +13,33 @@ test.describe("Test cases for Report page in PIM module", () => {
     let addEmployee: AddEmployee;
     let reportPage: ReportPage;
     let updateEmployee: UpdateEmployee;
+    let terminateEmployee : TerminateEmployee;
 
     test.beforeAll(async ({ request }) => {
         logAdmin = new LogAsAdmin(request)
         addEmployee = new AddEmployee(request)
         updateEmployee = new UpdateEmployee(request)
+        terminateEmployee = new TerminateEmployee(request)
         await logAdmin.loginAsAdmin();
         await addEmployee.addEmployees(ReportData.AddEmployee);
         const employeeSet = await addEmployee.getEmployees();
         const empSet = employeeSet.data;
         const updateEmpData = ReportData.UpdateEmployeeData;
+        const terminateEmployeeSet = ReportData.terminationData;
 
         for (const updateEmp of updateEmpData) {
             for (const empSystem of empSet) {
                 if (updateEmp.employeeId === empSystem.employeeId) {
                     await updateEmployee.updateEmployeeJobDetails(empSystem.empNumber, updateEmp)
                     await updateEmployee.updateEmployeePersonalDetails(empSystem.empNumber, updateEmp)
+                }
+            }
+        }
+
+         for (const terminateEmp of terminateEmployeeSet) {
+            for (const empSystem of empSet) {
+                if (terminateEmp.employeeId === empSystem.employeeId) {
+                    await terminateEmployee.terminateEMployee(empSystem.empNumber, terminateEmp)
                 }
             }
         }
@@ -75,7 +87,7 @@ test.describe("Test cases for Report page in PIM module", () => {
         await reportPage.validateInReport(ReportData.validateReportForJobTitle);
     })
 
-        test.only("5. Add report with Employment Status as select criteria and validate data", async ({ page }) => {
+    test("5. Add report with Employment Status as select criteria and validate data", async ({ page }) => {
         await reportPage.navigateToReportPage();
         await reportPage.waitUntilTableLoaderDissapear();
         await reportPage.clickOnAddBtn();
@@ -85,6 +97,18 @@ test.describe("Test cases for Report page in PIM module", () => {
         await reportPage.verifySuccessToastForSave();
         await reportPage.waitUntilFormLoaderDissapear();
         await reportPage.validateInReport(ReportData.validateReportForEmpStatus);
+    })
+
+    test.only("6. Add report with only past employees only option and validate data", async ({ page }) => {
+        await reportPage.navigateToReportPage();
+        await reportPage.waitUntilTableLoaderDissapear();
+        await reportPage.clickOnAddBtn();
+        await reportPage.waitUntilFormLoaderDissapear();
+        await reportPage.fillReportForm(ReportData.AddReport[2]);
+        await reportPage.clickOnSaveBtn();
+        await reportPage.verifySuccessToastForSave();
+        await reportPage.waitUntilFormLoaderDissapear();
+        await reportPage.validateInReport(ReportData.validateReportForTerminateEmp);
     })
 
 })

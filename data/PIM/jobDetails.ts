@@ -25,6 +25,7 @@ export interface TerminationData {
 }
 
 export interface apiDataTermination {
+    employeeId?: string,
     terminationReason: number,
     date: string,
     note: string

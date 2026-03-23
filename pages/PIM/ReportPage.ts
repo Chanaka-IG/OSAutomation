@@ -102,7 +102,7 @@ export class ReportPage extends BasePage {
             await this.reportName.fill(reportData.reportName);
             await this.selectCriteria(reportData.criteria);
             await this.include.click();
-            await this.page.getByRole('option', { name: reportData.include }).click();
+            await this.page.getByRole('option', { name: reportData.include, exact: true }).click();
             await this.fillDisplayFields(reportData.displayFields);
 
         })

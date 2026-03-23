@@ -67,6 +67,18 @@ export const ReportData = {
         lastName: "Ponting",
         middleName: "David"
     },
+    {
+        employeeId: "2103",
+        firstName: "David",
+        lastName: "Malas",
+        middleName: "Kosan"
+    },
+    {
+        employeeId: "2104",
+        firstName: "Alex",
+        lastName: "ander",
+        middleName: "Bell"
+    },
     ],
 
     AddReport: [
@@ -107,11 +119,28 @@ export const ReportData = {
                     field: ["Employee First Name", "Date of Birth", "Gender"],
                     includeHeader: true
                 },
-                // {
-                //     group: "Contact Details",
-                //     field: ["Address", "Mobile", "Work Email"],
-                //     includeHeader: false
-                // },
+                {
+                    group: "Job",
+                    field: ["Job Title", "Location", "Sub Unit"],
+                    includeHeader: true
+                }
+            ],
+        },
+        {
+            reportName: "Report for Terminated employees only",
+            criteria: [
+                {
+                    criteriaName: "Employment Status",
+                    values: "Intern"
+                }
+            ],
+            include: "Past Employees Only",
+            displayFields: [
+                {
+                    group: "Personal",
+                    field: ["Employee First Name", "Date of Birth", "Gender"],
+                    includeHeader: true
+                },
                 {
                     group: "Job",
                     field: ["Job Title", "Location", "Sub Unit"],
@@ -157,6 +186,30 @@ export const ReportData = {
         gender: 1,
         maritalStatus: "Other"
     },
+    {
+        employeeId: "2103",
+        firstName: "David",
+        lastName: "Malas",
+        jobTitleId: 3,
+        empStatusId: 3,
+        subunitId: 1,
+        locationId: 1,
+        birthday: "1997-02-04",
+        gender: 2,
+        maritalStatus: "Married"
+    },
+    {
+        employeeId: "2104",
+        firstName: "Alex",
+        lastName: "ander",
+        jobTitleId: 3,
+        empStatusId: 3,
+        subunitId: 1,
+        locationId: 2,
+        birthday: "2000-03-04",
+        gender: 1,
+        maritalStatus: "Single"
+    },
     ],
     validateReportForJobTitle: [{
         employeeId: "2100",
@@ -195,6 +248,36 @@ export const ReportData = {
         jobtitle: "UI Engineer",
         subUnit: "Automation",
         Location: "Washington",
-    },]
+    },],
+        validateReportForTerminateEmp: [{
+        firstName: "David",
+        dob: "1997-02-04",
+        gender: "Female",
+        jobtitle: "UI Engineer",
+        subUnit: "Automation",
+        Location: "Washington",
+    },
+    {
+        firstName: "Alex",
+        dob: "2000-03-04",
+        gender: "Male",
+        jobtitle: "UI Engineer",
+        subUnit: "Automation",
+        Location: "Sydney",
+    },],
+    terminationData: [
+        {
+            employeeId: "2103",
+            terminationReason: 1,
+            date: "2026-02-23",
+            note: "This is a test Note"
+        },
+        {
+            employeeId: "2104",
+            terminationReason: 1,
+            date: "2026-02-23",
+            note: "This is a test Note"
+        }
+    ],
 
 }
