@@ -86,7 +86,6 @@ export class PersonalDetailsPage extends BasePage {
         return await this.pageStep("Search and navigate tot the employee profile", async () => {
             await this.pimCard.waitFor({ state: 'visible' });
             const row = this.page.locator(".oxd-table-row").filter({ hasText: employeeData.employeeId });
-            console.log(row)
             const empId = row.locator('.oxd-table-cell:nth-child(2) div')
             if (await empId.textContent() !== " ") {
                 await empId.click();

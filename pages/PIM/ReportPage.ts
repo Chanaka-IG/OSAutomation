@@ -3,6 +3,9 @@ import { BasePage } from '../Base/BasePage'
 import { Logger } from '../../Fixtures/logger.fixtures';
 import type { AddReport, validateReportforJobTitle, validateReportforEmpStatus } from '../../data/PIM/report';
 
+function escapeRegex(string: string): string {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 export class ReportPage extends BasePage {
 
@@ -114,18 +117,21 @@ export class ReportPage extends BasePage {
         return await this.pageStep("Fill select criteria", async () => {
             for (const criterias of criteria) {
                 if (criterias.criteriaName === "Employee Name") {
+                    const drodownSuggestion = this.page.locator(".oxd-autocomplete-dropdown")
                     await this.criteriaDropdown.click();
                     await this.page.getByRole('option', { name: criterias.criteriaName }).click();
                     await this.criteriaPlus.click();
-                    await this.page.locator(`//label[text()=${criterias.criteriaName}]/following::input[1]`).fill(criterias.values);
+                    await this.page.locator(`(//label[text()="Employee Name"]/following::input)[1]`).fill(criterias.values);
+                    await drodownSuggestion.waitFor({state : 'visible', timeout : 3000})
+                    await drodownSuggestion.getByText(criterias.values, {exact : true}).click();
                 }
 
                 else {
                     await this.criteriaDropdown.click();
-                    await this.page.getByRole('option', { name: criterias.criteriaName }).click();
+                    await this.page.getByRole('option', { name: criterias.criteriaName, exact: true }).click();
                     await this.criteriaPlus.click();
                     await this.page.locator(`//label[text()='${criterias.criteriaName}']/following::div[1]`).click();
-                    await this.page.getByRole('option', { name: criterias.values }).click();
+                    await this.page.getByRole('option', { name: criterias.values, exact: true }).click();
                 }
             }
         });
@@ -136,10 +142,10 @@ export class ReportPage extends BasePage {
             for (const displayFieldSet of displayFields) {
                 const fieldsets = displayFieldSet.field;
                 await this.fieldGroup.click();
-                await this.page.getByRole('option', { name: displayFieldSet.group }).click();
+                await this.page.getByRole('option', { name: displayFieldSet.group, exact: true }).click();
                 for (const settingfield of fieldsets) {
                     await this.displayField.click();
-                    await this.page.getByRole('option', { name: settingfield }).click();
+                    await this.page.getByRole('option', { name: settingfield, exact: true }).click();
                     await this.displayFieldPlus.click();
                 }
                 if (displayFieldSet.includeHeader) {
@@ -164,7 +170,7 @@ export class ReportPage extends BasePage {
 
         return await this.pageStep("Validate report data", async () => {
             await this.waitUntilFormLoaderDissapear();
-            await this.page.locator(".rgRow").nth(0).waitFor({state: 'visible', timeout : 3000})
+            await this.page.locator(".rgRow").nth(0).waitFor({ state: 'visible', timeout: 3000 })
             const reportValidation = Array.isArray(reportData) ? reportData : [reportData];
 
             for (const data of reportValidation) {
@@ -175,10 +181,10 @@ export class ReportPage extends BasePage {
                 }
 
                 if (await row.count() === 1) {
-                    this.logger.log(`Found a matching record for ${data.firstName }  in the table`)
+                    this.logger.log(`Found a matching record for ${data.firstName}  in the table`)
                 }
                 else {
-                    this.logger.log(`Failed to found a record for ${data.firstName } in the table`)
+                    this.logger.log(`Failed to found a record for ${data.firstName} in the table`)
 
                 }
 
@@ -188,5 +194,15 @@ export class ReportPage extends BasePage {
         })
 
     }
+
+    async selectReportFromtheList(updateReportData: any): Promise<void> {
+
+        return await this.pageStep("Select the report from the list", async () => {
+            const reportName = this.page.locator(".oxd-table-row").getByText(updateReportData.reportName,{ exact: true });
+            console.log(await reportName.locator(".oxd-table-cell:nth-child(2) button").isVisible());
+        })
+
+    }
+
 
 }

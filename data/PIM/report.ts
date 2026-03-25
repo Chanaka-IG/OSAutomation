@@ -147,6 +147,50 @@ export const ReportData = {
                     includeHeader: true
                 }
             ],
+        },
+        {
+            reportName: "Report for update test",
+            criteria: [
+                {
+                    criteriaName: "Employee Name",
+                    values: "alex washington Carey"
+                },
+                 {
+                    criteriaName: "Gender",
+                    values: "Male"
+                },
+                 {
+                    criteriaName: "Location",
+                    values: "Sydney"
+                },
+                 {
+                    criteriaName: "Pay Grade",
+                    values: "Grade 1"
+                }
+            ],
+            include: "Current Employees Only",
+            displayFields: [
+                {
+                    group: "Personal",
+                    field: ["Employee First Name", "Date of Birth", "Gender"],
+                    includeHeader: true
+                },
+                {
+                    group: "Job",
+                    field: ["Job Title", "Location", "Sub Unit"],
+                    includeHeader: true
+                },
+                {
+                    group: "Contact Details",
+                    field: ["Mobile", "Work Email"],
+                    includeHeader: true
+                },
+                {
+                    group: "Salary",
+                    field: ["Pay Grade", "Amount"],
+                    includeHeader: true
+                }
+            ],
         }
     ],
     UpdateEmployeeData: [{
@@ -249,7 +293,7 @@ export const ReportData = {
         subUnit: "Automation",
         Location: "Washington",
     },],
-        validateReportForTerminateEmp: [{
+    validateReportForTerminateEmp: [{
         firstName: "David",
         dob: "1997-02-04",
         gender: "Female",
@@ -279,5 +323,12 @@ export const ReportData = {
             note: "This is a test Note"
         }
     ],
+    UpdateReportData: [{
+            reportName : "Report for update test",
+            deleteList : ["Employee Name","Gender","Personal","Job"]
+        },
+
+    ],
+
 
 }
