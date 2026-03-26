@@ -324,10 +324,12 @@ export const ReportData = {
         }
     ],
     UpdateReportData: [{
-            reportName : "Report for update test",
-            deleteList : ["Employee Name","Gender","Personal","Job"]
+            oldReportName : "Report for update test",
+            updateReportName : "Report for updated",
+            criteriaDeleteList : ["Employee Name","Gender"],
+            deleteDisplayFields : ["Personal","Job"],
+            deletedisplayFields : ["Mobile", "Amount"]
         },
-
     ],
 
 

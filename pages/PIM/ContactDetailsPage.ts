@@ -194,7 +194,6 @@ export class ContactDetailsPage extends BasePage {
             const filePath = path.join(__dirname, attachmentPath).replace(/\\/g, '/');
             await fileChoose.setFiles(filePath)
             await this.comment.fill(contactDetails.comment)
-
         })
     }
     async clickOnSaveforAttachmentSection(): Promise<void> {
