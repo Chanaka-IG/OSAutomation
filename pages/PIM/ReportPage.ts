@@ -122,8 +122,8 @@ export class ReportPage extends BasePage {
                     await this.page.getByRole('option', { name: criterias.criteriaName }).click();
                     await this.criteriaPlus.click();
                     await this.page.locator(`(//label[text()="Employee Name"]/following::input)[1]`).fill(criterias.values);
-                    await drodownSuggestion.waitFor({state : 'visible', timeout : 3000})
-                    await drodownSuggestion.getByText(criterias.values, {exact : true}).click();
+                    await drodownSuggestion.waitFor({ state: 'visible', timeout: 3000 })
+                    await drodownSuggestion.getByText(criterias.values, { exact: true }).click();
                 }
 
                 else {
@@ -198,11 +198,42 @@ export class ReportPage extends BasePage {
     async selectReportFromtheList(updateReportData: any): Promise<void> {
 
         return await this.pageStep("Select the report from the list", async () => {
-            const reportName = this.page.locator(".oxd-table-row").getByText(updateReportData.reportName,{ exact: true });
-            console.log(await reportName.locator(".oxd-table-cell:nth-child(2) button").isVisible());
+            await this.page.locator(".orangehrm-container").waitFor({state: 'visible', timeout : 3000})
+            const reportRow = this.page.locator(".oxd-table-row").filter({ hasText: updateReportData.oldReportName });
+            await reportRow.locator('.bi-pencil-fill').click();
         })
 
     }
 
+    async updateReport(updateReportData: any): Promise<void> {
+
+        return await this.pageStep("Update the report from the list", async () => {
+            await this.reportName.fill(updateReportData.updateReportName);
+            const criteriaDeleteList = updateReportData.criteriaDeleteList;
+            const deleteDisplayFields = updateReportData.deleteDisplayFields;
+            const deletedisplayFields = updateReportData.deletedisplayFields;
+
+            if (criteriaDeleteList.length !== 0){
+                for (const delList of criteriaDeleteList){
+                    await this.page.locator(".orangehrm-report-criteria").filter({hasText: delList}).locator('.bi-trash-fill').click();
+                }
+            }
+
+
+            if (deleteDisplayFields.length !== 0){
+                for (const delList of deleteDisplayFields){
+                    await this.page.locator(".orangehrm-report-field").filter({hasText: delList}).locator('.bi-trash-fill').click();
+                }
+            }
+
+
+            if (criteriaDeleteList.length !== 0){
+                for (const delList of deletedisplayFields){
+                    await this.page.locator(`//span[text()="${delList} "]/child::i`).first().click();
+                }
+            }
+        })
+
+    }
 
 }

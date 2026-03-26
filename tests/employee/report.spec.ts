@@ -126,6 +126,9 @@ test.describe("Test cases for Report page in PIM module", () => {
         await reportPage.waitUntilFormLoaderDissapear();
         await reportPage.selectReportFromtheList(ReportData.UpdateReportData[0]);
         await reportPage.waitUntilFormLoaderDissapear();
+        await reportPage.updateReport(ReportData.UpdateReportData[0]);
+        await reportPage.clickOnSaveBtn();
+        await reportPage.verifySuccessToastForUpdate();
 
     })
 
