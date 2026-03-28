@@ -113,7 +113,7 @@ test.describe("Test cases for Report page in PIM module", () => {
         await reportPage.validateInReport(ReportData.validateReportForTerminateEmp);
     })
 
-    test.only("7. Upate an already added report", async ({ page }) => {
+    test("7. Upate an already added report", async ({ page }) => {
         await reportPage.navigateToReportPage();
         await reportPage.waitUntilTableLoaderDissapear();
         await reportPage.clickOnAddBtn();
@@ -129,6 +129,7 @@ test.describe("Test cases for Report page in PIM module", () => {
         await reportPage.updateReport(ReportData.UpdateReportData[0]);
         await reportPage.clickOnSaveBtn();
         await reportPage.verifySuccessToastForUpdate();
+        await reportPage.validateInReport(ReportData.employeeDataForUpdatedReport);
 
     })
 

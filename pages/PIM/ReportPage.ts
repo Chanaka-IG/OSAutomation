@@ -1,7 +1,7 @@
 import { Page, Locator, test, expect } from '@playwright/test';
 import { BasePage } from '../Base/BasePage'
 import { Logger } from '../../Fixtures/logger.fixtures';
-import type { AddReport, validateReportforJobTitle, validateReportforEmpStatus } from '../../data/PIM/report';
+import type { AddReport, validateReportforJobTitle, validateReportforEmpStatus,employeeDataForUpdatedReport } from '../../data/PIM/report';
 
 function escapeRegex(string: string): string {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -166,7 +166,7 @@ export class ReportPage extends BasePage {
 
     }
 
-    async validateInReport(reportData: validateReportforJobTitle[] | validateReportforEmpStatus[]): Promise<void> {
+    async validateInReport(reportData: validateReportforJobTitle[] | validateReportforEmpStatus[] | employeeDataForUpdatedReport[]): Promise<void> {
 
         return await this.pageStep("Validate report data", async () => {
             await this.waitUntilFormLoaderDissapear();

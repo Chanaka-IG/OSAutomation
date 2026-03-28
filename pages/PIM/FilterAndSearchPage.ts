@@ -1,7 +1,7 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator} from '@playwright/test';
 import { BasePage } from '../Base/BasePage'
 import type { EmployeeFilter, Employee, EmployeeIdList } from '../../data/PIM/addNewEMployee';
-import { Logger } from '../../Fixtures/logger.fixtures';
+import { Logger,expect } from '../../Fixtures/logger.fixtures';
 
 
 

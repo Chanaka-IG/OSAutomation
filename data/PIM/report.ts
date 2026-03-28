@@ -13,6 +13,7 @@ export interface AddReport {
     }[];
 }
 
+
 export interface UpdateEmployeeData {
     employeeId: string,
     jobTitle: number,
@@ -31,7 +32,7 @@ export interface updateEmployeeWithId {
 }
 
 export interface validateReportforJobTitle {
-    employeeId: string,
+    employeeId : string,
     firstName: string,
     lastName: string,
     empStatusId: string,
@@ -45,6 +46,12 @@ export interface validateReportforEmpStatus {
     jobtitle: string,
     subUnit: string,
     Location: string,
+}
+
+export interface employeeDataForUpdatedReport {
+    firstName: string,
+    jobTitle: string,
+    empStatus: string
 }
 
 
@@ -155,15 +162,15 @@ export const ReportData = {
                     criteriaName: "Employee Name",
                     values: "alex washington Carey"
                 },
-                 {
+                {
                     criteriaName: "Gender",
                     values: "Male"
                 },
-                 {
+                {
                     criteriaName: "Location",
                     values: "Sydney"
                 },
-                 {
+                {
                     criteriaName: "Pay Grade",
                     values: "Grade 1"
                 }
@@ -177,7 +184,7 @@ export const ReportData = {
                 },
                 {
                     group: "Job",
-                    field: ["Job Title", "Location", "Sub Unit"],
+                    field: ["Job Title", "Employment Status", "Sub Unit"],
                     includeHeader: true
                 },
                 {
@@ -324,13 +331,23 @@ export const ReportData = {
         }
     ],
     UpdateReportData: [{
-            oldReportName : "Report for update test",
-            updateReportName : "Report for updated",
-            criteriaDeleteList : ["Employee Name","Gender"],
-            deleteDisplayFields : ["Personal","Job"],
-            deletedisplayFields : ["Mobile", "Amount"]
-        },
+        oldReportName: "Report for update test",
+        updateReportName: "Report for updated",
+        criteriaDeleteList: ["Pay Grade", "Gender", "Employee Name"],
+        deleteDisplayFields: ["Contact Details", "Salary"],
+        deletedisplayFields: ["Sub Unit", "Date of Birth", "Gender"]
+    },
     ],
 
-
+    employeeDataForUpdatedReport: [{
+        firstName: "Ross",
+        jobTitle: "UI Engineer",
+        empStatus: "Permanent",
+    },
+    {
+        firstName: "Gramhem",
+        jobTitle: "UI Engineer",
+        empStatus: "Intern",
+    },
+    ]
 }

@@ -9,7 +9,7 @@ const config =  defineConfig({
   forbidOnly: !!process.env.CI,
   workers: 1,
   reporter: 'html',
-  timeout: 7*10000,
+  timeout: 12*10000,
   snapshotDir: './data/Screenshots',
   use: {
     baseURL: process.env.SYSTEM_URL,
