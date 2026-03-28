@@ -86,7 +86,7 @@ test.describe('Test cases for assigning supervisors and subordinates', () => {
         await reportToPage.validateReportToData(reportToData.apiSupervisorsValidate[0]);
     })
 
-    test.only('4. Log as ESS and validate report to data', async () => {
+    test('4. Log as ESS and validate report to data', async () => {
         await reportToPage.loginasCustomUser(reportToData.userList[1].username, reportToData.userList[1].password);
         await reportToPage.navigateToMyInfo();
         await reportToPage.navigateToReportTo();
