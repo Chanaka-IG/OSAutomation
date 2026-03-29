@@ -15,15 +15,15 @@ export const BulkEmployeeAddDataForValidation: string =
 Suckerbeerg,Smith,Johnson,EMP004,ID456,DL888,2026-01-15,F,Married,USA,1985-05-20,456 Oak Ave,Apt 2,Boston,MA,02101,USA,555-9876,555-4321,555-511,suck@example.com,suckother@example.com`;
 
 export const validateEMployee = [{
-    firstName: "Mark",
+    firstName: "John",
     lastName: "Smith",
     middleName: "Doe",
-    employeeId: "EMP003"
+    employeeId: "EMP001"
 },
 {
-    firstName: "Suckerbeerg",
+    firstName: "Jane",
     lastName: "Johnson",
     middleName: "Smith",
-    employeeId: "EMP004"
+    employeeId: "EMP002"
 }
 ]
