@@ -1,7 +1,7 @@
 import { Page, Locator } from '@playwright/test';
 import { Logger, expect } from '../../Fixtures/logger.fixtures';
 import { BasePage } from '../Base/BasePage'
-import { EmployeeData } from '../../data/PIM/bulkEmployeeAdd';
+import type { EmployeeData } from '../../data/PIM/bulkEmployeeAdd';
 
 
 export class BulkEmployeeAddPage extends BasePage {

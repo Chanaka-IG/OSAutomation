@@ -1,7 +1,7 @@
 import { APIRequestContext, APIResponse } from "@playwright/test";
 import { ENV  } from "../../config/env";
 
-export class Members {
+export class MembersMaster {
 
     private apiContext: APIRequestContext;
 
