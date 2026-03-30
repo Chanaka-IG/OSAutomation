@@ -1,4 +1,4 @@
-import { APIRequestContext,APIResponse } from '@playwright/test';
+import { APIRequestContext, APIResponse } from '@playwright/test';
 import { ENV } from '../../config/env';
 
 
@@ -22,7 +22,7 @@ export class EmployeeMaster {
     }
 
     const csrfToken = match[1];
-//    console.log('Extracted token:', csrfToken);
+    //    console.log('Extracted token:', csrfToken);
 
     const response = await this.apiContext.post(
       `${ENV.baseUrl}/web/index.php/auth/validate`,
@@ -70,31 +70,31 @@ export class EmployeeMaster {
     }
   }
 
-  async addEmployees(employees:any): Promise<void> {
+  async addEmployees(employees: any): Promise<void> {
 
-  for (const emp of employees){
-     const response = await this.apiContext.post(
-      `${ENV.baseUrl}/web/index.php/api/v2/pim/employees`,
-      {
-        data: {
-          employeeId: emp.employeeId,
-          firstName: emp.firstName,
-          lastName: emp.lastName,
-          middleName: emp.middleName
-        },
+    for (const emp of employees) {
+      const response = await this.apiContext.post(
+        `${ENV.baseUrl}/web/index.php/api/v2/pim/employees`,
+        {
+          data: {
+            employeeId: emp.employeeId,
+            firstName: emp.firstName,
+            lastName: emp.lastName,
+            middleName: emp.middleName
+          },
+        }
+      );
+
+      // Debug
+      const apiresponse = await response.json();
+      const body = await response.text();
+      if (response.ok()) {
+        console.log(emp.firstName + " " + emp.middleName + " " + emp.lastName + "Successfully added witht the employee ID : " + emp.employeeId)
       }
-    );
-
-    // Debug
-    const apiresponse = await response.json();
-    const body = await response.text();
-    if (response.ok()) {
-      console.log (emp.firstName +" "+ emp.middleName +" "+ emp.lastName + "Successfully added witht the employee ID : " + emp.employeeId )
+      else {
+        throw new Error(await response.text());
+      }
     }
-    else{
-      throw new Error(await response.text());
-    }
-  }
 
   }
 }

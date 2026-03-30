@@ -14,7 +14,7 @@ test.describe("Bulk Employee Add Test", () => {
         await bulkEmployeeAddPage.navigateToDataImportMenu();
     })
 
-    test.only('1. Download XLS file for bulk employee add', async () => {
+    test('1. Download XLS file for bulk employee add', async () => {
         await bulkEmployeeAddPage.downloadXlsFile();
         await bulkEmployeeAddPage.editCSVFile(BulkEmployeeAddData);
         await bulkEmployeeAddPage.uploadCSVFile();
