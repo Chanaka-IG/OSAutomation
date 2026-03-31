@@ -1,6 +1,6 @@
 import { APIRequestContext, APIResponse } from "playwright";
 import { ENV } from '../../config/env';
-import type { LeaveType } from "../../data/masterdata/leaveTypes";
+import type { LeaveType } from "../../data/Leave/API/leaveTypes";
 
 export class DefineLeaveTypesMaster {
 
