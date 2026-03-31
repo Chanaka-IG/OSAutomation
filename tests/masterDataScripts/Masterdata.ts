@@ -10,9 +10,9 @@ import { UsesMaster } from '../../api/masterdata/UsesMaster';
 import { PayGradeMaster } from '../../api/masterdata/PayGradeMaster';
 import { MembersMaster } from '../../api/Admin/Members';
 import { DefineTheLeavePeriodMaster } from '../../api/masterdata/DefineTheLeavePeriodMaster';
-import { DefineLeaveTypesMaster } from '../../api/masterdata/DefineLeaveTypesMaster';
-import { WorkWeekMaster } from '../../api/masterdata/WorkWeekMaster';
-import { HolidayMaster } from '../../api/masterdata/HolidayMaster';
+import { DefineLeaveTypesMaster } from '../../api/Leave/DefineLeaveTypesMaster';
+import { WorkWeekMaster } from '../../api/Leave/WorkWeekMaster';
+import { HolidayMaster } from '../../api/Leave/HolidayMaster';
 
 
 import { employees } from '../../data/masterdata/employee';
@@ -24,9 +24,9 @@ import { user } from '../../data/masterdata/users';
 import { payGrades,currency } from '../../data/masterdata/payGrade';
 import { MembershipDataList } from '../../data/masterdata/membership';
 import { leavePeriodData } from '../../data/masterdata/leavePeriod';
-import { leaveTypesData } from '../../data/masterdata/leaveTypes';
-import { workWeekData } from '../../data/masterdata/workWeek';
-import { holdayData } from '../../data/masterdata/holiday';
+import { leaveTypesData } from '../../data/Leave/API/leaveTypes';
+import { workWeekData } from '../../data/Leave/API/workWeek';
+import { holdayData } from '../../data/Leave/API/holiday';
 
 const runMasterData = process.env.RUN_MASTER_DATA === 'true';
 
