@@ -182,7 +182,7 @@ export const ReportData = {
             criteria: [
                 {
                     criteriaName: "Employee Name",
-                    values: "Alex ander Bell"
+                    values: "Alex ander"
                 },
                 {
                     criteriaName: "Gender",
@@ -302,7 +302,7 @@ export const ReportData = {
         employeeId: "2102",
         firstName: "Rick",
         lastName: "Ponting",
-        empStatusId: "Permanent",
+        empStatusId: "Intern",
         subunitId: "Automation",
     },
     ],
