@@ -41,7 +41,7 @@ export class ReportPage extends BasePage {
         this.resetBtn = page.getByRole("button", { name: 'Reset' })
         this.searchBtn = page.getByRole("button", { name: 'Search' })
         this.addBtn = page.getByRole("button", { name: 'Add' })
-        this.reportNameLabel = page.getByLabel("Report Name", { exact: true })
+        this.reportNameLabel = page.locator("label:has-text('Report Name')")
         this.tableContainer = page.locator(".orangehrm-container")
         this.reportName = page.getByPlaceholder("Type here ...")
         this.criteriaDropdown = page.locator("(//label[text()='Selection Criteria']/following::div)[1]")

@@ -3,6 +3,9 @@ import { LogAsAdmin } from '../../api/logAsAdmin'
 import { AddEmployee } from '../../api/Employee/AddEmployee'
 import { personalData } from '../../data/PIM/personalDetails'
 import { PersonalDetailsPage } from '../../pages/PIM/PersonalDetailsPage'
+import { TestStateManager } from '../../utils/testStateManager';
+
+const SUITE_ID = 'personalDetails-test';
 
 
 test.describe("Test cases for update data in Personal Details tab", () => {
@@ -14,12 +17,17 @@ test.describe("Test cases for update data in Personal Details tab", () => {
     const attachmentPath = '../../data/Attachments/test-upload-attachment.pdf';
 
     test.beforeAll(async () => {
+        const state = TestStateManager.getState(SUITE_ID);
+        if (state.prerequisitesAdded) {
+            return;
+        }
         const apiContext = await request.newContext();
         logAdmin = new LogAsAdmin(apiContext)
         addEmployee = new AddEmployee(apiContext)
         await logAdmin.loginAsAdmin();
         await addEmployee.addEmployees(personalData.AddEmployee);
-
+        state.prerequisitesAdded = true;
+        TestStateManager.saveState(SUITE_ID, state);
     })
     test.beforeEach(async ({ page, logger }) => {
         personalDetailsPage = new PersonalDetailsPage(page, logger);
@@ -45,20 +53,20 @@ test.describe("Test cases for update data in Personal Details tab", () => {
         await personalDetailsPage.clickOnSaveforAttachments();
         await personalDetailsPage.waitUntilTableLoaderDissapear();
         const isValidatedPersonalDetails = await personalDetailsPage.validatePersonalDetails(personalData.PersonalDetails[1]);
-        expect (isValidatedPersonalDetails).toBeTruthy();
+        expect(isValidatedPersonalDetails).toBeTruthy();
         const isValidatedAttachments = await personalDetailsPage.validateAttachmentDetails(personalData.PersonalDetails[1])
-        expect (isValidatedAttachments).toBeTruthy();
-    
+        expect(isValidatedAttachments).toBeTruthy();
+
     })
-        test("3. Validate validation message for invalid leave date", async ({ page }) => {
+    test("3. Validate validation message for invalid leave date", async ({ page }) => {
         await personalDetailsPage.navigateToEMployeeProfile(personalData.AddEmployee[2])
         await personalDetailsPage.waitUntilTableLoaderDissapear();
         await personalDetailsPage.fillPersonalDetails(personalData.PersonalDetails[2], attachmentPath);
         await personalDetailsPage.validateInvalidDateError();
-    
+
     })
 
-        test("4. Update data in perosnal tab by picking date from the date picker", async ({ page }) => {
+    test("4. Update data in perosnal tab by picking date from the date picker", async ({ page }) => {
         await personalDetailsPage.navigateToEMployeeProfile(personalData.AddEmployee[3])
         await personalDetailsPage.waitUntilTableLoaderDissapear();
         await personalDetailsPage.fillPersonalDetailsWithDatePicker(personalData.PersonalDetails[3], attachmentPath);
@@ -66,6 +74,6 @@ test.describe("Test cases for update data in Personal Details tab", () => {
         await personalDetailsPage.verifySuccessToastForUpdate();
         await personalDetailsPage.clickOnSaveforAttachments();
         await personalDetailsPage.verifySuccessToastForUpdate();
-    
+
     })
 })

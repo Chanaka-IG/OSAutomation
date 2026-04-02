@@ -5,6 +5,10 @@ import { AddEmployee } from '../../api/Employee/AddEmployee';
 import { TerminateEmployee } from '../../api/Employee/TerminateEmployee';
 import { jobData } from '../../data/PIM/jobDetails'
 import { FilterAndSearchPage } from '../../pages/PIM/FilterAndSearchPage';
+import { TestStateManager } from '../../utils/testStateManager';
+
+const SUITE_ID = 'jobDetails-test';
+
 
 test.describe("Test cases for Job details updates", () => {
 
@@ -18,6 +22,10 @@ test.describe("Test cases for Job details updates", () => {
 
 
     test.beforeAll(async () => {
+        const state = TestStateManager.getState(SUITE_ID);
+        if (state.prerequisitesAdded) {
+            return;
+        }
         const apiContext = await request.newContext();
         logAsAdmin = new LogAsAdmin(apiContext)
         addEmployee = new AddEmployee(apiContext)
@@ -25,6 +33,8 @@ test.describe("Test cases for Job details updates", () => {
         await logAsAdmin.loginAsAdmin();
         await addEmployee.addEmployees(jobData.AddEmployee)
         await addEmployee.addEmployees(jobData.ApiAddEmployee)
+        state.prerequisitesAdded = true;
+        TestStateManager.saveState(SUITE_ID, state);
     })
 
     test.beforeEach(async ({ page, logger }) => {

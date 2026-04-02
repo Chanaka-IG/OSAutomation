@@ -1,10 +1,12 @@
 import { test, expect } from '../../Fixtures/logger.fixtures';
 import { BulkEmployeeAddPage } from '../../pages/PIM/BulkEmployeeAddPage';
 import { BulkEmployeeAddData, BulkEmployeeAddDataForValidation, validateEMployee } from '../../data/PIM/bulkEmployeeAdd';
+const SUITE_ID = 'bulkEmployeeAdd-test';
 
 
 test.describe("Bulk Employee Add Test", () => {
     let bulkEmployeeAddPage: BulkEmployeeAddPage;
+
 
     test.beforeEach(async ({ page, logger }) => {
         bulkEmployeeAddPage = new BulkEmployeeAddPage(page, logger);
