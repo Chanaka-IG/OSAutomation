@@ -90,6 +90,28 @@ export const ReportData = {
 
     AddReport: [
         {
+            reportName: "Test report for validation",
+            criteria: [
+                {
+                    criteriaName: "Job Title",
+                    values: "UI Engineer"
+                }
+            ],
+            include: "Current Employees Only",
+            displayFields: [
+                {
+                    group: "Personal",
+                    field: ["Employee Id", "Employee First Name", "Employee Last Name"],
+                    includeHeader: true
+                },
+                {
+                    group: "Job",
+                    field: ["Employment Status", "Sub Unit"],
+                    includeHeader: true
+                }
+            ],
+        },
+        {
             reportName: "Report for Job title",
             criteria: [
                 {
@@ -101,7 +123,7 @@ export const ReportData = {
             displayFields: [
                 {
                     group: "Personal",
-                    field: ["Employee ID", "Employee First Name", "Employee Last Name"],
+                    field: ["Employee Id", "Employee First Name", "Employee Last Name"],
                     includeHeader: true
                 },
                 {
@@ -160,7 +182,7 @@ export const ReportData = {
             criteria: [
                 {
                     criteriaName: "Employee Name",
-                    values: "alex washington Carey"
+                    values: "Alex ander Bell"
                 },
                 {
                     criteriaName: "Gender",
@@ -273,7 +295,7 @@ export const ReportData = {
         employeeId: "2101",
         firstName: "Gramhem",
         lastName: "Smith",
-        empStatusId: "Permanent",
+        empStatusId: "Intern",
         subunitId: "Automation",
     },
     {

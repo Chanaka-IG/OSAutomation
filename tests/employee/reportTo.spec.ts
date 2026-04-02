@@ -5,6 +5,10 @@ import { AddEmployee } from '../../api/Employee/AddEmployee';
 import { reportToData } from '../../data/PIM/reportTo'
 import { ReportTo } from '../../api/Employee/ReportTo';
 import { CustomUsers } from '../../api/masterdata/CustomUsers';
+import { TestStateManager } from '../../utils/testStateManager';
+
+const SUITE_ID = 'reportTo-test';
+
 
 test.describe('Test cases for assigning supervisors and subordinates', () => {
 
@@ -16,6 +20,10 @@ test.describe('Test cases for assigning supervisors and subordinates', () => {
 
 
     test.beforeAll(async () => {
+        const state = TestStateManager.getState(SUITE_ID);
+        if (state.prerequisitesAdded) {
+            return;
+        }
         const apiContext = await request.newContext();
         logAsAdmin = new LogAsAdmin(apiContext);
         reportTo = new ReportTo(apiContext);
@@ -39,7 +47,8 @@ test.describe('Test cases for assigning supervisors and subordinates', () => {
             }
         }
         await customUsers.addUsers(subordinate, reportToData.userList[1])
-
+        state.prerequisitesAdded = true;
+        TestStateManager.saveState(SUITE_ID, state);
     })
 
     test.beforeEach(async ({ page, logger }, testInfo) => {

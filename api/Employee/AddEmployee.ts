@@ -71,6 +71,8 @@ export class AddEmployee {
 
   async addEmployees(employees:any): Promise<void> {
 
+    console.log("Adding employees...");
+
   for (const emp of employees){
      const response = await this.apiContext.post(
       `${ENV.baseUrl}/web/index.php/api/v2/pim/employees`,

@@ -2,8 +2,9 @@ import { test, expect } from '../../Fixtures/logger.fixtures';
 import { PimAccessPage } from '../../pages/PIM/PimAccessPage';
 import { AddEmployee } from '../../api/Employee/AddEmployee';
 import { AddUsers } from '../../api/Admin/AddUsers'
-import { Database } from '../../utils/db';
+import { TestStateManager } from '../../utils/testStateManager';
 
+const SUITE_ID = 'pimAccess-test';
 
 import { PIM_DATA } from '../../data/PIM/addNewEMployee'
 
@@ -15,11 +16,17 @@ test.describe("PIM Validation", () => {
   let users: AddUsers;
 
   test.beforeAll(async ({ request, logger }) => {
+    const state = TestStateManager.getState(SUITE_ID);
+    if (state.prerequisitesAdded) {
+      return;
+    }
     employee = new AddEmployee(request);
     users = new AddUsers(request);
     await employee.loginAsAdmin();
     await employee.addEmployees(PIM_DATA.API_DATA.Employee);
     await users.addUsers(PIM_DATA.API_DATA.User)
+    state.prerequisitesAdded = true;
+    TestStateManager.saveState(SUITE_ID, state);
   })
 
   test.beforeEach(async ({ page, logger }) => {
@@ -30,15 +37,15 @@ test.describe("PIM Validation", () => {
 
 
   test('1. Validate Admin has the access to view the PIM', async ({ logger }) => {
-      await employeeAccessPage.loginasCustomUser(PIM_DATA.API_DATA.User[0].username, PIM_DATA.API_DATA.User[0].password);
-      await employeeAccessPage.validateUIasAdmin()
+    await employeeAccessPage.loginasCustomUser(PIM_DATA.API_DATA.User[0].username, PIM_DATA.API_DATA.User[0].password);
+    await employeeAccessPage.validateUIasAdmin()
 
   });
 
 
   test('2. Validate ESS has no access to view the PIM', async ({ logger }) => {
-      await employeeAccessPage.loginasCustomESS(PIM_DATA.API_DATA.User[1].username, PIM_DATA.API_DATA.User[1].password);
-      await employeeAccessPage.validateUIasESS()
+    await employeeAccessPage.loginasCustomESS(PIM_DATA.API_DATA.User[1].username, PIM_DATA.API_DATA.User[1].password);
+    await employeeAccessPage.validateUIasESS()
   });
 
 })

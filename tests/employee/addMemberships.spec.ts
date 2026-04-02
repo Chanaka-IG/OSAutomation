@@ -2,7 +2,9 @@ import { test, expect, request } from '../../Fixtures/logger.fixtures';
 import { MembershipsPage } from '../../pages/PIM/MemebershipsPage'
 import { LogAsAdmin } from '../../api/logAsAdmin'
 import { AddEmployee } from '../../api/Employee/AddEmployee';
-import { MembershipData, AddEmployeeData, MembershipDataAfterDelete,MembershipUpdateData } from '../../data/PIM/membership'
+import { MembershipData, AddEmployeeData, MembershipDataAfterDelete, MembershipUpdateData } from '../../data/PIM/membership'
+import { TestStateManager } from '../../utils/testStateManager';
+const SUITE_ID = 'addMemberships-test';
 
 
 
@@ -14,11 +16,17 @@ test.describe('Add Memberships', () => {
 
 
     test.beforeAll(async () => {
+        const state = TestStateManager.getState(SUITE_ID);
+        if (state.prerequisitesAdded) {
+            return;
+        }
         const apiContext = await request.newContext();
         logAsAdmin = new LogAsAdmin(apiContext);
         addEmployee = new AddEmployee(apiContext);
         await logAsAdmin.loginAsAdmin();
         await addEmployee.addEmployees(AddEmployeeData);
+        state.prerequisitesAdded = true;
+        TestStateManager.saveState(SUITE_ID, state);
     })
     test.beforeEach(async ({ page, logger }) => {
         await page.goto("/");

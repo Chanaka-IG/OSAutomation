@@ -3,6 +3,9 @@ import { ContactDetailsPage } from '../../pages/PIM/ContactDetailsPage';
 import { LogAsAdmin } from '../../api/logAsAdmin'
 import { addEmployeeData, contactDetails } from '../../data/PIM/contactDetails';
 import { AddEmployee } from '../../api/Employee/AddEmployee';
+import { TestStateManager } from '../../utils/testStateManager';
+
+const SUITE_ID = 'contactDetails-test';
 
 test.describe(() => {
 
@@ -12,12 +15,17 @@ test.describe(() => {
     const attachmentPath = '../../data/Attachments/test-upload-attachment.pdf'
 
     test.beforeAll(async () => {
+        const state = TestStateManager.getState(SUITE_ID);
+        if (state.prerequisitesAdded) {
+            return;
+        }
         const apiContext = await request.newContext();
         addEmployee = new AddEmployee(apiContext);
         logAsAdmin = new LogAsAdmin(apiContext);
         await logAsAdmin.loginAsAdmin();
         await addEmployee.addEmployees(addEmployeeData)
-
+        state.prerequisitesAdded = true;
+        TestStateManager.saveState(SUITE_ID, state);
     })
 
     test.beforeEach(async ({ page, logger }) => {

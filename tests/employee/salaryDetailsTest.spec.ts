@@ -3,6 +3,9 @@ import { SalaryDetailsPage } from '../../pages/PIM/SalaryDetailsPage'
 import { LogAsAdmin } from '../../api/logAsAdmin'
 import { AddEmployee } from '../../api/Employee/AddEmployee';
 import { salarydata } from '../../data/PIM/salaryDetails'
+import { TestStateManager } from '../../utils/testStateManager';
+
+const SUITE_ID = 'salaryDetails-test';
 
 test.describe("Test cases for Salary details related scenarios", () => {
 
@@ -13,11 +16,17 @@ test.describe("Test cases for Salary details related scenarios", () => {
 
 
     test.beforeAll(async () => {
+        const state = TestStateManager.getState(SUITE_ID);
+        if (state.prerequisitesAdded) {
+            return;
+        }
         const apiContext = await request.newContext()
         logAsAdmin = new LogAsAdmin(apiContext);
         addEmployee = new AddEmployee(apiContext)
         await logAsAdmin.loginAsAdmin();
         await addEmployee.addEmployees(salarydata.employee)
+        state.prerequisitesAdded = true;
+        TestStateManager.saveState(SUITE_ID, state);
     })
 
     test.beforeEach(async ({ page, logger }) => {

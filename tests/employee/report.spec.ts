@@ -6,6 +6,9 @@ import { ReportData } from '../../data/PIM/report'
 import { UpdateEmployee } from '../../api/Employee/UpdateEMployee'
 import { TerminateEmployee } from '../../api/Employee/TerminateEmployee'
 import { CreateReport } from '../../api/Employee/CreateReport'
+import { TestStateManager } from '../../utils/testStateManager';
+const SUITE_ID = 'report-test';
+
 
 
 test.describe("Test cases for Report page in PIM module", () => {
@@ -18,6 +21,10 @@ test.describe("Test cases for Report page in PIM module", () => {
     let createReport: CreateReport;
 
     test.beforeAll(async ({ request }) => {
+        const state = TestStateManager.getState(SUITE_ID);
+        if (state.prerequisitesAdded) {
+            return;
+        }
         logAdmin = new LogAsAdmin(request)
         addEmployee = new AddEmployee(request)
         updateEmployee = new UpdateEmployee(request)
@@ -46,6 +53,8 @@ test.describe("Test cases for Report page in PIM module", () => {
                 }
             }
         }
+        state.prerequisitesAdded = true;
+        TestStateManager.saveState(SUITE_ID, state);
     })
 
     test.beforeEach(async ({ page, logger }) => {
@@ -82,7 +91,7 @@ test.describe("Test cases for Report page in PIM module", () => {
         await reportPage.waitUntilTableLoaderDissapear();
         await reportPage.clickOnAddBtn();
         await reportPage.waitUntilFormLoaderDissapear();
-        await reportPage.fillReportForm(ReportData.AddReport[0]);
+        await reportPage.fillReportForm(ReportData.AddReport[1]);
         await reportPage.clickOnSaveBtn();
         await reportPage.verifySuccessToastForSave();
         await reportPage.waitUntilFormLoaderDissapear();
@@ -94,7 +103,7 @@ test.describe("Test cases for Report page in PIM module", () => {
         await reportPage.waitUntilTableLoaderDissapear();
         await reportPage.clickOnAddBtn();
         await reportPage.waitUntilFormLoaderDissapear();
-        await reportPage.fillReportForm(ReportData.AddReport[1]);
+        await reportPage.fillReportForm(ReportData.AddReport[2]);
         await reportPage.clickOnSaveBtn();
         await reportPage.verifySuccessToastForSave();
         await reportPage.waitUntilFormLoaderDissapear();
@@ -106,7 +115,7 @@ test.describe("Test cases for Report page in PIM module", () => {
         await reportPage.waitUntilTableLoaderDissapear();
         await reportPage.clickOnAddBtn();
         await reportPage.waitUntilFormLoaderDissapear();
-        await reportPage.fillReportForm(ReportData.AddReport[2]);
+        await reportPage.fillReportForm(ReportData.AddReport[3]);
         await reportPage.clickOnSaveBtn();
         await reportPage.verifySuccessToastForSave();
         await reportPage.waitUntilFormLoaderDissapear();
@@ -118,7 +127,7 @@ test.describe("Test cases for Report page in PIM module", () => {
         await reportPage.waitUntilTableLoaderDissapear();
         await reportPage.clickOnAddBtn();
         await reportPage.waitUntilFormLoaderDissapear();
-        await reportPage.fillReportForm(ReportData.AddReport[3]);
+        await reportPage.fillReportForm(ReportData.AddReport[4]);
         await reportPage.clickOnSaveBtn();
         await reportPage.verifySuccessToastForSave();
         await reportPage.waitUntilFormLoaderDissapear();

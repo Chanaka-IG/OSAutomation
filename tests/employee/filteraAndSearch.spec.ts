@@ -7,6 +7,9 @@ import { PIM_FILTER_DATA } from '../../data/PIM/employeeFilter';
 import { UpdateEmployee } from '../../api/Employee/UpdateEMployee';
 import { AddEmployee } from '../../api/Employee/AddEmployee'
 import { LoggerFn } from '../../Fixtures/logger.fixtures';
+import { TestStateManager } from '../../utils/testStateManager';
+
+const SUITE_ID = 'filterAndSearch-test';
 
 
 
@@ -18,12 +21,18 @@ test.describe("Filter and search Employees", () => {
     let addEmployee: AddEmployee;
 
     test.beforeAll(async () => {
+        const state = TestStateManager.getState(SUITE_ID);
+        if (state.prerequisitesAdded) {
+            return;
+        }
         const apiContext = await request.newContext();
         logAdmin = new LogAsAdmin(apiContext);
         updateEmployee = new UpdateEmployee(apiContext);
         addEmployee = new AddEmployee(apiContext);
         await logAdmin.loginAsAdmin();
         await addEmployee.addEmployees(PIM_DATA.API_DATA.EmployeeforFilter);
+        state.prerequisitesAdded = true;
+        TestStateManager.saveState(SUITE_ID, state);
     })
 
     test.beforeEach(async ({ page, logger }) => {
@@ -98,7 +107,7 @@ test.describe("Filter and search Employees", () => {
         await filterAndSearchPage.searchAndSelectMultiple(PIM_DATA.EmployeeIdListForDelete);
         await filterAndSearchPage.clickDeleteSelected();
         await filterAndSearchPage.clickDeleteOnPupup()
-        await filterAndSearchPage.verifySuccessToastforDeletion(); 
+        await filterAndSearchPage.verifySuccessToastforDeletion();
     })
 
 
