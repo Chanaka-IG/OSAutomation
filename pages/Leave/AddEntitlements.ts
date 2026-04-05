@@ -28,8 +28,8 @@ export class AddEntitlements extends BasePage {
         this.entitlementsMenu = page.getByLabel('Topbar Menu').getByText('Entitlements')
         this.employeeEntitlements = page.getByRole('menuitem', { name: 'Employee Entitlements' })
         this.addEntitlementsMenu = page.getByRole('menuitem', { name: 'Add Entitlements' })
-        this.individualCheck = page.getByRole('radio', { name: 'Individual Employee' })
-        this.multipleCheck = page.getByRole('radio', { name: 'Multiple Employees' })
+        this.individualCheck = page.getByText('Individual Employee', {exact :true})
+        this.multipleCheck = page.getByText("Multiple Employees", {exact  : true})
         this.nameInput = page.locator("//label[text()='Employee Name']/following::input").nth(0)
         this.locationDropdown = page.locator("//label[text()='Location']/following::div").nth(0)
         this.subUnitDropdown = page.locator("//label[text()='Sub Unit']/following::div").nth(0)
@@ -84,6 +84,7 @@ export class AddEntitlements extends BasePage {
 
             } else {
                 await this.multipleCheck.click();
+
                 if (data.location !== "") {
                     await this.locationDropdown.click();
                     await this.page.getByRole('option', { name: data.location }).click();
@@ -131,13 +132,13 @@ export class AddEntitlements extends BasePage {
             for (const data of validateData) {
                 const row = this.page.getByRole('row', { name: data.employeeName });
                 if (await row.count() === 0) {
-                    throw new Error("Entitlement record not found for the employee");
+                    throw new Error("Entitlement record not found for the employee : " + data.employeeName);
                 }
                 await expect(row.getByRole('cell', { name: data.employeeName, exact: true })).toBeVisible();
-                await expect(row.getByRole('cell', { name: data.oldEntitlements.toString(), exact: true })).toBeVisible();
-                await expect(row.getByRole('cell', { name: data.newEntitlements.toString(), exact: true })).toBeVisible();
-                await popup.getByRole('button', { name: 'Confirm' }).click();
+                await expect(row.getByRole('cell', { name: data.oldEntitlements.toFixed(2), exact: true })).toBeVisible();
+                await expect(row.getByRole('cell', { name: data.newEntitlements.toFixed(2), exact: true })).toBeVisible();
             }
+            await popup.getByRole('button', { name: 'Confirm' }).click();
 
         })
     }
@@ -178,7 +179,7 @@ export class AddEntitlements extends BasePage {
                 throw new Error("Entitlement record not found for the employee");
             }
             await expect(row.getByRole('cell', { name: addEntitlementData.leaveType, exact: true })).toBeVisible();
-            await expect(row.getByRole('cell', { name: "dded", exact: true })).toBeVisible();
+            await expect(row.getByRole('cell', { name: "Added", exact: true })).toBeVisible();
             await expect(row.getByRole('cell', { name: fromDate, exact: true })).toBeVisible();
             await expect(row.getByRole('cell', { name: toDate, exact: true })).toBeVisible();
             await expect(row.getByRole('cell', { name: addEntitlementData.entitlements.toString(), exact: true })).toBeVisible();

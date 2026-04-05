@@ -112,7 +112,7 @@ validateMultiplePopup : [{
 },
 {
     employeeName: "Abdul Kader",
-     oldEntitlements: 0,
+    oldEntitlements: 0,
     newEntitlements: 15
 },
 {
