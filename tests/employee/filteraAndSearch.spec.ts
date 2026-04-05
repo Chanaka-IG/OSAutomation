@@ -6,7 +6,6 @@ import { UPDATE_JOB_DATA } from '../../data/PIM/updateJob';
 import { PIM_FILTER_DATA } from '../../data/PIM/employeeFilter';
 import { UpdateEmployee } from '../../api/Employee/UpdateEMployee';
 import { AddEmployee } from '../../api/Employee/AddEmployee'
-import { LoggerFn } from '../../Fixtures/logger.fixtures';
 import { TestStateManager } from '../../utils/testStateManager';
 
 const SUITE_ID = 'filterAndSearch-test';

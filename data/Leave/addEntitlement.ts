@@ -1,55 +1,123 @@
 export interface addEntitlementData {
-    addTo : string,
-    employeeName : string,
-    leaveType : string,
-    leavePeriod : string,
-    entitlements : number
-}
+    addTo: string,
+    employeeName: string,
+    location: string,
+    subUnit: string,
+    leaveType: string,
+    leavePeriod: string,
+    entitlements: number
+}[]
 
 
-export const AddEmployeeData = [
-    {
-        employeeId: "ENT001",
-        firstName: "Abdul",
-        lastName: "Kader",
-        middleName: "Hakeem"
-    },
-     {
-        employeeId: "ENT002",
-        firstName: "Jim",
-        lastName: "Halpert",
-        middleName: "Alexander"
-    },
-     {
-        employeeId: "ENT003",
-        firstName: "Mike",
-        lastName: "Ross",
-        middleName: "Johnson"
-    },
-     {
-        employeeId: "ENT004",
-        firstName: "Michael",
-        lastName: "Kent",
-        middleName: "Patrick"
-    },
-     {
-        employeeId: "ENT005",
-        firstName: "Gabriel",
-        lastName: "Esteban",
-        middleName: "Martinez"
-    },
-   
-]
+export interface AddEmployeeData {
+    employeeId: string,
+    firstName: string,
+    lastName: string,
+    middleName: string
+}[]
 
-
-export const addEntitlementData = [{
-
-    addTo : "Individual Employee",
-    employeeName : "Test",
-    leaveType : "Sick Leave",
-    leavePeriod : "2026-01-01 - 2026-12-31",
-    entitlements : 20
-
-}]
-
-
+export const entitlementData = {
+    AddEmployeeData: [
+        {
+            employeeId: "ENT001",
+            firstName: "Abdul",
+            lastName: "Kader",
+            middleName: "Hakeem"
+        },
+        {
+            employeeId: "ENT002",
+            firstName: "Jim",
+            lastName: "Halpert",
+            middleName: "Alexander"
+        },
+        {
+            employeeId: "ENT003",
+            firstName: "Mike",
+            lastName: "Ross",
+            middleName: "Johnson"
+        },
+        {
+            employeeId: "ENT004",
+            firstName: "Michael",
+            lastName: "Kent",
+            middleName: "Patrick"
+        },
+        {
+            employeeId: "ENT005",
+            firstName: "Gabriel",
+            lastName: "Esteban",
+            middleName: "Martinez"
+        },
+    ],
+    addEntitlementDataforIndividual: [{
+        addTo: "Individual Employee",
+        employeeName: "Test",
+        location: "",
+        subUnit: "",
+        leaveType: "Sick Leave",
+        leavePeriod: "2026-01-01 - 2026-12-31",
+        entitlements: 20
+    }],
+    addEntitlementDataforMultiple: [{
+        addTo: "Multiple Employees",
+        employeeName: "",
+        location: "Sydney",
+        subUnit: "",
+        leaveType: "Sick Leave",
+        leavePeriod: "2026-01-01 - 2026-12-31",
+        entitlements: 15
+    }],
+    UpdateEmployeeData: [{
+        employeeId: "2100",
+        firstName: "Ross",
+        lastName: "Taylor",
+        jobTitleId: 3,
+        empStatusId: 1,
+        subunitId: 1,
+        locationId: 2,
+        birthday: "2026-03-04",
+        gender: 1,
+        maritalStatus: "Single"
+    }],
+    apiUpdateEmployeeData : [{
+    employeeId: "ENT001",
+    subunitId: 1,
+    locationId: 2,
+},
+{
+    employeeId: "ENT002",
+    subunitId: 2,
+    locationId: 1,
+},
+{
+    employeeId: "ENT003",
+    subunitId: 2,
+    locationId: 2,
+},
+{
+    employeeId: "ENT004",
+    subunitId: 1,
+    locationId: 1,
+},
+{
+    employeeId: "ENT005",
+    subunitId: 1,
+    locationId: 2,
+},
+],
+validateMultiplePopup : [{
+    employeeName: "Gabriel Esteban",
+    oldEntitlements: 0,
+    newEntitlements: 15
+},
+{
+    employeeName: "Abdul Kader",
+     oldEntitlements: 0,
+    newEntitlements: 15
+},
+{
+    employeeName: "Mike Ross",
+    oldEntitlements: 0,
+    newEntitlements: 15
+},
+]}
