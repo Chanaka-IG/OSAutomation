@@ -63,7 +63,7 @@ test.describe("Add Entitlements for Employee", () => {
     test.only("3. Add Entitlements for Employee as bulk based on the location", async () => {
         await addEntitlements.addEntitlements(entitlementData.addEntitlementDataforMultiple);
         await addEntitlements.validateConfirmationPopupForMultiple(entitlementData.validateMultiplePopup);
-        await addEntitlements.verifySuccessToastForSave();
+        await addEntitlements.verifyCustomToast(`Entitlement added to ${entitlementData.validateMultiplePopup.length} employees`);
         await addEntitlements.waitUntilFormLoaderDissapear();
     })
 

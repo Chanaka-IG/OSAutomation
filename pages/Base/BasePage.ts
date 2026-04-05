@@ -153,6 +153,16 @@ export class BasePage {
 
   }
 
+    async verifyCustomToast(toastContent : string): Promise<void> {
+    return await this.pageStep('Verify Success toast message for custom toast', async () => {
+      await this.successToastContent.waitFor({ state: 'visible' }).then(async () => {
+        await test.expect(this.successHeader).toBeVisible();
+        await expect(this.page.getByText(toastContent, { exact: true })).toBeVisible();
+      })
+    })
+
+  }
+
   async verifySuccessToastforDeletionAndClose(): Promise<void> {
     return await this.pageStep('Verify Success toast message for deletion', async () => {
       await this.successToastContent.waitFor({ state: 'visible' }).then(async () => {
