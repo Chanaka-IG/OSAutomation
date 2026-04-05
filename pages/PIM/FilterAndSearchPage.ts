@@ -259,7 +259,6 @@ export class FilterAndSearchPage extends BasePage {
             const supervisorName = await this.supervisorNameInput.textContent();
             const jobTitle = await this.jobTitleDropdown.textContent();
             const subUnit = await this.subUnitDropdown.textContent();
-            console.log(employeeStatus, jobTitle, subUnit);
             if (employeeName !== "") {
                 this.logger.error("Employee Name filter has not reset");
                 flag = false;
