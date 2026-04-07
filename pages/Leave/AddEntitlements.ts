@@ -186,4 +186,12 @@ export class AddEntitlements extends BasePage {
         })
     }
 
+    async validateCount(count : number): Promise<void> {
+        await this.pageStep("Validate count upon selecting filter criteria", async () => {
+            console.log("Count : " + count);
+            expect (await this.page.getByText(`matches (${count}) employees`)).toBeVisible();
+           
+        })
+    }
+
 }

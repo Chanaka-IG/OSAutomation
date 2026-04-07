@@ -37,6 +37,17 @@ const locationsDetails: any[] = [
         fax: "5155414444551",
         note: "Washington added"
     },
+    {
+        name: "Location for Leave",
+        countryCode: "CA",
+        province: "Alebama",
+        city: "Location for Leave",
+        address: "10/12, grandmach, washington",
+        zipCode: "25698",
+        phone: "56985455795",
+        fax: "5155414444551",
+        note: "Location for Leave added"
+    },
 
 ]
 
