@@ -1,4 +1,4 @@
-import { test as base, expect, request } from '@playwright/test';
+import { test as base, expect, request, Locator } from '@playwright/test';
 
 /**
  * Function type for logging
@@ -38,4 +38,4 @@ export const test = base.extend<{
   },
 });
 
-export { expect, request };
+export { expect, request, Locator };
