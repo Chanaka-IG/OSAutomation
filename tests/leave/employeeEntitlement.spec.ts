@@ -1,29 +1,68 @@
-import { test,Logger} from "../../Fixtures/logger.fixtures";
+import { test, Logger, request } from "../../Fixtures/logger.fixtures";
 import { EmployeeEntitlementPage } from "../../pages/Leave/EmployeeEntitlementPage";
+import { LogAsAdmin } from '../../api/logAsAdmin'
+import { AddEmployee } from '../../api/Employee/AddEmployee'
+import { TestStateManager } from '../../utils/testStateManager';
+import { entitlementData } from "../../data/Leave/employeeEntitlement";
+import { AddEntitlementsAPI } from "../../api/Leave/AddEntitlements";
 
+
+const SUITE_ID = 'entitlementList-test';
 
 test.describe("Employee Entitlement List", () => {
 
-    let logger: Logger;
+    let logAsAdmin: LogAsAdmin;
+    let addEmployee: AddEmployee;
+    let employeeEntitlementPage: EmployeeEntitlementPage;
+    let addEntitlementsAPI: AddEntitlementsAPI;
 
-    test.beforeAll(async ({ logger: log }) => {
-        logger = log;
-        logger.log("Starting Employee Entitlement Test Suite");
+    test.beforeAll(async () => {
+        const state = TestStateManager.getState(SUITE_ID);
+        if (state.prerequisitesAdded) {
+            return;
+        }
+        const requestContext = await request.newContext();
+        logAsAdmin = new LogAsAdmin(requestContext);
+        addEmployee = new AddEmployee(requestContext);
+        addEntitlementsAPI = new AddEntitlementsAPI(requestContext);
+        await logAsAdmin.loginAsAdmin();
+        await addEmployee.addEmployees(entitlementData.addEmployeeData);
+        const employeeSet = await addEmployee.getEmployees();
+        const empSet = employeeSet.data;
+        const UpdateEmployeeDataWithEntitlements = entitlementData.addEntitlements;
+        for (const updateEmp of UpdateEmployeeDataWithEntitlements) {
+            for (const empSystem of empSet) {
+                if (updateEmp.employeeId === empSystem.employeeId) {
+                    await addEntitlementsAPI.addEntitlements(empSystem.empNumber, updateEmp)
+                }
+            }
+        }
+
+        state.prerequisitesAdded = true;
+        TestStateManager.saveState(SUITE_ID, state);
     });
 
-    test.beforeEach(async ({ logger: log }) => {
-        logger = log;
-        logger.info("Starting Employee Entitlement Test");
+    test.beforeEach(async ({ page,logger }) => {
+        await page.goto("/");
+        employeeEntitlementPage = new EmployeeEntitlementPage(page,logger);
+        await employeeEntitlementPage.loginasAdmin();
+        await employeeEntitlementPage.navigateToLeave();
+        await employeeEntitlementPage.navigateToEmplloyeeEntitlements();
     });
 
-    test("Test Case 1: Verify Employee Entitlement Creation", async () => {
-        // Code to verify employee entitlement creation
-        logger.info("Executing Test Case 1: Verify Employee Entitlement Creation");
-    });
+    test("1. Filter entitlement list based on the name", async ({ page, logger }) => {
+        await employeeEntitlementPage.fillFilterValues(entitlementData.filterWithName[0]);
+        await employeeEntitlementPage.clickOnSearchBtn();
+        await employeeEntitlementPage.waitUntilTableLoaderDissapear();
+        await employeeEntitlementPage.validateEntitlementTable(entitlementData.EntitlementData[0]);
 
-    test("Test Case 2: Verify Employee Entitlement Deletion", async () => {
-        // Code to verify employee entitlement deletion
-        logger.info("Executing Test Case 2: Verify Employee Entitlement Deletion");
-    });
+    })
 
+    test("2. Filter entitlement list based on the name and leave type", async ({ page, logger }) => {
+        await employeeEntitlementPage.fillFilterValues(entitlementData.filterWithName[0]);
+        await employeeEntitlementPage.clickOnSearchBtn();
+        await employeeEntitlementPage.waitUntilTableLoaderDissapear();
+        await employeeEntitlementPage.validateEntitlementTable(entitlementData.EntitlementData[0]);
+
+    })
 });
