@@ -1,7 +1,7 @@
 import { test, expect, request } from '../../Fixtures/logger.fixtures';
 import { LogAsAdmin } from '../../api/logAsAdmin'
 import { AddEmployee } from '../../api/Employee/AddEmployee'
-import { AddEntitlements } from '../../pages/Leave/AddEntitlements';
+import { AddEntitlementsPage } from '../../pages/Leave/AddEntitlementsPage';
 import { entitlementData } from '../../data/Leave/addEntitlement';
 import { TestStateManager } from '../../utils/testStateManager';
 import { UpdateEmployee } from '../../api/Employee/UpdateEMployee';
@@ -11,7 +11,7 @@ const SUITE_ID = 'addEmployee-test';
 test.describe("Add Entitlements for Employee", () => {
     let logAsAdmin: LogAsAdmin;
     let addEmployee: AddEmployee;
-    let addEntitlements: AddEntitlements;
+    let addEntitlements: AddEntitlementsPage;
     let updateEmployee: UpdateEmployee;
 
     test.beforeAll(async ({ }) => {
@@ -23,24 +23,24 @@ test.describe("Add Entitlements for Employee", () => {
         logAsAdmin = new LogAsAdmin(requestContext);
         addEmployee = new AddEmployee(requestContext);
         updateEmployee = new UpdateEmployee(requestContext);
-        // await logAsAdmin.loginAsAdmin();
-        // await addEmployee.addEmployees(entitlementData.AddEmployeeData);
-        // const UpdateEmployeeData = entitlementData.apiUpdateEmployeeData;
-        // const employeeSet = await addEmployee.getEmployees();
-        // const empSet = employeeSet.data;
-        // for (const updateEmp of UpdateEmployeeData) {
-        //     for (const empSystem of empSet) {
-        //         if (updateEmp.employeeId === empSystem.employeeId) {
-        //             await updateEmployee.updateEmployeeJobDetails(empSystem.empNumber, updateEmp)
-        //         }
-        //     }
-        // }
-        // state.prerequisitesAdded = true;
-        // TestStateManager.saveState(SUITE_ID, state);
+        await logAsAdmin.loginAsAdmin();
+        await addEmployee.addEmployees(entitlementData.AddEmployeeData);
+        const UpdateEmployeeData = entitlementData.apiUpdateEmployeeData;
+        const employeeSet = await addEmployee.getEmployees();
+        const empSet = employeeSet.data;
+        for (const updateEmp of UpdateEmployeeData) {
+            for (const empSystem of empSet) {
+                if (updateEmp.employeeId === empSystem.employeeId) {
+                    await updateEmployee.updateEmployeeJobDetails(empSystem.empNumber, updateEmp)
+                }
+            }
+        }
+        state.prerequisitesAdded = true;
+        TestStateManager.saveState(SUITE_ID, state);
     })
     test.beforeEach(async ({ page, logger }) => {
         await page.goto("/");
-        addEntitlements = new AddEntitlements(page, logger);
+        addEntitlements = new AddEntitlementsPage(page, logger);
         await addEntitlements.loginasAdmin();
         await addEntitlements.navigateToLeave();
         await addEntitlements.navigateToEntitlements();
