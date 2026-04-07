@@ -58,60 +58,53 @@ export const entitlementData = {
         leavePeriod: "2026-01-01 - 2026-12-31",
         entitlements: 20
     }],
-    addEntitlementDataforMultiple: [{
+    addEntitlementDataforMultipleForLocation: [{
         addTo: "Multiple Employees",
         employeeName: "",
-        location: "Sydney",
+        location: "Location for Leave",
         subUnit: "",
         leaveType: "Sick Leave",
         leavePeriod: "2026-01-01 - 2026-12-31",
         entitlements: 15
     }],
-    UpdateEmployeeData: [{
-        employeeId: "2100",
-        firstName: "Ross",
-        lastName: "Taylor",
-        jobTitleId: 3,
-        empStatusId: 1,
-        subunitId: 1,
-        locationId: 2,
-        birthday: "2026-03-04",
-        gender: 1,
-        maritalStatus: "Single"
+        addEntitlementDataforMultipleForSubunit: [{
+        addTo: "Multiple Employees",
+        employeeName: "",
+        location: "",
+        subUnit: "Dept for Leave",
+        leaveType: "Annual Leave",
+        leavePeriod: "2026-01-01 - 2026-12-31",
+        entitlements: 12
     }],
+
     apiUpdateEmployeeData : [{
     employeeId: "ENT001",
     subunitId: 1,
-    locationId: 2,
+    locationId: 1,
 },
 {
     employeeId: "ENT002",
-    subunitId: 2,
+    subunitId: 4,
     locationId: 1,
 },
 {
     employeeId: "ENT003",
     subunitId: 2,
-    locationId: 2,
+    locationId: 3,
 },
 {
     employeeId: "ENT004",
-    subunitId: 1,
+    subunitId: 4,
     locationId: 1,
 },
 {
     employeeId: "ENT005",
     subunitId: 1,
-    locationId: 2,
+    locationId: 3,
 },
 ],
-validateMultiplePopup : [{
+validateMultiplePopupforJobTItle : [{
     employeeName: "Gabriel Esteban",
-    oldEntitlements: 0,
-    newEntitlements: 15
-},
-{
-    employeeName: "Abdul Kader",
     oldEntitlements: 0,
     newEntitlements: 15
 },
@@ -120,4 +113,17 @@ validateMultiplePopup : [{
     oldEntitlements: 0,
     newEntitlements: 15
 },
-]}
+],
+validateMultiplePopupforSubUnit : [{
+    employeeName: "Jim Halpert",
+    oldEntitlements: 0,
+    newEntitlements: 12
+},
+{
+    employeeName: "Michael Kent",
+    oldEntitlements: 0,
+    newEntitlements: 12
+},
+],
+
+}

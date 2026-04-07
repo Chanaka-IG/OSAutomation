@@ -23,20 +23,20 @@ test.describe("Add Entitlements for Employee", () => {
         logAsAdmin = new LogAsAdmin(requestContext);
         addEmployee = new AddEmployee(requestContext);
         updateEmployee = new UpdateEmployee(requestContext);
-        await logAsAdmin.loginAsAdmin();
-        await addEmployee.addEmployees(entitlementData.AddEmployeeData);
-        const UpdateEmployeeData = entitlementData.apiUpdateEmployeeData;
-        const employeeSet = await addEmployee.getEmployees();
-        const empSet = employeeSet.data;
-        for (const updateEmp of UpdateEmployeeData) {
-            for (const empSystem of empSet) {
-                if (updateEmp.employeeId === empSystem.employeeId) {
-                    await updateEmployee.updateEmployeeJobDetails(empSystem.empNumber, updateEmp)
-                }
-            }
-        }
-        state.prerequisitesAdded = true;
-        TestStateManager.saveState(SUITE_ID, state);
+        // await logAsAdmin.loginAsAdmin();
+        // await addEmployee.addEmployees(entitlementData.AddEmployeeData);
+        // const UpdateEmployeeData = entitlementData.apiUpdateEmployeeData;
+        // const employeeSet = await addEmployee.getEmployees();
+        // const empSet = employeeSet.data;
+        // for (const updateEmp of UpdateEmployeeData) {
+        //     for (const empSystem of empSet) {
+        //         if (updateEmp.employeeId === empSystem.employeeId) {
+        //             await updateEmployee.updateEmployeeJobDetails(empSystem.empNumber, updateEmp)
+        //         }
+        //     }
+        // }
+        // state.prerequisitesAdded = true;
+        // TestStateManager.saveState(SUITE_ID, state);
     })
     test.beforeEach(async ({ page, logger }) => {
         await page.goto("/");
@@ -60,11 +60,23 @@ test.describe("Add Entitlements for Employee", () => {
         await addEntitlements.waitUntilFormLoaderDissapear();
         await addEntitlements.validateEntitlementTable(entitlementData.addEntitlementDataforIndividual[0]);
     })
-    test.only("3. Add Entitlements for Employee as bulk based on the location", async () => {
-        await addEntitlements.addEntitlements(entitlementData.addEntitlementDataforMultiple);
-        await addEntitlements.validateConfirmationPopupForMultiple(entitlementData.validateMultiplePopup);
-        await addEntitlements.verifyCustomToast(`Entitlement added to ${entitlementData.validateMultiplePopup.length} employees`);
+    test.only("3. Validate the employee count according to the location", async () => {
+        await addEntitlements.addEntitlements(entitlementData.addEntitlementDataforMultipleForLocation);
+        await addEntitlements.validateCount(entitlementData.validateMultiplePopupforJobTItle.length);
+    })
+
+    test("4. Add Entitlements for Employee as bulk based on the location", async () => {
+        await addEntitlements.addEntitlements(entitlementData.addEntitlementDataforMultipleForLocation);
+        await addEntitlements.validateConfirmationPopupForMultiple(entitlementData.validateMultiplePopupforJobTItle);
+        await addEntitlements.verifyCustomToast(`Entitlement added to ${entitlementData.validateMultiplePopupforJobTItle.length} employees`);
         await addEntitlements.waitUntilFormLoaderDissapear();
     })
+    test("5. Add Entitlements for Employee as bulk based on the sub Unit", async () => {
+        await addEntitlements.addEntitlements(entitlementData.addEntitlementDataforMultipleForSubunit);
+        await addEntitlements.validateConfirmationPopupForMultiple(entitlementData.validateMultiplePopupforSubUnit);
+        await addEntitlements.verifyCustomToast(`Entitlement added to ${entitlementData.validateMultiplePopupforSubUnit.length} employees`);
+        await addEntitlements.waitUntilFormLoaderDissapear();
+    })
+
 
 })
