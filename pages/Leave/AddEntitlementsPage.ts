@@ -3,7 +3,7 @@ import { Logger, expect } from '../../Fixtures/logger.fixtures';
 import { Locator, Page } from "playwright-core";
 import type { AddEmployeeData, addEntitlementData } from '../../data/Leave/addEntitlement';
 
-export class AddEntitlements extends BasePage {
+export class AddEntitlementsPage extends BasePage {
 
     private logger: Logger;
     private readonly leaveMenu: Locator;
