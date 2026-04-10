@@ -4,7 +4,7 @@ import { LogAsAdmin } from '../../api/logAsAdmin'
 import { AddEmployee } from '../../api/Employee/AddEmployee'
 import { TestStateManager } from '../../utils/testStateManager';
 import { entitlementData } from "../../data/Leave/employeeEntitlement";
-import { AddEntitlementsAPI } from "../../api/Leave/AddEntitlements";
+import { AddEntitlements } from "../../api/Leave/AddEntitlements";
 
 
 const SUITE_ID = 'entitlementList-test';
@@ -14,7 +14,7 @@ test.describe("Employee Entitlement List", () => {
     let logAsAdmin: LogAsAdmin;
     let addEmployee: AddEmployee;
     let employeeEntitlementPage: EmployeeEntitlementPage;
-    let addEntitlementsAPI: AddEntitlementsAPI;
+    let addEntitlementsAPI: AddEntitlements;
 
     test.beforeAll(async () => {
         const state = TestStateManager.getState(SUITE_ID);
@@ -24,7 +24,7 @@ test.describe("Employee Entitlement List", () => {
         const requestContext = await request.newContext();
         logAsAdmin = new LogAsAdmin(requestContext);
         addEmployee = new AddEmployee(requestContext);
-        addEntitlementsAPI = new AddEntitlementsAPI(requestContext);
+        addEntitlementsAPI = new AddEntitlements(requestContext);
         await logAsAdmin.loginAsAdmin();
         await addEmployee.addEmployees(entitlementData.addEmployeeData);
         const employeeSet = await addEmployee.getEmployees();

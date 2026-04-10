@@ -9,11 +9,27 @@ export class AddUsers {
         this.apiContext = apiContext;
     }
 
-    async addUsers(user: any): Promise<void> {
+        async addUsersasSingle(empNumber : number, user: any): Promise<void> {
+            try {
+                const response = await this.createUsers(empNumber,user)
+
+                if (response.ok()) {
+                    console.log("User role created for : " + user.username)
+                }
+                else {
+                    console.log("User role creation failed - " + await response.text())
+                }
+            }
+            catch (error) {
+                console.log(error)
+            }
+    }
+
+    async addUsersasBulk(empNumber : number, user: any): Promise<void> {
 
         for (const userdata of user) {
             try {
-                const response = await this.createUsers(userdata)
+                const response = await this.createUsers(empNumber,userdata)
 
                 if (response.ok()) {
                     console.log("User role created for : " + userdata.username)
@@ -31,7 +47,7 @@ export class AddUsers {
     }
 
 
-    async createUsers(userdata: any): Promise<APIResponse> {
+    async createUsers(empNumber : number, userdata: any): Promise<APIResponse> {
 
         const response = await this.apiContext.post(`${ENV.baseUrl}/web/index.php/api/v2/admin/users`, {
             data: {
@@ -39,7 +55,7 @@ export class AddUsers {
                 password: userdata.password,
                 status: userdata.status,
                 userRoleId: userdata.userRoleId,
-                empNumber: userdata.empNumber
+                empNumber: empNumber
             }
         })
         return response;

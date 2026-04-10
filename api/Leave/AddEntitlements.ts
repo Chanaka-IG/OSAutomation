@@ -2,7 +2,7 @@ import { APIResponse, APIRequestContext } from "playwright";
 import { ENV } from '../../config/env';
 import { entitlementData } from "../../data/Leave/employeeEntitlement";
 
-export class AddEntitlementsAPI {
+export class AddEntitlements {
 
     private request: APIRequestContext;
 

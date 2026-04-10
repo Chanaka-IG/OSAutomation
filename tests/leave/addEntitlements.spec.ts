@@ -39,8 +39,8 @@ test.describe("Add Entitlements for Employee", () => {
         TestStateManager.saveState(SUITE_ID, state);
     })
     test.beforeEach(async ({ page, logger }) => {
-        await page.goto("/");
         addEntitlements = new AddEntitlementsPage(page, logger);
+        await page.goto("/");
         await addEntitlements.loginasAdmin();
         await addEntitlements.navigateToLeave();
         await addEntitlements.navigateToEntitlements();

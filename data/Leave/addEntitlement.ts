@@ -14,7 +14,7 @@ export interface AddEmployeeData {
     firstName: string,
     lastName: string,
     middleName: string
-}[]
+}
 
 
 
