@@ -94,9 +94,24 @@ test.describe("Test cases for apply leave", () => {
     await applyLeavePage.waitUntilFormLoaderDissapear();
   })
 
-    test.only ("5. Apply a full day leave for today", async () => {
+    test ("5. Apply a full day leave for today", async () => {
     await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].pastFullday.leaveType)
     await applyLeavePage.fillApplyLeaveForm(ApplyLeaveData.applyLeave[0].todayFullday)
+    await applyLeavePage.clickOnApplyBtn()
+    await applyLeavePage.verifySuccessToastForSave();
+    await applyLeavePage.waitUntilFormLoaderDissapear();
+  })
+
+    test.only("5. Apply a half day morining leave for a past date", async () => {
+    await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].pastFullday.leaveType)
+    await applyLeavePage.fillApplyLeaveForm(ApplyLeaveData.applyLeave[0].pastHalfdayMorning)
+    await applyLeavePage.clickOnApplyBtn()
+    await applyLeavePage.verifySuccessToastForSave();
+    await applyLeavePage.waitUntilFormLoaderDissapear();
+  })
+      test.only("6. Apply a half day afternoon leave for future date", async () => {
+    await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].pastFullday.leaveType)
+    await applyLeavePage.fillApplyLeaveForm(ApplyLeaveData.applyLeave[0].todayHalfdayAfternoon)
     await applyLeavePage.clickOnApplyBtn()
     await applyLeavePage.verifySuccessToastForSave();
     await applyLeavePage.waitUntilFormLoaderDissapear();

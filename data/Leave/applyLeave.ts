@@ -106,7 +106,19 @@ export const ApplyLeaveData = {
             leaveType: "Annual Leave",
             period: "Today-only",
             duration: "Full Day",
-            comment: "Applying full day leave for a future date",
+            comment: "Applying full day leave for today",
+        },
+        pastHalfdayMorning: {
+            leaveType: "Annual Leave",
+            period: "Past(Morning Half)-same date only",
+            duration: "Half Day - Morning",
+            comment: "Applying half day morning leave for a past date",
+        },
+        todayHalfdayAfternoon: {
+            leaveType: "Annual Leave",
+            period: "Future(Afternoon Half)-same date only",
+            duration: "Half Day - Afternoon",
+            comment: "Applying half day afternoon leave for today",
         },
 
     }
