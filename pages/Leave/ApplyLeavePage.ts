@@ -81,9 +81,25 @@ export class ApplyLeavePage extends BasePage {
                 await this.pickDateFromDatePicker(formattedFromTODate, this.formDate);
                 await this.pickDateFromDatePicker(formattedFromTODate, this.toDate);
             }
-            else if (period === "Today-only"){
+            else if (period === "Today-only") {
                 const today = new Date();
                 const formattedTodayDate = today.toISOString().split('T')[0];
+                await this.pickDateFromDatePicker(formattedTodayDate, this.formDate);
+                await this.pickDateFromDatePicker(formattedTodayDate, this.toDate);
+            }
+            else if (period === "Past(Morning Half)-same date only") {
+                const today = new Date();
+                const setDateForPast = new Date(today);
+                setDateForPast.setDate(today.getDate() - 10);
+                const formattedTodayDate = setDateForPast.toISOString().split('T')[0];
+                await this.pickDateFromDatePicker(formattedTodayDate, this.formDate);
+                await this.pickDateFromDatePicker(formattedTodayDate, this.toDate);
+            }
+            else if (period === "Future(Afternoon Half)-same date only") {
+                 const today = new Date();
+                const setDateForPast = new Date(today);
+                setDateForPast.setDate(today.getDate() + 10);
+                const formattedTodayDate = setDateForPast.toISOString().split('T')[0];
                 await this.pickDateFromDatePicker(formattedTodayDate, this.formDate);
                 await this.pickDateFromDatePicker(formattedTodayDate, this.toDate);
             }
