@@ -59,26 +59,32 @@ test.describe("Test cases for apply leave", () => {
   test.beforeEach(async ({ page, logger }) => {
     applyLeavePage = new ApplyLeavePage(page, logger);
     await page.goto('/');
+  })
+
+  test("1. Validate leave balance label without applying any leave", async () => {
     await applyLeavePage.loginasCustomUser(ApplyLeaveData.AddUserData[0].username, ApplyLeaveData.AddUserData[0].password);
     await applyLeavePage.navigateToLeave();
     await applyLeavePage.navigateToApplyLeave();
     await applyLeavePage.waitUntilFormLoaderDissapear();
-
-
-  })
-
-  test("1. Validate leave balance label without applying any leave", async () => {
     await applyLeavePage.selectLeaveType(ApplyLeaveData.ValidateData[0].leaveBalance.leaveType)
     await applyLeavePage.validateLeaveBalance(ApplyLeaveData.ValidateData[0].leaveBalance.leaveBalance)
   })
 
   test("2. Validate Leave Balance Details popup without applying any leave", async () => {
+    await applyLeavePage.loginasCustomUser(ApplyLeaveData.AddUserData[0].username, ApplyLeaveData.AddUserData[0].password);
+    await applyLeavePage.navigateToLeave();
+    await applyLeavePage.navigateToApplyLeave();
+    await applyLeavePage.waitUntilFormLoaderDissapear();
     await applyLeavePage.selectLeaveType(ApplyLeaveData.ValidateData[0].leaveBalance.leaveType)
     await applyLeavePage.validateLeaveBalancePopup(ApplyLeaveData.ValidateData[0].leaveBalancePopup)
   })
 
 
   test("3. Apply a full day leave for a past date", async () => {
+    await applyLeavePage.loginasCustomUser(ApplyLeaveData.AddUserData[0].username, ApplyLeaveData.AddUserData[0].password);
+    await applyLeavePage.navigateToLeave();
+    await applyLeavePage.navigateToApplyLeave();
+    await applyLeavePage.waitUntilFormLoaderDissapear();
     await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].pastFullday.leaveType)
     await applyLeavePage.fillApplyLeaveForm(ApplyLeaveData.applyLeave[0].pastFullday)
     await applyLeavePage.clickOnApplyBtn()
@@ -87,34 +93,86 @@ test.describe("Test cases for apply leave", () => {
   })
 
   test("4. Apply a full day leave for a future date", async () => {
-    await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].pastFullday.leaveType)
+    await applyLeavePage.loginasCustomUser(ApplyLeaveData.AddUserData[0].username, ApplyLeaveData.AddUserData[0].password);
+    await applyLeavePage.navigateToLeave();
+    await applyLeavePage.navigateToApplyLeave();
+    await applyLeavePage.waitUntilFormLoaderDissapear();
+    await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].futureFullday.leaveType)
     await applyLeavePage.fillApplyLeaveForm(ApplyLeaveData.applyLeave[0].futureFullday)
     await applyLeavePage.clickOnApplyBtn()
     await applyLeavePage.verifySuccessToastForSave();
     await applyLeavePage.waitUntilFormLoaderDissapear();
   })
 
-    test ("5. Apply a full day leave for today", async () => {
-    await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].pastFullday.leaveType)
+  test("5. Apply a full day leave for today", async () => {
+    await applyLeavePage.loginasCustomUser(ApplyLeaveData.AddUserData[0].username, ApplyLeaveData.AddUserData[0].password);
+    await applyLeavePage.navigateToLeave();
+    await applyLeavePage.navigateToApplyLeave();
+    await applyLeavePage.waitUntilFormLoaderDissapear();
+    await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].todayFullday.leaveType)
     await applyLeavePage.fillApplyLeaveForm(ApplyLeaveData.applyLeave[0].todayFullday)
     await applyLeavePage.clickOnApplyBtn()
     await applyLeavePage.verifySuccessToastForSave();
     await applyLeavePage.waitUntilFormLoaderDissapear();
   })
 
-    test.only("5. Apply a half day morining leave for a past date", async () => {
-    await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].pastFullday.leaveType)
-    await applyLeavePage.fillApplyLeaveForm(ApplyLeaveData.applyLeave[0].pastHalfdayMorning)
+  test("6. Apply a specify time leave for a past date", async () => {
+    await applyLeavePage.loginasCustomUser(ApplyLeaveData.AddUserData[2].username, ApplyLeaveData.AddUserData[2].password);
+    await applyLeavePage.navigateToLeave();
+    await applyLeavePage.navigateToApplyLeave();
+    await applyLeavePage.waitUntilFormLoaderDissapear();
+    await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].pasttSpecify.leaveType)
+    await applyLeavePage.fillApplyLeaveForm(ApplyLeaveData.applyLeave[0].pasttSpecify)
     await applyLeavePage.clickOnApplyBtn()
     await applyLeavePage.verifySuccessToastForSave();
     await applyLeavePage.waitUntilFormLoaderDissapear();
   })
-      test.only("6. Apply a half day afternoon leave for future date", async () => {
-    await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].pastFullday.leaveType)
-    await applyLeavePage.fillApplyLeaveForm(ApplyLeaveData.applyLeave[0].todayHalfdayAfternoon)
+  test("7. Apply a half day afternoon leave for future date", async () => {
+    await applyLeavePage.loginasCustomUser(ApplyLeaveData.AddUserData[0].username, ApplyLeaveData.AddUserData[0].password);
+    await applyLeavePage.navigateToLeave();
+    await applyLeavePage.navigateToApplyLeave();
+    await applyLeavePage.waitUntilFormLoaderDissapear();
+    await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].futureHalfdayAfternoon.leaveType)
+    await applyLeavePage.fillApplyLeaveForm(ApplyLeaveData.applyLeave[0].futureHalfdayAfternoon)
     await applyLeavePage.clickOnApplyBtn()
     await applyLeavePage.verifySuccessToastForSave();
     await applyLeavePage.waitUntilFormLoaderDissapear();
   })
 
+  test("8. Apply a half day afternoon leave for today", async () => {
+    await applyLeavePage.loginasCustomUser(ApplyLeaveData.AddUserData[1].username, ApplyLeaveData.AddUserData[1].password);
+    await applyLeavePage.navigateToLeave();
+    await applyLeavePage.navigateToApplyLeave();
+    await applyLeavePage.waitUntilFormLoaderDissapear();
+    await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].todayHalfdayAfternoon.leaveType)
+    await applyLeavePage.fillApplyLeaveForm(ApplyLeaveData.applyLeave[0].todayHalfdayAfternoon)
+    await applyLeavePage.clickOnApplyBtn()
+    await applyLeavePage.verifySuccessToastForSave();
+    await applyLeavePage.waitUntilFormLoaderDissapear();
+  })
+  test("9. Apply multiple day leave request for the past week (All days)", async () => {
+    await applyLeavePage.loginasCustomUser(ApplyLeaveData.AddUserData[1].username, ApplyLeaveData.AddUserData[1].password);
+    await applyLeavePage.navigateToLeave();
+    await applyLeavePage.navigateToApplyLeave();
+    await applyLeavePage.waitUntilFormLoaderDissapear();
+    await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].pastMultipledaysForAllDays.leaveType)
+    await applyLeavePage.fillApplyLeaveForm(ApplyLeaveData.applyLeave[0].pastMultipledaysForAllDays)
+    await applyLeavePage.clickOnApplyBtn()
+    await applyLeavePage.verifySuccessToastForSave();
+    await applyLeavePage.waitUntilFormLoaderDissapear();
+  })
+  // test.only("10. Apply multiple day leave request for the Current week (Start Date only - Half day Morning)", async () => {
+  //   await applyLeavePage.loginasCustomUser(ApplyLeaveData.AddUserData[2].username, ApplyLeaveData.AddUserData[2].password);
+  //   await applyLeavePage.navigateToLeave();
+  //   await applyLeavePage.navigateToApplyLeave();
+  //   await applyLeavePage.waitUntilFormLoaderDissapear();
+  //   await applyLeavePage.selectLeaveType(ApplyLeaveData.applyLeave[0].currentMultipledaysForStartDay.leaveType)
+  //   console.log(ApplyLeaveData.applyLeave[0].currentMultipledaysForStartDay)
+  //   await applyLeavePage.fillApplyLeaveForm(ApplyLeaveData.applyLeave[0].currentMultipledaysForStartDay)
+  //   await applyLeavePage.clickOnApplyBtn()
+  //   await applyLeavePage.verifySuccessToastForSave();
+  //   await applyLeavePage.waitUntilFormLoaderDissapear();
+  // })
+
+  
 })

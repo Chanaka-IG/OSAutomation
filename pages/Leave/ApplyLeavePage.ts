@@ -15,6 +15,10 @@ export class ApplyLeavePage extends BasePage {
     private readonly formDate: Locator;
     private readonly toDate: Locator;
     private readonly durationDropdown: Locator;
+    private readonly partialDays: Locator;
+    private readonly startDay: Locator;
+    private readonly fromTime: Locator;
+    private readonly toTime: Locator;
     private readonly comment: Locator;
     private readonly applyBtn: Locator;
 
@@ -29,7 +33,11 @@ export class ApplyLeavePage extends BasePage {
         this.leavePopup = page.locator(".oxd-sheet");
         this.formDate = page.locator('(//label[text()="From Date"]/following::div[1])');
         this.toDate = page.locator('(//label[text()="To Date"]/following::div[1])');
+        this.fromTime = page.getByPlaceholder('hh:mm').nth(0)
+        this.toTime = page.getByPlaceholder('hh:mm').nth(1)
         this.durationDropdown = page.locator('//label[text()="Duration"]/following::div[1]')
+        this.partialDays = page.locator('//label[text()="Partial Days"]/following::div[1]')
+        this.startDay = page.locator('//label[text()="Start Day"]/following::div[1]')
         this.comment = page.locator('//label[text()="Comments"]/following::textarea')
         this.applyBtn = page.getByRole('button', { name: 'Apply' })
     }
@@ -51,7 +59,22 @@ export class ApplyLeavePage extends BasePage {
         return await this.pageStep("Fill apply leave form", async () => {
             await this.selectLeaveType(leaveData.leaveType);
             await this.selectDates(leaveData.period);
-            await this.selectDuration(leaveData.duration);
+            if (leaveData.partialDays !== "") {
+                await this.selectPartialDay(leaveData.partialDays);
+            }
+            if (leaveData.duration !== "") {
+                await this.selectDuration(leaveData.duration);
+            }
+            if (leaveData.startDay !== "") {
+                await this.selectStartDay(leaveData.duration);
+            }
+            if (leaveData.fromTime !== "" && leaveData.fromTime !== undefined) {
+                await this.selectFromTime(leaveData.fromTime);
+            }
+            if (leaveData.toTime !== "" && leaveData.toTime !== undefined) {
+                await this.selectToTime(leaveData.toTime);
+            }
+
             await this.fillComment(leaveData.comment);
         })
     }
@@ -65,19 +88,26 @@ export class ApplyLeavePage extends BasePage {
 
     async selectDates(period: string): Promise<void> {
         return await this.pageStep("Select dates from the date picker", async () => {
-            if (period === "Past-same date only") {
+
+            console.log("Testing period" + period)
+
+            if (period === "Past-same date only" || "Specify time for past") {
                 const today = new Date();
-                const twoWeeksAgo = new Date(today);
-                twoWeeksAgo.setDate(today.getDate() - 14);
-                const formattedFromTODate = twoWeeksAgo.toISOString().split('T')[0];  //get the date in yyyy-mm-dd format exactly two week before date
+                const mondayThisWeek = new Date(today);
+                mondayThisWeek.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+                const mondayWeekBeforeLast = new Date(mondayThisWeek);
+                mondayWeekBeforeLast.setDate(mondayThisWeek.getDate() - 14);
+                const formattedFromTODate = mondayWeekBeforeLast.toISOString().split('T')[0];  //get the date in yyyy-mm-dd format exactly two week before date
                 await this.pickDateFromDatePicker(formattedFromTODate, this.formDate);
                 await this.pickDateFromDatePicker(formattedFromTODate, this.toDate);
             }
             else if (period === "Future-same date only") {
                 const today = new Date();
-                const twoWeeksAfter = new Date(today);
-                twoWeeksAfter.setDate(today.getDate() + 14);
-                const formattedFromTODate = twoWeeksAfter.toISOString().split('T')[0];
+                const mondayThisWeek = new Date(today);
+                mondayThisWeek.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+                const mondayWeekAfterNext = new Date(mondayThisWeek);
+                mondayWeekAfterNext.setDate(mondayThisWeek.getDate() + 14);
+                const formattedFromTODate = mondayWeekAfterNext.toISOString().split('T')[0];
                 await this.pickDateFromDatePicker(formattedFromTODate, this.formDate);
                 await this.pickDateFromDatePicker(formattedFromTODate, this.toDate);
             }
@@ -89,19 +119,49 @@ export class ApplyLeavePage extends BasePage {
             }
             else if (period === "Past(Morning Half)-same date only") {
                 const today = new Date();
-                const setDateForPast = new Date(today);
-                setDateForPast.setDate(today.getDate() - 10);
-                const formattedTodayDate = setDateForPast.toISOString().split('T')[0];
+                const tuesdayThisWeek = new Date(today);
+                tuesdayThisWeek.setDate(today.getDate() - ((today.getDay() + 5) % 7));
+                const tuesdayBeforePast = new Date(tuesdayThisWeek);
+                tuesdayBeforePast.setDate(tuesdayBeforePast.getDate() - 14);
+                const formattedTodayDate = tuesdayBeforePast.toISOString().split('T')[0];
                 await this.pickDateFromDatePicker(formattedTodayDate, this.formDate);
                 await this.pickDateFromDatePicker(formattedTodayDate, this.toDate);
             }
             else if (period === "Future(Afternoon Half)-same date only") {
-                 const today = new Date();
-                const setDateForPast = new Date(today);
-                setDateForPast.setDate(today.getDate() + 10);
-                const formattedTodayDate = setDateForPast.toISOString().split('T')[0];
+                const today = new Date();
+                const mondayThisWeek = new Date(today);
+                mondayThisWeek.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+                const mondayWeekAfterNext = new Date(mondayThisWeek);
+                mondayWeekAfterNext.setDate(mondayThisWeek.getDate() + 7);
+                const formattedTodayDate = mondayWeekAfterNext.toISOString().split('T')[0];
                 await this.pickDateFromDatePicker(formattedTodayDate, this.formDate);
                 await this.pickDateFromDatePicker(formattedTodayDate, this.toDate);
+            }
+            else if (period === "Past multiple for All") {
+                const today = new Date();
+                const mondayThisWeek = new Date(today);
+                mondayThisWeek.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+                const mondayLastWeek = new Date(mondayThisWeek);
+                mondayLastWeek.setDate(mondayThisWeek.getDate() - 7);
+                const fridayLastWeek = new Date(mondayLastWeek);
+                fridayLastWeek.setDate(mondayLastWeek.getDate() + 4);
+                const formattedFromyDate = mondayLastWeek.toISOString().split('T')[0];
+                const formattedToyDate = fridayLastWeek.toISOString().split('T')[0];
+                await this.pickDateFromDatePicker(formattedFromyDate, this.formDate);
+                await this.pickDateFromDatePicker(formattedToyDate, this.toDate);
+            }
+            else if (period === "Multiple for All (Current)") {
+                const today = new Date();
+                const monday = new Date(today);
+                monday.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+                const friday = new Date(monday);
+                friday.setDate(monday.getDate() + 4);
+                const formattedFromyDate = monday.toISOString().split('T')[0];
+                const formattedToyDate = friday.toISOString().split('T')[0];
+                console.log(formattedFromyDate)
+                console.log(formattedToyDate)
+                await this.pickDateFromDatePicker(formattedFromyDate, this.formDate);
+                await this.pickDateFromDatePicker(formattedToyDate, this.toDate);
             }
         })
     }
@@ -121,12 +181,64 @@ export class ApplyLeavePage extends BasePage {
                 await this.page.getByRole('option', { name: 'Half Day - Afternoon' }).click();
             }
             else {
-                //will add it later
+                await this.durationDropdown.click();
+                await this.page.getByRole('option', { name: 'Specify Time' }).click();
+            }
+        })
+    }
+
+    async selectPartialDay(partialDay: string): Promise<void> {
+        return await this.pageStep("Select duration from the dropdown", async () => {
+            if (partialDay === "All Days") {
+                await this.partialDays.click();
+                await this.page.getByRole('option', { name: 'All Days', exact: true }).click();
+            }
+            else if (partialDay === "Start Day Only") {
+                await this.partialDays.click();
+                await this.page.getByRole('option', { name: 'Start Day Only', exact: true }).click();
+            }
+            else if (partialDay === "End Day Only") {
+                await this.partialDays.click();
+                await this.page.getByRole('option', { name: 'End Day Only', exact: true }).click();
+            }
+            else {
+                await this.partialDays.click();
+                await this.page.getByRole('option', { name: 'Specify Time', exact: true }).click();
             }
         })
     }
 
 
+    async selectStartDay(startDay: string): Promise<void> {
+        return await this.pageStep("Select duration from the dropdown", async () => {
+            if (startDay === "Half Day - Morning") {
+                await this.partialDays.click();
+                await this.page.getByRole('option', { name: 'Half Day - Morning', exact: true }).click();
+            }
+            else if (startDay === "Start Day Only") {
+                await this.partialDays.click();
+                await this.page.getByRole('option', { name: 'Half Day - Afternoon', exact: true }).click();
+            }
+            else {
+                await this.partialDays.click();
+                await this.page.getByRole('option', { name: 'Specify Time', exact: true }).click();
+            }
+        })
+    }
+
+
+
+    async selectFromTime(fromtime: string): Promise<void> {
+        return await this.pageStep("Select from time", async () => {
+            await this.fromTime.fill(fromtime);
+        })
+    }
+
+    async selectToTime(totime: string): Promise<void> {
+        return await this.pageStep("Select from time", async () => {
+            await this.toTime.fill(totime);
+        })
+    }
     async fillComment(comment: string): Promise<void> {
         return await this.pageStep("Fill the comment section", async () => {
             await this.comment.fill(comment)

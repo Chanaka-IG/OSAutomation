@@ -16,7 +16,7 @@ export class AddEntitlements {
         try {
             const response = await this.createEntitlement(empNumber, entitlementData);
             if (response.ok()) {
-                console.log('Entitlement added successfully :' + empNumber);
+                console.log('Entitlement added successfully for employee number :' + empNumber);
             } else {
                 console.error('Failed to add entitlement : ' + empNumber);
             }
