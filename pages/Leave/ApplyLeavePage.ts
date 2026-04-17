@@ -21,6 +21,7 @@ export class ApplyLeavePage extends BasePage {
     private readonly toTime: Locator;
     private readonly comment: Locator;
     private readonly applyBtn: Locator;
+    private readonly balanceText: Locator;
 
     constructor(page: Page, logger: Logger) {
         super(page)
@@ -40,6 +41,7 @@ export class ApplyLeavePage extends BasePage {
         this.startDay = page.locator('//label[text()="Start Day"]/following::div[1]')
         this.comment = page.locator('//label[text()="Comments"]/following::textarea')
         this.applyBtn = page.getByRole('button', { name: 'Apply' })
+        this.balanceText = page.getByText("Balance not sufficient", { exact: true })
     }
 
     async navigateToLeave(): Promise<void> {
@@ -66,7 +68,7 @@ export class ApplyLeavePage extends BasePage {
                 await this.selectDuration(leaveData.duration);
             }
             if (leaveData.startDay !== "") {
-                await this.selectStartDay(leaveData.duration);
+                await this.selectStartDay(leaveData.startDay);
             }
             if (leaveData.fromTime !== "" && leaveData.fromTime !== undefined) {
                 await this.selectFromTime(leaveData.fromTime);
@@ -89,9 +91,7 @@ export class ApplyLeavePage extends BasePage {
     async selectDates(period: string): Promise<void> {
         return await this.pageStep("Select dates from the date picker", async () => {
 
-            console.log("Testing period" + period)
-
-            if (period === "Past-same date only" || "Specify time for past") {
+            if (period === "Past-same date only" || period === "Specify time for past") {
                 const today = new Date();
                 const mondayThisWeek = new Date(today);
                 mondayThisWeek.setDate(today.getDate() - ((today.getDay() + 6) % 7));
@@ -111,7 +111,7 @@ export class ApplyLeavePage extends BasePage {
                 await this.pickDateFromDatePicker(formattedFromTODate, this.formDate);
                 await this.pickDateFromDatePicker(formattedFromTODate, this.toDate);
             }
-            else if (period === "Today-only") {
+            else if (period === "Today-only" || period === "Today(Afternoon Half)-same date only") {
                 const today = new Date();
                 const formattedTodayDate = today.toISOString().split('T')[0];
                 await this.pickDateFromDatePicker(formattedTodayDate, this.formDate);
@@ -158,8 +158,41 @@ export class ApplyLeavePage extends BasePage {
                 friday.setDate(monday.getDate() + 4);
                 const formattedFromyDate = monday.toISOString().split('T')[0];
                 const formattedToyDate = friday.toISOString().split('T')[0];
-                console.log(formattedFromyDate)
-                console.log(formattedToyDate)
+                await this.pickDateFromDatePicker(formattedFromyDate, this.formDate);
+                await this.pickDateFromDatePicker(formattedToyDate, this.toDate);
+            }
+            else if (period === "Weekend") {
+                const today = new Date();
+
+                const saturday = new Date(today);
+                const day = today.getDay(); // 0 (Sun) - 6 (Sat)
+                const daysUntilSaturday = (6 - day + 7) % 7 || 7;
+                saturday.setDate(today.getDate() + daysUntilSaturday);
+                const sunday = new Date(saturday);
+                sunday.setDate(saturday.getDate() + 1);
+                const formattedFromyDate = saturday.toISOString().split('T')[0];
+                const formattedToyDate = sunday.toISOString().split('T')[0];
+                await this.pickDateFromDatePicker(formattedFromyDate, this.formDate);
+                await this.pickDateFromDatePicker(formattedToyDate, this.toDate);
+            }
+            else if (period === "Holiday") {
+                const today = new Date();
+
+                const formattedFromyDate = "2026-12-25";
+                const formattedToyDate = "2026-12-25";
+                await this.pickDateFromDatePicker(formattedFromyDate, this.formDate);
+                await this.pickDateFromDatePicker(formattedToyDate, this.toDate);
+            }
+            else if (period === "OverBalance") {
+                const today = new Date();
+                const mondayThisWeek = new Date(today);
+                mondayThisWeek.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+                const lastWeekMonday = new Date(mondayThisWeek);
+                lastWeekMonday.setDate(mondayThisWeek.getDate() - 7);
+                const nextWeekFriday = new Date(mondayThisWeek);
+                nextWeekFriday.setDate(mondayThisWeek.getDate() + 11);
+                const formattedFromyDate = lastWeekMonday.toISOString().split('T')[0];
+                const formattedToyDate = nextWeekFriday.toISOString().split('T')[0];
                 await this.pickDateFromDatePicker(formattedFromyDate, this.formDate);
                 await this.pickDateFromDatePicker(formattedToyDate, this.toDate);
             }
@@ -212,15 +245,15 @@ export class ApplyLeavePage extends BasePage {
     async selectStartDay(startDay: string): Promise<void> {
         return await this.pageStep("Select duration from the dropdown", async () => {
             if (startDay === "Half Day - Morning") {
-                await this.partialDays.click();
+                await this.startDay.click();
                 await this.page.getByRole('option', { name: 'Half Day - Morning', exact: true }).click();
             }
             else if (startDay === "Start Day Only") {
-                await this.partialDays.click();
+                await this.startDay.click();
                 await this.page.getByRole('option', { name: 'Half Day - Afternoon', exact: true }).click();
             }
             else {
-                await this.partialDays.click();
+                await this.startDay.click();
                 await this.page.getByRole('option', { name: 'Specify Time', exact: true }).click();
             }
         })
@@ -281,6 +314,13 @@ export class ApplyLeavePage extends BasePage {
             await this.applyBtn.click();
         })
     }
+
+    async validateBalanceNotSufficent(): Promise<void> {
+        return await this.pageStep("Validate balance not sufficent text", async () => {
+            await expect(this.balanceText).toBeVisible();
+        })
+    }
+
 }
 
 
