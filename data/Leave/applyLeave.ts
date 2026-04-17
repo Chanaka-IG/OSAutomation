@@ -45,6 +45,12 @@ export const ApplyLeaveData = {
             lastName: "Hasan",
             middleName: "Ferreira"
         },
+        {
+            employeeId: "APP023",
+            firstName: "Mark",
+            lastName: "Hendry",
+            middleName: "Pedis"
+        },
     ],
 
     AddUserData: [
@@ -69,6 +75,13 @@ export const ApplyLeaveData = {
             userRoleId: 2,
             employeeId: "APP022",
         },
+        {
+            username: "Marks",
+            password: "admin@OHRM123",
+            status: true,
+            userRoleId: 2,
+            employeeId: "APP023",
+        },
     ],
     AddEntitlements: [
         {
@@ -91,6 +104,13 @@ export const ApplyLeaveData = {
             fromDate: "2026-01-01",
             toDate: "2026-12-31",
             entitlement: 21
+        },
+        {
+            employeeId: "APP023",
+            leaveTypeId: 2,
+            fromDate: "2026-01-01",
+            toDate: "2026-12-31",
+            entitlement: 5
         }
     ],
     applyLeave: [{
@@ -153,12 +173,12 @@ export const ApplyLeaveData = {
         currentMultipledaysForStartDay: {
             leaveType: "Cassual Leave",
             period: "Multiple for All (Current)",
-            duration: "Half Day - Morning",
+            duration: "",
             partialDays: "Start Day Only",
-            startDay: "",
+            startDay: "Half Day - Morining",
             comment: "Applying multiple days for past week",
         },
-         pasttSpecify: {
+        pasttSpecify: {
             leaveType: "Cassual Leave",
             period: "Specify time for past",
             duration: "Specify Time",
@@ -167,6 +187,30 @@ export const ApplyLeaveData = {
             fromTime: "09:00 AM",
             toTime: "01:00 PM",
             comment: "Applying multiple days for past week",
+        },
+        Weekend: {
+            leaveType: "Cassual Leave",
+            period: "Weekend",
+            duration: "",
+            partialDays: "",
+            startDay: "",
+            comment: "Applying full day leave for weekend",
+        },
+        Holiday: {
+            leaveType: "Cassual Leave",
+            period: "Holiday",
+            duration: "Full Day",
+            partialDays: "",
+            startDay: "",
+            comment: "Applying full day leave for holiday",
+        },
+        OverBalance: {
+            leaveType: "Annual Leave",
+            period: "OverBalance",
+            duration: "",
+            partialDays: "",
+            startDay: "",
+            comment: "Applying leave more than balance",
         },
 
     }
@@ -184,7 +228,16 @@ export const ApplyLeaveData = {
             taken: 0,
             shedule: 0,
             pendingApproval: 0
-        }
+        },
+        leaveBalancePopupAfterApply: {
+            employeeName: "Mark Hendry",
+            leaveType: "Annual Leave",
+            totalEntitlement: 5,
+            balance: 4,
+            taken: 0,
+            shedule: 0,
+            pendingApproval: 1
+        },
     }
     ],
 }

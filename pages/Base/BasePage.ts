@@ -13,6 +13,7 @@ export class BasePage {
   private readonly submitButton: Locator;
   private readonly successToastContent: Locator;
   private readonly successHeader: Locator;
+  private readonly errorHeader: Locator;
   private readonly successToastMsgForSave: Locator;
   private readonly successToastMsgForDelete: Locator;
   private readonly closeIconForToast: Locator;
@@ -39,6 +40,7 @@ export class BasePage {
     this.submitButton = this.page.getByRole('button', { name: ' Login ' })
     this.successToastContent = this.page.locator("#oxd-toaster_1")
     this.successHeader = this.page.getByText("Success", { exact: true })
+    this.errorHeader = this.page.getByText("Error", { exact: true })
     this.successToastMsgForSave = this.page.getByText("Successfully Saved", { exact: true })
     this.successToastMsgForDelete = this.page.getByText("Successfully Deleted", { exact: true })
     this.successToastMsgForUpdate = this.page.getByText("Successfully Updated", { exact: true })
@@ -153,10 +155,20 @@ export class BasePage {
 
   }
 
-    async verifyCustomToast(toastContent : string): Promise<void> {
+  async verifyCustomToast(toastContent: string): Promise<void> {
     return await this.pageStep('Verify Success toast message for custom toast', async () => {
       await this.successToastContent.waitFor({ state: 'visible' }).then(async () => {
         await test.expect(this.successHeader).toBeVisible();
+        await expect(this.page.getByText(toastContent, { exact: true })).toBeVisible();
+      })
+    })
+
+  }
+
+  async verifyCustomToastforError(toastContent: string): Promise<void> {
+    return await this.pageStep('Verify Success toast message for custom toast', async () => {
+      await this.successToastContent.waitFor({ state: 'visible' }).then(async () => {
+        await test.expect(this.errorHeader).toBeVisible();
         await expect(this.page.getByText(toastContent, { exact: true })).toBeVisible();
       })
     })
@@ -183,7 +195,7 @@ export class BasePage {
       catch {
         //ignore silently if the loader did not appear rather than failing the test, as in some cases the loader may not appear based on the response time of the application
       }
-    
+
 
     })
 
@@ -203,7 +215,7 @@ export class BasePage {
         await this.waitFormLoader.waitFor({ state: 'hidden' });
       }
       catch {
-       //ignore silently if the loader did not appear rather than failing the test, as in some cases the loader may not appear based on the response time of the application
+        //ignore silently if the loader did not appear rather than failing the test, as in some cases the loader may not appear based on the response time of the application
       }
 
     })
