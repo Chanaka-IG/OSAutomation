@@ -54,4 +54,10 @@ export class LogAsAdmin {
 
   }
 
+  async logout() {
+
+    const response = await this.apiContext.get(`${ENV.baseUrl}/web/index.php/auth/logout`)
+
+    console.log(await response.text())
+  }
 }
