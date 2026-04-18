@@ -16,6 +16,7 @@ export class LeaveList {
                 "fromDate": leaveData.fromDate,
                 "toDate": leaveData.toDate,
                 "comment": leaveData.comment,
+                "partialOption": leaveData.partialOption,
                 "duration": leaveData.duration
             }
         });

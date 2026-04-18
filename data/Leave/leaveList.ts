@@ -128,58 +128,72 @@ export const leaveListData = {
             fromDate: "2026-04-06",
             toDate: "2026-04-08",
             comment: "Test comment",
+            partialOption: "",
             duration: {
                 type: "full_day"
             }
         },
-         {
+        {
             employeeId: "MYL030",
             leaveTypeId: 1,
             fromDate: "2026-03-02",
             toDate: "2026-03-04",
             comment: "Test comment",
+            partialOption: "",
             duration: {
-                type: "full_day"
+                type: "half_day_morning"
             }
         },
-         {
+        {
             employeeId: "MYL030",
             leaveTypeId: 3,
             fromDate: "2026-05-11",
             toDate: "2026-05-14",
             comment: "Test comment",
+            partialOption: "",
             duration: {
-                type: "full_day"
+                type: "specify_time",
+                fromTime: "12:00",
+                toTime: "13:00"
             }
         },
-         {
+        {
             employeeId: "MYL031",
             leaveTypeId: 3,
             fromDate: "2026-05-25",
             toDate: "2026-05-28",
             comment: "Test comment",
+            partialOption: "all",
             duration: {
-                type: "full_day"
+                type: "specify_time",
+                fromTime: "12:00",
+                toTime: "13:00"
             }
         },
-         {
+        {
             employeeId: "MYL031",
             leaveTypeId: 1,
             fromDate: "2026-04-03",
             toDate: "2026-04-05",
             comment: "Test comment",
+            partialOption: "start",
             duration: {
-                type: "full_day"
+                type: "specify_time",
+                fromTime: "12:00",
+                toTime: "13:00"
             }
         },
-         {
+        {
             employeeId: "MYL032",
             leaveTypeId: 2,
             fromDate: "2026-06-11",
             toDate: "2026-06-12",
             comment: "Test comment",
+            partialOption: "end",
             duration: {
-                type: "full_day"
+                type: "specify_time",
+                fromTime: "12:00",
+                toTime: "13:00"
             }
         },
         {
@@ -189,7 +203,7 @@ export const leaveListData = {
             toDate: "2026-02-06",
             comment: "Test comment",
             duration: {
-                type: "full_day"
+                type: "half_day_afternoon"
             }
         },
         {
