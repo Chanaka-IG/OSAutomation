@@ -3,7 +3,7 @@ import { LogAsAdmin } from '../../api/logAsAdmin'
 import { LogAsESS } from '../../api/logAsEss'
 import { AddEmployee } from '../../api/Employee/AddEmployee'
 import { AddUsers } from '../../api/Admin/AddUsers';
-import { MyLeavePage } from '../../pages/Leave/MyLeavePage'
+import { LeaveListPage } from '../../pages/Leave/LeaveListPage'
 import { leaveListData } from '../../data/Leave/leaveList'
 import { AddEntitlements } from '../../api/Leave/AddEntitlements'
 import { LeaveList } from '../../api/Leave/LeaveList';
@@ -16,12 +16,10 @@ test.describe("Test cases for my leave", () => {
     let logAsAdmin: LogAsAdmin;
     let addEmployee: AddEmployee;
     let addUsers: AddUsers;
-    let myLeavePage: MyLeavePage;
+    let leaveListPage: LeaveListPage;
     let addEntitlements: AddEntitlements;
     let leaveList: LeaveList;
     let logAsESS: LogAsESS;
-    let page;
-
 
     test.beforeAll(async ({ browser, logger }) => {
 
