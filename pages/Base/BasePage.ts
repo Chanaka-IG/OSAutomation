@@ -26,6 +26,8 @@ export class BasePage {
   private readonly yearDropDownIcon: Locator;
   private readonly yearDropDownList: Locator;
   private readonly dateContent: Locator;
+  private readonly logoutMenu: Locator;
+  private readonly profilePictureArea : Locator;
 
 
 
@@ -53,6 +55,8 @@ export class BasePage {
     this.yearDropDownList = page.locator('.oxd-calendar-selector-year ul')
     this.dateContent = page.locator(".oxd-calendar-dates-grid")
     this.closeIconForToast = page.locator(".oxd-toast-close oxd-toast-close--success")
+    this.logoutMenu = page.getByRole('menuitem', { name: 'Logout' })
+    this.profilePictureArea = page.locator('.oxd-userdropdown-tab')
 
   }
 
@@ -63,10 +67,13 @@ export class BasePage {
   async loginasAdmin(): Promise<void> {
 
     return await this.pageStep("Login as Admin", async () => {
-      await this.userNameInput.fill(this.adminUsername);
-      await this.passwordInput.fill(this.adminPassword);
-      await this.submitButton.click();
-      await this.page.waitForLoadState('networkidle');
+      return await this.pageStep('Login as Admin user', async () => {
+        await this.userNameInput.fill(this.adminUsername);
+        await this.passwordInput.fill(this.adminPassword);
+        await this.submitButton.click();
+        await this.page.waitForLoadState('networkidle');
+      })
+
     })
 
   }
@@ -102,6 +109,15 @@ export class BasePage {
     })
 
   }
+
+  async logout(): Promise<void> {
+    return await this.pageStep('Logout from the logged session', async () => {
+      await this.profilePictureArea.click();
+      await this.logoutMenu.click();
+    })
+
+  }
+
 
   async verifySuccessToastForSave(): Promise<void> {
     return await this.pageStep('Verify Success toast message', async () => {
