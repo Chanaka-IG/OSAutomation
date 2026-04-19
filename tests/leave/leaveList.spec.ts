@@ -7,6 +7,7 @@ import { LeaveListPage } from '../../pages/Leave/LeaveListPage'
 import { leaveListData } from '../../data/Leave/leaveList'
 import { AddEntitlements } from '../../api/Leave/AddEntitlements'
 import { LeaveList } from '../../api/Leave/LeaveList';
+import { AssignLeave } from '../../api/Leave/assignLeave'
 import { TestStateManager } from '../../utils/testStateManager';
 
 const SUITE_ID = 'my leave-test';
@@ -20,6 +21,7 @@ test.describe("Test cases for my leave", () => {
     let addEntitlements: AddEntitlements;
     let leaveList: LeaveList;
     let logAsESS: LogAsESS;
+    let assignLeave: AssignLeave;
 
     test.beforeAll(async ({ browser, logger }) => {
 
@@ -32,11 +34,13 @@ test.describe("Test cases for my leave", () => {
         addEmployee = new AddEmployee(apiContext);
         addUsers = new AddUsers(apiContext);
         addEntitlements = new AddEntitlements(apiContext)
+        assignLeave = new AssignLeave(apiContext)
 
-        const employeeData = leaveListData.AddEmployeeData;
-        const userData = leaveListData.AddUserData;
-        const entitementData = leaveListData.AddEntitlements;
-        const applyLeaveData = leaveListData.applyLeave;
+        const employeeData = leaveListData.apiData.AddEmployeeData;
+        const userData = leaveListData.apiData.AddUserData;
+        const entitementData = leaveListData.apiData.AddEntitlements;
+        const applyLeaveData = leaveListData.apiData.applyLeave;
+        const assignLeaveData = leaveListData.apiData.assignLeave;
         await logAsAdmin.loginAsAdmin();
         await addEmployee.addEmployees(employeeData);
         const employeeSet = await addEmployee.getEmployees();
@@ -56,6 +60,15 @@ test.describe("Test cases for my leave", () => {
                 }
             }
         }
+
+        for (const asiggnLeave of assignLeaveData) {
+            for (const empSystem of empSet) {
+                if (asiggnLeave.employeeId === empSystem.employeeId) {
+                    await assignLeave.assignLeave(empSystem.empNumber, asiggnLeave)
+                }
+            }
+        }
+
         await apiContext.dispose();
         for (const users of userData) {
             for (const applyLeave of applyLeaveData) {
@@ -73,12 +86,19 @@ test.describe("Test cases for my leave", () => {
         state.prerequisitesAdded = true;
         TestStateManager.saveState(SUITE_ID, state);
     })
-    test.beforeEach(async () => {
+    test.beforeEach(async ({page,logger}) => {
+        leaveListPage = new LeaveListPage(page,logger)
+        await page.goto('/');
+        await leaveListPage.loginasAdmin();
+        await leaveListPage.navigateToLeave();
 
     })
 
-    test("Filter data", async () => {
-        console.log("test")
+    test("Filter data from pending approval status and validate", async () => {
+        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[0])
+        await leaveListPage.clickOnSearchBtn();
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.validateDataIntheTable(leaveListData.uiData.validateData[0]);
     })
 
 })
