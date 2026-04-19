@@ -107,7 +107,7 @@ test.describe("Test cases for my leave", () => {
         await leaveListPage.waitUntilTableLoaderDissapear();
         await leaveListPage.validateDataIntheTable(leaveListData.uiData.validateData[1]);
     })
-    test.only("3. Filter data from shedule and penidng approval status together and validate", async () => {
+    test("3. Filter data from shedule and penidng approval status together and validate", async () => {
         validateArray.push(leaveListData.uiData.validateData[2],leaveListData.uiData.validateData[3])
         await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[2])
         await leaveListPage.clickOnSearchBtn();
