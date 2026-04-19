@@ -353,17 +353,62 @@ export const leaveListData = {
                 subUnit: "",
                 includePastEmployee: false
             },
+            {
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                status: ["Scheduled "],
+                leaveType: "Annual Leave",
+                employeeName: "Ionsa Moshad Bell",
+                subUnit: "",
+                includePastEmployee: false
+            },
+            {
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                status: ["Taken"],
+                leaveType: "Cassual Leave",
+                employeeName: "Hoshs Losana Englosh",
+                subUnit: "",
+                includePastEmployee: false
+            },
         ],
         validateData: [
             {
                 date: "2026-06-11 to 2026-06-12",
                 name: "Ionsa Moshad Bell",
                 leaveType: "Annual Leave",
-                balance: "13.88",
+                balance: "13.75",
                 days: "1.13",
                 validateStatus: "Pending Approval (1.13)",
                 comment: "Test comment"
-            }
+            },
+            {
+                date: "2026-06-10 (12:00 - 13:00)",
+                name: "Ionsa Moshad Bell",
+                leaveType: "Annual Leave",
+                balance: "13.75",
+                days: "0.13",
+                validateStatus: "Scheduled (0.13)",
+                comment: "Test comment"
+            },
+            {
+                date: "2026-02-13 to 2026-02-16",
+                name: "Hoshs Losana Englosh",
+                leaveType: "Cassual Leave",
+                balance: "12.50",
+                days: "2.00",
+                validateStatus: "Taken (2.00)",
+                comment: "Test comment"
+            },
+            {
+                date: "2026-02-06 (13:00 - 17:00) Half Day",
+                name: "Hoshs Losana Englosh",
+                leaveType: "Cassual Leave",
+                balance: "12.50",
+                days: "0.50",
+                validateStatus: "Pending Approval (0.50)",
+                comment: "Test comment"
+            },
         ]
     }
 
