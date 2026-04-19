@@ -22,6 +22,7 @@ test.describe("Test cases for my leave", () => {
     let leaveList: LeaveList;
     let logAsESS: LogAsESS;
     let assignLeave: AssignLeave;
+    let validateArray = [];
 
     test.beforeAll(async ({ browser, logger }) => {
 
@@ -86,19 +87,32 @@ test.describe("Test cases for my leave", () => {
         state.prerequisitesAdded = true;
         TestStateManager.saveState(SUITE_ID, state);
     })
-    test.beforeEach(async ({page,logger}) => {
-        leaveListPage = new LeaveListPage(page,logger)
+    test.beforeEach(async ({ page, logger }) => {
+        leaveListPage = new LeaveListPage(page, logger)
         await page.goto('/');
         await leaveListPage.loginasAdmin();
         await leaveListPage.navigateToLeave();
 
     })
 
-    test("Filter data from pending approval status and validate", async () => {
+    test("1. Filter data from pending approval status and validate", async () => {
         await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[0])
         await leaveListPage.clickOnSearchBtn();
         await leaveListPage.waitUntilTableLoaderDissapear();
         await leaveListPage.validateDataIntheTable(leaveListData.uiData.validateData[0]);
+    })
+    test("2. Filter data from shedule status and validate", async () => {
+        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[1])
+        await leaveListPage.clickOnSearchBtn();
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.validateDataIntheTable(leaveListData.uiData.validateData[1]);
+    })
+    test.only("3. Filter data from shedule and penidng approval status together and validate", async () => {
+        validateArray.push(leaveListData.uiData.validateData[2],leaveListData.uiData.validateData[3])
+        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[2])
+        await leaveListPage.clickOnSearchBtn();
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.validateDataIntheTable(validateArray);
     })
 
 })

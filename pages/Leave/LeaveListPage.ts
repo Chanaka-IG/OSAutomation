@@ -107,7 +107,7 @@ export class LeaveListPage extends BasePage {
         })
     }
 
-    async validateDataIntheTable(validateValues: ValidateData): Promise<void> {
+    async validateDataIntheTable(validateValues: any): Promise<void> {
         return await this.pageStep("Turn on past employee check", async () => {
             let values = Array.isArray(validateValues)  ? validateValues : [validateValues];
             for (const val of values) {
@@ -119,9 +119,7 @@ export class LeaveListPage extends BasePage {
                 .filter({hasText : val.days})
                 .filter({hasText : val.validateStatus})
                 .filter({hasText : val.comment}).count()
-
             expect (row).toBe(1);
-
             }
         })
     }
