@@ -63,7 +63,7 @@ test.describe("Adding employees VIA UI", () => {
     await addEmployeePage.verifySuccessToastForSave();
   })
 
-  test.only('5. Add employee with all fields', async () => {
+  test('5. Add employee with all fields', async () => {
     await addEmployeePage.clickOnAddButton();
     await addEmployeePage.addEmployeeViaWizard(PIM_DATA.UI_DATA.Employee[2]);
     await addEmployeePage.clickonSave()

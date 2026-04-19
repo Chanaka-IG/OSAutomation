@@ -45,7 +45,7 @@ test.describe('Add Memberships', () => {
         await membershipPage.verifyMembershipDetails(MembershipData[0]);
     })
 
-    test.only('2. Fill multiple membership details', async () => {
+    test('2. Fill multiple membership details', async () => {
         await membershipPage.navigateToEMployeeProfile(AddEmployeeData[1]);
         await membershipPage.waitUntilTableLoaderDissapear();
         await membershipPage.navigateToMembershipsMenu();
