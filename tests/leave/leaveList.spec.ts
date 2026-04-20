@@ -9,6 +9,7 @@ import { AddEntitlements } from '../../api/Leave/AddEntitlements'
 import { LeaveList } from '../../api/Leave/LeaveList';
 import { AssignLeave } from '../../api/Leave/assignLeave'
 import { TestStateManager } from '../../utils/testStateManager';
+import { UpdateEmployee } from '../../api/Employee/UpdateEMployee'
 
 const SUITE_ID = 'my leave-test';
 
@@ -22,6 +23,7 @@ test.describe("Test cases for my leave", () => {
     let leaveList: LeaveList;
     let logAsESS: LogAsESS;
     let assignLeave: AssignLeave;
+    let updateEmployee: UpdateEmployee;
     let validateArray = [];
 
     test.beforeAll(async ({ browser, logger }) => {
@@ -36,12 +38,14 @@ test.describe("Test cases for my leave", () => {
         addUsers = new AddUsers(apiContext);
         addEntitlements = new AddEntitlements(apiContext)
         assignLeave = new AssignLeave(apiContext)
+        updateEmployee = new UpdateEmployee(apiContext)
 
         const employeeData = leaveListData.apiData.AddEmployeeData;
         const userData = leaveListData.apiData.AddUserData;
         const entitementData = leaveListData.apiData.AddEntitlements;
         const applyLeaveData = leaveListData.apiData.applyLeave;
         const assignLeaveData = leaveListData.apiData.assignLeave;
+        const subUnitData = leaveListData.apiData.updatetJobData;
         await logAsAdmin.loginAsAdmin();
         await addEmployee.addEmployees(employeeData);
         const employeeSet = await addEmployee.getEmployees();
@@ -66,6 +70,14 @@ test.describe("Test cases for my leave", () => {
             for (const empSystem of empSet) {
                 if (asiggnLeave.employeeId === empSystem.employeeId) {
                     await assignLeave.assignLeave(empSystem.empNumber, asiggnLeave)
+                }
+            }
+        }
+
+         for (const subUnitDataSet of subUnitData) {
+            for (const empSystem of empSet) {
+                if (subUnitDataSet.employeeId === empSystem.employeeId) {
+                    await updateEmployee.updateEmployeeJobDetails(empSystem.empNumber, subUnitDataSet)
                 }
             }
         }
@@ -108,11 +120,23 @@ test.describe("Test cases for my leave", () => {
         await leaveListPage.validateDataIntheTable(leaveListData.uiData.validateData[1]);
     })
     test("3. Filter data from shedule and penidng approval status together and validate", async () => {
-        validateArray.push(leaveListData.uiData.validateData[2],leaveListData.uiData.validateData[3])
+        validateArray.push(leaveListData.uiData.validateData[2], leaveListData.uiData.validateData[3])
         await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[2])
         await leaveListPage.clickOnSearchBtn();
         await leaveListPage.waitUntilTableLoaderDissapear();
         await leaveListPage.validateDataIntheTable(validateArray);
+    })
+    test("4. Filter data from department + penidng approval status together and validate", async () => {
+        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[3])
+        await leaveListPage.clickOnSearchBtn();
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.validateDataIntheTable(leaveListData.uiData.validateData[0]);
+    })
+    test.only("5. Validate no records found toast", async () => {
+        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[4])
+        await leaveListPage.clickOnSearchBtn();
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.VerifyNoRecords();
     })
 
 })

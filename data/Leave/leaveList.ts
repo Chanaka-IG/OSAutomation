@@ -61,6 +61,18 @@ export const leaveListData = {
             },
         ],
 
+        updatetJobData: [
+            {
+                employeeId: "MYL032",
+                subunitId: 2,
+                jobTitleId: 1,
+                empStatusId: 1,
+                locationId: 1
+
+
+            }
+        ],
+
         AddUserData: [
             {
                 username: "Wills",
@@ -369,6 +381,24 @@ export const leaveListData = {
                 leaveType: "Cassual Leave",
                 employeeName: "Hoshs Losana Englosh",
                 subUnit: "",
+                includePastEmployee: false
+            },
+            {
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                status: ["Pending Approval"],
+                leaveType: "",
+                employeeName: "Ionsa Moshad Bell",
+                subUnit: "Dept 1",
+                includePastEmployee: false
+            },
+            {
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                status: ["Pending Approval"],
+                leaveType: "",
+                employeeName: "Hoshs Losana Englosh",
+                subUnit: "Dept 1",
                 includePastEmployee: false
             },
         ],

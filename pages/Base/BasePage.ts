@@ -13,8 +13,10 @@ export class BasePage {
   private readonly submitButton: Locator;
   private readonly successToastContent: Locator;
   private readonly successHeader: Locator;
+  private readonly noRecordsHeader: Locator;
   private readonly errorHeader: Locator;
   private readonly successToastMsgForSave: Locator;
+  private readonly noRecordsToastMsg: Locator;
   private readonly successToastMsgForDelete: Locator;
   private readonly closeIconForToast: Locator;
   private readonly waitForTableLoader: Locator;
@@ -27,7 +29,7 @@ export class BasePage {
   private readonly yearDropDownList: Locator;
   private readonly dateContent: Locator;
   private readonly logoutMenu: Locator;
-  private readonly profilePictureArea : Locator;
+  private readonly profilePictureArea: Locator;
 
 
 
@@ -42,8 +44,10 @@ export class BasePage {
     this.submitButton = this.page.getByRole('button', { name: ' Login ' })
     this.successToastContent = this.page.locator("#oxd-toaster_1")
     this.successHeader = this.page.getByText("Success", { exact: true })
+    this.noRecordsHeader = this.page.getByText("Info", { exact: true })
     this.errorHeader = this.page.getByText("Error", { exact: true })
     this.successToastMsgForSave = this.page.getByText("Successfully Saved", { exact: true })
+    this.noRecordsToastMsg = this.page.locator(".oxd-text--toast-message")
     this.successToastMsgForDelete = this.page.getByText("Successfully Deleted", { exact: true })
     this.successToastMsgForUpdate = this.page.getByText("Successfully Updated", { exact: true })
     this.waitForTableLoader = this.page.locator(".oxd-table-loader")
@@ -124,6 +128,16 @@ export class BasePage {
       await this.successToastContent.waitFor({ state: 'visible' }).then(async () => {
         await test.expect(this.successHeader).toBeVisible();
         await test.expect(this.successToastMsgForSave).toBeVisible();
+      })
+    })
+
+  }
+
+  async VerifyNoRecords(): Promise<void> {
+    return await this.pageStep('Verify No records found toast message', async () => {
+      await this.successToastContent.waitFor({ state: 'visible' }).then(async () => {
+        await test.expect(this.noRecordsHeader).toBeVisible();
+        await expect(this.noRecordsToastMsg).toHaveText("No Records Found");
       })
     })
 
