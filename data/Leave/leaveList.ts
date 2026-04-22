@@ -103,6 +103,14 @@ export const leaveListData = {
                 employeeId: "MYL033",
             },
         ],
+        TerminateEmployeeData: [
+            {
+                employeeId: "MYL030",
+                terminationReason: 1,
+                date: "2026-02-23",
+                note: "This is a test Note"
+            }
+        ],
         AddEntitlements: [
             {
                 employeeId: "MYL030",
