@@ -16,6 +16,7 @@ export class LeaveListPage extends BasePage {
     private readonly includePastEmployees: Locator;
     private readonly nameInput: Locator;
     private readonly searchBtn: Locator;
+    private readonly pendingApprovalRemove : Locator;
 
     constructor(page: Page, logger: Logger) {
         super(page)
@@ -30,6 +31,7 @@ export class LeaveListPage extends BasePage {
         this.includePastEmployees = page.locator("(//input[@type='checkbox']/following-sibling::span)[1]")
         this.nameInput = page.locator("//label[text()='Employee Name']/following::input").nth(0)
         this.searchBtn = page.getByRole('button', { name: "Search" })
+        this.pendingApprovalRemove = page.locator("//span[normalize-space(text())='Pending Approval']//following::i").first();
     }
 
     async navigateToLeave(): Promise<void> {
@@ -44,6 +46,11 @@ export class LeaveListPage extends BasePage {
             await this.filterArea.waitFor({ state: 'visible' })
             await this.pickDateFromDatePicker(filterValues.fromDate, this.fromDatePicker);
             await this.pickDateFromDatePicker(filterValues.toDate, this.toDatePicker);
+           
+            if (filterValues.includePastEmployee) {
+                await this.onPastEmployees();
+            }
+            
             if (filterValues.status.length > 0) {
                 await this.selectLeaveStatus(filterValues.status);
             }
@@ -56,15 +63,13 @@ export class LeaveListPage extends BasePage {
             if (filterValues.subUnit !== "") {
                 await this.selectSubUnit(filterValues.subUnit);
             }
-            if (filterValues.includePastEmployee) {
-                await this.onPastEmployees();
-            }
 
         })
     }
 
     async selectLeaveStatus(status: string[]): Promise<void> {
         return await this.pageStep("Select leave status", async () => {
+            await this.pendingApprovalRemove.click();
             for (const statusListValues of status) {
                 await this.statusDropdwon.click();
                 await this.page.getByRole('option', { name: statusListValues }).click();

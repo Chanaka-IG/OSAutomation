@@ -409,6 +409,15 @@ export const leaveListData = {
                 subUnit: "Dept 1",
                 includePastEmployee: false
             },
+            {
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                status: ["Scheduled"],
+                leaveType: "",
+                employeeName: "Wills Mugabe Carey",
+                subUnit: "",
+                includePastEmployee: true
+            },
         ],
         validateData: [
             {
@@ -445,6 +454,15 @@ export const leaveListData = {
                 balance: "12.50",
                 days: "0.50",
                 validateStatus: "Pending Approval (0.50)",
+                comment: "Test comment"
+            },
+            {
+                date: "2026-05-27 (12:00 - 13:00)",
+                name: "Wills Mugabe Carey",
+                leaveType: "Cassual Leave",
+                balance: "16.88",
+                days: "0.13",
+                validateStatus: "Scheduled (0.13)",
                 comment: "Test comment"
             },
         ]
