@@ -41,7 +41,7 @@ test.describe("Test cases for my leave", () => {
         addEntitlements = new AddEntitlements(apiContext)
         assignLeave = new AssignLeave(apiContext)
         updateEmployee = new UpdateEmployee(apiContext)
-        terminateEmployee = new TerminateEmployee(apiContext)
+
 
         const employeeData = leaveListData.apiData.AddEmployeeData;
         const userData = leaveListData.apiData.AddUserData;
@@ -103,6 +103,7 @@ test.describe("Test cases for my leave", () => {
 
         const newApiContextForTerminate = await request.newContext();
         logAsAdmin = new LogAsAdmin(newApiContextForTerminate);
+        terminateEmployee = new TerminateEmployee(newApiContextForTerminate)
         await logAsAdmin.loginAsAdmin();
 
         for (const terminateEmp of TerminateData) {
@@ -154,11 +155,11 @@ test.describe("Test cases for my leave", () => {
         await leaveListPage.waitUntilTableLoaderDissapear();
         await leaveListPage.VerifyNoRecords();
     })
-    test("6. Validate no records found toast", async () => {
-        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[4])
+    test.only("6. Filter data for terminated employees and validate", async () => {
+        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[5])
         await leaveListPage.clickOnSearchBtn();
         await leaveListPage.waitUntilTableLoaderDissapear();
-        await leaveListPage.VerifyNoRecords();
+        await leaveListPage.validateDataIntheTable(leaveListData.uiData.validateData[4]);
     })
 
 })
