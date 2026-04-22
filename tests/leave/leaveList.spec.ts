@@ -10,6 +10,7 @@ import { LeaveList } from '../../api/Leave/LeaveList';
 import { AssignLeave } from '../../api/Leave/assignLeave'
 import { TestStateManager } from '../../utils/testStateManager';
 import { UpdateEmployee } from '../../api/Employee/UpdateEMployee'
+import { TerminateEmployee } from '../../api/Employee/TerminateEmployee'
 
 const SUITE_ID = 'my leave-test';
 
@@ -24,6 +25,7 @@ test.describe("Test cases for my leave", () => {
     let logAsESS: LogAsESS;
     let assignLeave: AssignLeave;
     let updateEmployee: UpdateEmployee;
+    let terminateEmployee: TerminateEmployee;
     let validateArray = [];
 
     test.beforeAll(async ({ browser, logger }) => {
@@ -39,9 +41,11 @@ test.describe("Test cases for my leave", () => {
         addEntitlements = new AddEntitlements(apiContext)
         assignLeave = new AssignLeave(apiContext)
         updateEmployee = new UpdateEmployee(apiContext)
+        terminateEmployee = new TerminateEmployee(apiContext)
 
         const employeeData = leaveListData.apiData.AddEmployeeData;
         const userData = leaveListData.apiData.AddUserData;
+        const TerminateData = leaveListData.apiData.TerminateEmployeeData;
         const entitementData = leaveListData.apiData.AddEntitlements;
         const applyLeaveData = leaveListData.apiData.applyLeave;
         const assignLeaveData = leaveListData.apiData.assignLeave;
@@ -74,7 +78,7 @@ test.describe("Test cases for my leave", () => {
             }
         }
 
-         for (const subUnitDataSet of subUnitData) {
+        for (const subUnitDataSet of subUnitData) {
             for (const empSystem of empSet) {
                 if (subUnitDataSet.employeeId === empSystem.employeeId) {
                     await updateEmployee.updateEmployeeJobDetails(empSystem.empNumber, subUnitDataSet)
@@ -83,6 +87,7 @@ test.describe("Test cases for my leave", () => {
         }
 
         await apiContext.dispose();
+
         for (const users of userData) {
             for (const applyLeave of applyLeaveData) {
                 if (applyLeave.employeeId === users.employeeId) {
@@ -96,6 +101,17 @@ test.describe("Test cases for my leave", () => {
             }
         }
 
+        const newApiContextForTerminate = await request.newContext();
+        logAsAdmin = new LogAsAdmin(newApiContextForTerminate);
+        await logAsAdmin.loginAsAdmin();
+
+        for (const terminateEmp of TerminateData) {
+            for (const empSystem of empSet) {
+                if (terminateEmp.employeeId === empSystem.employeeId) {
+                    await terminateEmployee.terminateEMployee(empSystem.empNumber, terminateEmp)
+                }
+            }
+        }
         state.prerequisitesAdded = true;
         TestStateManager.saveState(SUITE_ID, state);
     })
@@ -132,7 +148,13 @@ test.describe("Test cases for my leave", () => {
         await leaveListPage.waitUntilTableLoaderDissapear();
         await leaveListPage.validateDataIntheTable(leaveListData.uiData.validateData[0]);
     })
-    test.only("5. Validate no records found toast", async () => {
+    test("5. Validate no records found toast", async () => {
+        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[4])
+        await leaveListPage.clickOnSearchBtn();
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.VerifyNoRecords();
+    })
+    test("6. Validate no records found toast", async () => {
         await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[4])
         await leaveListPage.clickOnSearchBtn();
         await leaveListPage.waitUntilTableLoaderDissapear();
