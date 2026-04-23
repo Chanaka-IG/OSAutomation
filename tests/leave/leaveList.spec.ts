@@ -155,7 +155,13 @@ test.describe("Test cases for my leave", () => {
         await leaveListPage.waitUntilTableLoaderDissapear();
         await leaveListPage.VerifyNoRecords();
     })
-    test.only("6. Filter data for terminated employees and validate", async () => {
+    test("6. Filter data for terminated employees and validate", async () => {
+        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[5])
+        await leaveListPage.clickOnSearchBtn();
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.validateDataIntheTable(leaveListData.uiData.validateData[4]);
+    })
+    test.only("7. Approve a pending approval leave and validate", async () => {
         await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[5])
         await leaveListPage.clickOnSearchBtn();
         await leaveListPage.waitUntilTableLoaderDissapear();
