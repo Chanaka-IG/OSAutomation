@@ -59,6 +59,24 @@ export const leaveListData = {
                 lastName: "Englosh",
                 middleName: "Losana"
             },
+            {
+                employeeId: "MYL034",
+                firstName: "Jonothon",
+                lastName: "Carter",
+                middleName: "James"
+            },
+            {
+                employeeId: "MYL035",
+                firstName: "Emily",
+                lastName: "Watson",
+                middleName: "Grace"
+            },
+            {
+                employeeId: "MYL036",
+                firstName: "Sophia",
+                lastName: "Turner",
+                middleName: "Rose"
+            },
         ],
 
         updatetJobData: [
@@ -101,6 +119,27 @@ export const leaveListData = {
                 status: true,
                 userRoleId: 2,
                 employeeId: "MYL033",
+            },
+            {
+                username: "Jonothon",
+                password: "admin@OHRM123",
+                status: true,
+                userRoleId: 2,
+                employeeId: "MYL034",
+            },
+            {
+                username: "Emily",
+                password: "admin@OHRM123",
+                status: true,
+                userRoleId: 2,
+                employeeId: "MYL035",
+            },
+            {
+                username: "Sophia",
+                password: "admin@OHRM123",
+                status: true,
+                userRoleId: 2,
+                employeeId: "MYL036",
             },
         ],
         TerminateEmployeeData: [
@@ -167,6 +206,34 @@ export const leaveListData = {
                 fromDate: "2026-01-01",
                 toDate: "2026-12-31",
                 entitlement: 10
+            },
+            {
+                employeeId: "MYL034",
+                leaveTypeId: 1,
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                entitlement: 20
+            },
+            {
+                employeeId: "MYL034",
+                leaveTypeId: 2,
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                entitlement: 20
+            },
+            {
+                employeeId: "MYL035",
+                leaveTypeId: 2,
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                entitlement: 15
+            },
+            {
+                employeeId: "MYL036",
+                leaveTypeId: 3,
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                entitlement: 21
             }
         ],
         applyLeave: [
@@ -257,6 +324,49 @@ export const leaveListData = {
             {
                 employeeId: "MYL033",
                 leaveTypeId: 1,
+                fromDate: "2026-02-19",
+                toDate: "2026-02-20",
+                comment: "Test comment",
+                duration: {
+                    type: "full_day"
+                }
+            },
+            {
+                employeeId: "MYL034",
+                leaveTypeId: 1,
+                fromDate: "2026-02-19",
+                toDate: "2026-02-19",
+                comment: "Test comment",
+                duration: {
+                    type: "full_day"
+                }
+            },
+            {
+                employeeId: "MYL034",
+                leaveTypeId: 2,
+                fromDate: "2026-12-19",
+                toDate: "2026-12-23",
+                comment: "Test comment",
+                duration: {
+                    type: "half_day_afternoon"
+                }
+            },
+            {
+                employeeId: "MYL035",
+                leaveTypeId: 2,
+                fromDate: "2026-02-19",
+                toDate: "2026-02-20",
+                comment: "Test comment",
+                partialOption: "end",
+                duration: {
+                    type: "specify_time",
+                    fromTime: "12:00",
+                    toTime: "13:00"
+                }
+            },
+            {
+                employeeId: "MYL036",
+                leaveTypeId: 3,
                 fromDate: "2026-02-19",
                 toDate: "2026-02-20",
                 comment: "Test comment",
@@ -413,6 +523,15 @@ export const leaveListData = {
                 fromDate: "2026-01-01",
                 toDate: "2026-12-31",
                 status: ["Scheduled"],
+                leaveType: "",
+                employeeName: "Wills Mugabe Carey",
+                subUnit: "",
+                includePastEmployee: true
+            },
+            {
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                status: ["Pending Approval"],
                 leaveType: "",
                 employeeName: "Wills Mugabe Carey",
                 subUnit: "",
