@@ -32,6 +32,7 @@ test.describe("Test cases for my leave", () => {
 
         const state = TestStateManager.getState(SUITE_ID);
         if (state.prerequisitesAdded) {
+
             return;
         }
         const apiContext = await request.newContext();
@@ -161,11 +162,19 @@ test.describe("Test cases for my leave", () => {
         await leaveListPage.waitUntilTableLoaderDissapear();
         await leaveListPage.validateDataIntheTable(leaveListData.uiData.validateData[4]);
     })
-    test.only("7. Approve a pending approval leave and validate", async () => {
-        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[5])
+    test("7. Approve a single pending approval leave and validate", async () => {
+        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[6])
         await leaveListPage.clickOnSearchBtn();
         await leaveListPage.waitUntilTableLoaderDissapear();
-        await leaveListPage.validateDataIntheTable(leaveListData.uiData.validateData[4]);
+        await leaveListPage.approveLeave(leaveListData.uiData.validateData[5]);
+    })
+        test.only("8. Approve a multiple pending approval leave and validate", async () => {
+        const validateArrayForMultipleApproval = [];
+        validateArrayForMultipleApproval.push(leaveListData.uiData.validateData[6], leaveListData.uiData.validateData[7],leaveListData.uiData.validateData[8])
+        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[7])
+        await leaveListPage.clickOnSearchBtn();
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.approveLeave(validateArrayForMultipleApproval);
     })
 
 })

@@ -229,6 +229,20 @@ export const leaveListData = {
                 entitlement: 15
             },
             {
+                employeeId: "MYL035",
+                leaveTypeId: 1,
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                entitlement: 14
+            },
+            {
+                employeeId: "MYL035",
+                leaveTypeId: 3,
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                entitlement: 10
+            },
+            {
                 employeeId: "MYL036",
                 leaveTypeId: 3,
                 fromDate: "2026-01-01",
@@ -362,6 +376,27 @@ export const leaveListData = {
                     type: "specify_time",
                     fromTime: "12:00",
                     toTime: "13:00"
+                }
+            },
+            {
+                employeeId: "MYL035",
+                leaveTypeId: 1,
+                fromDate: "2026-04-28",
+                toDate: "2026-04-30",
+                comment: "Test comment",
+                partialOption: "end",
+                duration: {
+                    type: "half_day_afternoon"
+                }
+            },
+            {
+                employeeId: "MYL035",
+                leaveTypeId: 3,
+                fromDate: "2026-08-03",
+                toDate: "2026-08-05",
+                comment: "Test comment",
+                duration: {
+                    type: "full_day"
                 }
             },
             {
@@ -532,10 +567,19 @@ export const leaveListData = {
                 fromDate: "2026-01-01",
                 toDate: "2026-12-31",
                 status: ["Pending Approval"],
-                leaveType: "",
-                employeeName: "Wills Mugabe Carey",
+                leaveType: "Sick Leave",
+                employeeName: "Jonothon James Carter",
                 subUnit: "",
                 includePastEmployee: true
+            },
+            {
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                status: ["Pending Approval"],
+                leaveType: "",
+                employeeName: "Emily Grace Watson",
+                subUnit: "",
+                includePastEmployee: false
             },
         ],
         validateData: [
@@ -582,6 +626,42 @@ export const leaveListData = {
                 balance: "16.88",
                 days: "0.13",
                 validateStatus: "Scheduled (0.13)",
+                comment: "Test comment"
+            },
+            {
+                date: "2026-02-19",
+                name: "Jonothon James Carter",
+                leaveType: "Sick Leave",
+                balance: "19.00",
+                days: "1.00",
+                validateStatus: "Pending Approval (1.00)",
+                comment: "Test comment"
+            },
+            {
+                date: "2026-08-03 to 2026-08-05",
+                name: "Emily Grace Watson",
+                leaveType: "Cassual Leave",
+                balance: "7.00",
+                days: "3.00",
+                validateStatus: "Pending Approval (3.00)",
+                comment: "Test comment"
+            },
+             {
+                date: "2026-04-28 to 2026-04-30",
+                name: "Emily Grace Watson",
+                leaveType: "Sick Leave",
+                balance: "11.50",
+                days: "2.50",
+                validateStatus: "Pending Approval (2.50)",
+                comment: "Test comment"
+            },
+            {
+                date: "2026-02-19 to 2026-02-20",
+                name: "Emily Grace Watson",
+                leaveType: "Annual Leave",
+                balance: "13.88",
+                days: "1.13",
+                validateStatus: "Pending Approval (1.13)",
                 comment: "Test comment"
             },
         ]
