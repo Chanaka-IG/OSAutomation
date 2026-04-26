@@ -16,7 +16,7 @@ export class LeaveListPage extends BasePage {
     private readonly includePastEmployees: Locator;
     private readonly nameInput: Locator;
     private readonly searchBtn: Locator;
-    private readonly pendingApprovalRemove : Locator;
+    private readonly pendingApprovalRemove: Locator;
 
     constructor(page: Page, logger: Logger) {
         super(page)
@@ -46,11 +46,11 @@ export class LeaveListPage extends BasePage {
             await this.filterArea.waitFor({ state: 'visible' })
             await this.pickDateFromDatePicker(filterValues.fromDate, this.fromDatePicker);
             await this.pickDateFromDatePicker(filterValues.toDate, this.toDatePicker);
-           
+
             if (filterValues.includePastEmployee) {
                 await this.onPastEmployees();
             }
-            
+
             if (filterValues.status.length > 0) {
                 await this.selectLeaveStatus(filterValues.status);
             }
@@ -114,18 +114,40 @@ export class LeaveListPage extends BasePage {
 
     async validateDataIntheTable(validateValues: any): Promise<void> {
         return await this.pageStep("Turn on past employee check", async () => {
-            let values = Array.isArray(validateValues)  ? validateValues : [validateValues];
+            let values = Array.isArray(validateValues) ? validateValues : [validateValues];
             for (const val of values) {
                 const row = await this.page.getByRole("row")
-                .filter({hasText : val.date})
-                .filter({hasText : val.name})
-                .filter({hasText : val.leaveType})
-                .filter({hasText : val.balance})
-                .filter({hasText : val.days})
-                .filter({hasText : val.validateStatus})
-                .filter({hasText : val.comment}).count()
-            expect (row).toBe(1);
+                    .filter({ hasText: val.date })
+                    .filter({ hasText: val.name })
+                    .filter({ hasText: val.leaveType })
+                    .filter({ hasText: val.balance })
+                    .filter({ hasText: val.days })
+                    .filter({ hasText: val.validateStatus })
+                    .filter({ hasText: val.comment }).count()
+                expect(row).toBe(1);
             }
+        })
+    }
+    async approveLeave(validateValues: any): Promise<void> {
+        return await this.pageStep("Turn on past employee check", async () => {
+            let values = Array.isArray(validateValues) ? validateValues : [validateValues];
+            await this.page.getByRole('table').waitFor({ state: 'visible' })
+            for (const val of values) {
+                const row = this.page.getByRole("row")
+                    .filter({ hasText: val.date })
+                    .filter({ hasText: val.name })
+                    .filter({ hasText: val.leaveType })
+                    .filter({ hasText: val.balance })
+                    .filter({ hasText: val.days })
+                    .filter({ hasText: val.validateStatus })
+
+                if (await row.isVisible()) {
+                    await row.getByRole('button', { name: 'Approve' }).click();
+                }
+                await this.waitUntilTableLoaderDissapear();
+                this.verifySuccessToastForUpdateAndClose();
+            }
+
         })
     }
 }

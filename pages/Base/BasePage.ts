@@ -58,7 +58,7 @@ export class BasePage {
     this.yearDropDownIcon = page.locator(".oxd-icon.bi-caret-down-fill.oxd-icon-button__icon").nth(1)
     this.yearDropDownList = page.locator('.oxd-calendar-selector-year ul')
     this.dateContent = page.locator(".oxd-calendar-dates-grid")
-    this.closeIconForToast = page.locator(".oxd-toast-close oxd-toast-close--success")
+    this.closeIconForToast = page.locator('.oxd-toast--success .oxd-toast-close');
     this.logoutMenu = page.getByRole('menuitem', { name: 'Logout' })
     this.profilePictureArea = page.locator('.oxd-userdropdown-tab')
 
@@ -169,7 +169,8 @@ export class BasePage {
       await this.successToastContent.waitFor({ state: 'visible' }).then(async () => {
         await test.expect(this.successHeader).toBeVisible();
         await test.expect(this.successToastMsgForUpdate).toBeVisible();
-        await this.closeIconForToast.click();
+        console.log("Close" + await this.closeIconForToast.isVisible())
+        await this.closeIconForToast.click({ force: true });
       })
     })
 
