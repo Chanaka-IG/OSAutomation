@@ -29,7 +29,7 @@ test.describe("Test cases for my leave", () => {
     let validateArray = [];
 
     test.beforeAll(async ({ browser, logger }) => {
-
+        test.setTimeout(250000);
         const state = TestStateManager.getState(SUITE_ID);
         if (state.prerequisitesAdded) {
 
@@ -168,13 +168,27 @@ test.describe("Test cases for my leave", () => {
         await leaveListPage.waitUntilTableLoaderDissapear();
         await leaveListPage.approveLeave(leaveListData.uiData.validateData[5]);
     })
-        test.only("8. Approve a multiple pending approval leave and validate", async () => {
+    test("8. Approve a multiple pending approval leave and validate", async () => {
         const validateArrayForMultipleApproval = [];
-        validateArrayForMultipleApproval.push(leaveListData.uiData.validateData[6], leaveListData.uiData.validateData[7],leaveListData.uiData.validateData[8])
+        validateArrayForMultipleApproval.push(leaveListData.uiData.validateData[6], leaveListData.uiData.validateData[7], leaveListData.uiData.validateData[8])
         await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[7])
         await leaveListPage.clickOnSearchBtn();
         await leaveListPage.waitUntilTableLoaderDissapear();
         await leaveListPage.approveLeave(validateArrayForMultipleApproval);
+    })
+    test("9. Reject a single pending approval leave and validate", async () => {
+        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[8])
+        await leaveListPage.clickOnSearchBtn();
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.rejectLeave(leaveListData.uiData.validateData[9]);
+    })
+    test("10. Approve a multiple pending approval leave and validate", async () => {
+        const validateArrayForMultipleApproval = [];
+        validateArrayForMultipleApproval.push(leaveListData.uiData.validateData[10], leaveListData.uiData.validateData[11], leaveListData.uiData.validateData[12])
+        await leaveListPage.fillFilterValues(leaveListData.uiData.filterData[9])
+        await leaveListPage.clickOnSearchBtn();
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.rejectLeave(validateArrayForMultipleApproval);
     })
 
 })

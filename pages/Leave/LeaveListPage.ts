@@ -129,7 +129,7 @@ export class LeaveListPage extends BasePage {
         })
     }
     async approveLeave(validateValues: any): Promise<void> {
-        return await this.pageStep("Turn on past employee check", async () => {
+        return await this.pageStep("Appr", async () => {
             let values = Array.isArray(validateValues) ? validateValues : [validateValues];
             await this.page.getByRole('table').waitFor({ state: 'visible' })
             for (const val of values) {
@@ -143,6 +143,29 @@ export class LeaveListPage extends BasePage {
 
                 if (await row.isVisible()) {
                     await row.getByRole('button', { name: 'Approve' }).click();
+                }
+                await this.waitUntilTableLoaderDissapear();
+                this.verifySuccessToastForUpdateAndClose();
+            }
+
+        })
+    }
+
+    async rejectLeave(validateValues: any): Promise<void> {
+        return await this.pageStep("Turn on past employee check", async () => {
+            let values = Array.isArray(validateValues) ? validateValues : [validateValues];
+            await this.page.getByRole('table').waitFor({ state: 'visible' })
+            for (const val of values) {
+                const row = this.page.getByRole("row")
+                    .filter({ hasText: val.date })
+                    .filter({ hasText: val.name })
+                    .filter({ hasText: val.leaveType })
+                    .filter({ hasText: val.balance })
+                    .filter({ hasText: val.days })
+                    .filter({ hasText: val.validateStatus })
+
+                if (await row.isVisible()) {
+                    await row.getByRole('button', { name: 'Reject' }).click();
                 }
                 await this.waitUntilTableLoaderDissapear();
                 this.verifySuccessToastForUpdateAndClose();

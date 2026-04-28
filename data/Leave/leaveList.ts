@@ -77,6 +77,18 @@ export const leaveListData = {
                 lastName: "Turner",
                 middleName: "Rose"
             },
+            {
+                employeeId: "MYL037",
+                firstName: "Michael",
+                lastName: "Anderson",
+                middleName: "Lee"
+            },
+            {
+                employeeId: "MYL038",
+                firstName: "Ava",
+                lastName: "Mitchell",
+                middleName: "Claire"
+            }
         ],
 
         updatetJobData: [
@@ -140,6 +152,20 @@ export const leaveListData = {
                 status: true,
                 userRoleId: 2,
                 employeeId: "MYL036",
+            },
+            {
+                username: "Michael",
+                password: "admin@OHRM123",
+                status: true,
+                userRoleId: 2,
+                employeeId: "MYL037",
+            },
+            {
+                username: "Claire",
+                password: "admin@OHRM123",
+                status: true,
+                userRoleId: 2,
+                employeeId: "MYL038",
             },
         ],
         TerminateEmployeeData: [
@@ -248,7 +274,36 @@ export const leaveListData = {
                 fromDate: "2026-01-01",
                 toDate: "2026-12-31",
                 entitlement: 21
-            }
+            },
+            {
+                employeeId: "MYL037",
+                leaveTypeId: 2,
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                entitlement: 20
+            },
+            {
+                employeeId: "MYL038",
+                leaveTypeId: 2,
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                entitlement: 15
+            },
+            {
+                employeeId: "MYL038",
+                leaveTypeId: 1,
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                entitlement: 14
+            },
+            {
+                employeeId: "MYL038",
+                leaveTypeId: 3,
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                entitlement: 10
+            },
+
         ],
         applyLeave: [
             {
@@ -401,6 +456,50 @@ export const leaveListData = {
             },
             {
                 employeeId: "MYL036",
+                leaveTypeId: 3,
+                fromDate: "2026-02-19",
+                toDate: "2026-02-20",
+                comment: "Test comment",
+                duration: {
+                    type: "full_day"
+                }
+            },
+            {
+                employeeId: "MYL037",
+                leaveTypeId: 2,
+                fromDate: "2026-02-19",
+                toDate: "2026-02-20",
+                comment: "Test comment",
+                partialOption: "end",
+                duration: {
+                    type: "specify_time",
+                    fromTime: "12:00",
+                    toTime: "13:00"
+                }
+            },
+            {
+                employeeId: "MYL038",
+                leaveTypeId: 1,
+                fromDate: "2026-04-28",
+                toDate: "2026-04-30",
+                comment: "Test comment",
+                partialOption: "end",
+                duration: {
+                    type: "half_day_afternoon"
+                }
+            },
+            {
+                employeeId: "MYL038",
+                leaveTypeId: 3,
+                fromDate: "2026-08-03",
+                toDate: "2026-08-05",
+                comment: "Test comment",
+                duration: {
+                    type: "full_day"
+                }
+            },
+            {
+                employeeId: "MYL038",
                 leaveTypeId: 3,
                 fromDate: "2026-02-19",
                 toDate: "2026-02-20",
@@ -581,6 +680,24 @@ export const leaveListData = {
                 subUnit: "",
                 includePastEmployee: false
             },
+            {
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                status: ["Pending Approval"],
+                leaveType: "Annual Leave",
+                employeeName: "Michael Lee Anderson",
+                subUnit: "",
+                includePastEmployee: true
+            },
+            {
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                status: ["Pending Approval"],
+                leaveType: "",
+                employeeName: "Ava Claire Mitchell",
+                subUnit: "",
+                includePastEmployee: false
+            },
         ],
         validateData: [
             {
@@ -646,7 +763,7 @@ export const leaveListData = {
                 validateStatus: "Pending Approval (3.00)",
                 comment: "Test comment"
             },
-             {
+            {
                 date: "2026-04-28 to 2026-04-30",
                 name: "Emily Grace Watson",
                 leaveType: "Sick Leave",
@@ -664,6 +781,44 @@ export const leaveListData = {
                 validateStatus: "Pending Approval (1.13)",
                 comment: "Test comment"
             },
+            {
+                date: "2026-02-19 to 2026-02-20",
+                name: "Michael Lee Anderson",
+                leaveType: "Annual Leave",
+                balance: "18.88",
+                days: "1.13",
+                validateStatus: "Pending Approval (1.13)",
+                comment: "Test comment"
+            },
+            {
+                date: "2026-08-03 to 2026-08-05",
+                name: "Ava Claire Mitchell",
+                leaveType: "Cassual Leave",
+                balance: "5.00",
+                days: "3.00",
+                validateStatus: "Pending Approval (3.00)",
+                comment: "Test comment"
+            },
+            {
+                date: "2026-04-28 to 2026-04-30",
+                name: "Ava Claire Mitchell",
+                leaveType: "Sick Leave",
+                balance: "11.50",
+                days: "2.50",
+                validateStatus: "Pending Approval (2.50)",
+                comment: "Test comment"
+            },
+            {
+                date: "2026-02-19 to 2026-02-20",
+                name: "Ava Claire Mitchell",
+                leaveType: "Cassual Leave",
+                balance: "5.00",
+                days: "2.00",
+                validateStatus: "Pending Approval (1.13)",
+                comment: "Test comment"
+            },
+
+
         ]
     }
 
