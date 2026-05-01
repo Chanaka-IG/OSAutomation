@@ -88,6 +88,12 @@ export const leaveListData = {
                 firstName: "Ava",
                 lastName: "Mitchell",
                 middleName: "Claire"
+            },
+            {
+                employeeId: "MYL039",
+                firstName: "Ethan",
+                lastName: "Walker",
+                middleName: "Ryan"
             }
         ],
 
@@ -166,6 +172,13 @@ export const leaveListData = {
                 status: true,
                 userRoleId: 2,
                 employeeId: "MYL038",
+            },
+            {
+                username: "Ethan",
+                password: "admin@OHRM123",
+                status: true,
+                userRoleId: 2,
+                employeeId: "MYL039",
             },
         ],
         TerminateEmployeeData: [
@@ -303,75 +316,247 @@ export const leaveListData = {
                 toDate: "2026-12-31",
                 entitlement: 10
             },
+            {
+                employeeId: "MYL039",
+                leaveTypeId: 2,
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                entitlement: 15
+            },
+            {
+                employeeId: "MYL039",
+                leaveTypeId: 1,
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                entitlement: 14
+            },
+            {
+                employeeId: "MYL039",
+                leaveTypeId: 3,
+                fromDate: "2026-01-01",
+                toDate: "2026-12-31",
+                entitlement: 10
+            },
 
         ],
         applyLeave: [
+            // {
+            //     employeeId: "MYL030",
+            //     leaveTypeId: 2,
+            //     fromDate: "2026-04-06",
+            //     toDate: "2026-04-08",
+            //     comment: "Test comment",
+            //     partialOption: "",
+            //     duration: {
+            //         type: "full_day"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL030",
+            //     leaveTypeId: 1,
+            //     fromDate: "2026-03-02",
+            //     toDate: "2026-03-04",
+            //     comment: "Test comment",
+            //     partialOption: "",
+            //     duration: {
+            //         type: "half_day_morning"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL030",
+            //     leaveTypeId: 3,
+            //     fromDate: "2026-05-11",
+            //     toDate: "2026-05-14",
+            //     comment: "Test comment",
+            //     partialOption: "",
+            //     duration: {
+            //         type: "specify_time",
+            //         fromTime: "12:00",
+            //         toTime: "13:00"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL031",
+            //     leaveTypeId: 3,
+            //     fromDate: "2026-05-25",
+            //     toDate: "2026-05-28",
+            //     comment: "Test comment",
+            //     partialOption: "all",
+            //     duration: {
+            //         type: "specify_time",
+            //         fromTime: "12:00",
+            //         toTime: "13:00"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL031",
+            //     leaveTypeId: 1,
+            //     fromDate: "2026-04-03",
+            //     toDate: "2026-04-05",
+            //     comment: "Test comment",
+            //     partialOption: "start",
+            //     duration: {
+            //         type: "specify_time",
+            //         fromTime: "12:00",
+            //         toTime: "13:00"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL032",
+            //     leaveTypeId: 2,
+            //     fromDate: "2026-06-11",
+            //     toDate: "2026-06-12",
+            //     comment: "Test comment",
+            //     partialOption: "end",
+            //     duration: {
+            //         type: "specify_time",
+            //         fromTime: "12:00",
+            //         toTime: "13:00"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL033",
+            //     leaveTypeId: 3,
+            //     fromDate: "2026-02-06",
+            //     toDate: "2026-02-06",
+            //     comment: "Test comment",
+            //     duration: {
+            //         type: "half_day_afternoon"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL033",
+            //     leaveTypeId: 1,
+            //     fromDate: "2026-02-19",
+            //     toDate: "2026-02-20",
+            //     comment: "Test comment",
+            //     duration: {
+            //         type: "full_day"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL034",
+            //     leaveTypeId: 1,
+            //     fromDate: "2026-02-19",
+            //     toDate: "2026-02-19",
+            //     comment: "Test comment",
+            //     duration: {
+            //         type: "full_day"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL034",
+            //     leaveTypeId: 2,
+            //     fromDate: "2026-12-19",
+            //     toDate: "2026-12-23",
+            //     comment: "Test comment",
+            //     duration: {
+            //         type: "half_day_afternoon"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL035",
+            //     leaveTypeId: 2,
+            //     fromDate: "2026-02-19",
+            //     toDate: "2026-02-20",
+            //     comment: "Test comment",
+            //     partialOption: "end",
+            //     duration: {
+            //         type: "specify_time",
+            //         fromTime: "12:00",
+            //         toTime: "13:00"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL035",
+            //     leaveTypeId: 1,
+            //     fromDate: "2026-04-28",
+            //     toDate: "2026-04-30",
+            //     comment: "Test comment",
+            //     partialOption: "end",
+            //     duration: {
+            //         type: "half_day_afternoon"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL035",
+            //     leaveTypeId: 3,
+            //     fromDate: "2026-08-03",
+            //     toDate: "2026-08-05",
+            //     comment: "Test comment",
+            //     duration: {
+            //         type: "full_day"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL036",
+            //     leaveTypeId: 3,
+            //     fromDate: "2026-02-19",
+            //     toDate: "2026-02-20",
+            //     comment: "Test comment",
+            //     duration: {
+            //         type: "full_day"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL037",
+            //     leaveTypeId: 2,
+            //     fromDate: "2026-02-19",
+            //     toDate: "2026-02-20",
+            //     comment: "Test comment",
+            //     partialOption: "end",
+            //     duration: {
+            //         type: "specify_time",
+            //         fromTime: "12:00",
+            //         toTime: "13:00"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL038",
+            //     leaveTypeId: 1,
+            //     fromDate: "2026-04-28",
+            //     toDate: "2026-04-30",
+            //     comment: "Test comment",
+            //     partialOption: "end",
+            //     duration: {
+            //         type: "half_day_afternoon"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL038",
+            //     leaveTypeId: 3,
+            //     fromDate: "2026-08-03",
+            //     toDate: "2026-08-05",
+            //     comment: "Test comment",
+            //     duration: {
+            //         type: "full_day"
+            //     }
+            // },
+            // {
+            //     employeeId: "MYL038",
+            //     leaveTypeId: 3,
+            //     fromDate: "2026-02-19",
+            //     toDate: "2026-02-20",
+            //     comment: "Test comment",
+            //     duration: {
+            //         type: "full_day"
+            //     }
+            // },
             {
-                employeeId: "MYL030",
-                leaveTypeId: 2,
-                fromDate: "2026-04-06",
-                toDate: "2026-04-08",
+                employeeId: "MYL039",
+                leaveTypeId: 3,
+                fromDate: "2026-02-19",
+                toDate: "2026-02-20",
                 comment: "Test comment",
-                partialOption: "",
                 duration: {
                     type: "full_day"
                 }
             },
             {
-                employeeId: "MYL030",
-                leaveTypeId: 1,
-                fromDate: "2026-03-02",
-                toDate: "2026-03-04",
-                comment: "Test comment",
-                partialOption: "",
-                duration: {
-                    type: "half_day_morning"
-                }
-            },
-            {
-                employeeId: "MYL030",
-                leaveTypeId: 3,
-                fromDate: "2026-05-11",
-                toDate: "2026-05-14",
-                comment: "Test comment",
-                partialOption: "",
-                duration: {
-                    type: "specify_time",
-                    fromTime: "12:00",
-                    toTime: "13:00"
-                }
-            },
-            {
-                employeeId: "MYL031",
-                leaveTypeId: 3,
-                fromDate: "2026-05-25",
-                toDate: "2026-05-28",
-                comment: "Test comment",
-                partialOption: "all",
-                duration: {
-                    type: "specify_time",
-                    fromTime: "12:00",
-                    toTime: "13:00"
-                }
-            },
-            {
-                employeeId: "MYL031",
-                leaveTypeId: 1,
-                fromDate: "2026-04-03",
-                toDate: "2026-04-05",
-                comment: "Test comment",
-                partialOption: "start",
-                duration: {
-                    type: "specify_time",
-                    fromTime: "12:00",
-                    toTime: "13:00"
-                }
-            },
-            {
-                employeeId: "MYL032",
+                employeeId: "MYL039",
                 leaveTypeId: 2,
-                fromDate: "2026-06-11",
-                toDate: "2026-06-12",
+                fromDate: "2026-10-19",
+                toDate: "2026-10-24",
                 comment: "Test comment",
                 partialOption: "end",
                 duration: {
@@ -381,60 +566,7 @@ export const leaveListData = {
                 }
             },
             {
-                employeeId: "MYL033",
-                leaveTypeId: 3,
-                fromDate: "2026-02-06",
-                toDate: "2026-02-06",
-                comment: "Test comment",
-                duration: {
-                    type: "half_day_afternoon"
-                }
-            },
-            {
-                employeeId: "MYL033",
-                leaveTypeId: 1,
-                fromDate: "2026-02-19",
-                toDate: "2026-02-20",
-                comment: "Test comment",
-                duration: {
-                    type: "full_day"
-                }
-            },
-            {
-                employeeId: "MYL034",
-                leaveTypeId: 1,
-                fromDate: "2026-02-19",
-                toDate: "2026-02-19",
-                comment: "Test comment",
-                duration: {
-                    type: "full_day"
-                }
-            },
-            {
-                employeeId: "MYL034",
-                leaveTypeId: 2,
-                fromDate: "2026-12-19",
-                toDate: "2026-12-23",
-                comment: "Test comment",
-                duration: {
-                    type: "half_day_afternoon"
-                }
-            },
-            {
-                employeeId: "MYL035",
-                leaveTypeId: 2,
-                fromDate: "2026-02-19",
-                toDate: "2026-02-20",
-                comment: "Test comment",
-                partialOption: "end",
-                duration: {
-                    type: "specify_time",
-                    fromTime: "12:00",
-                    toTime: "13:00"
-                }
-            },
-            {
-                employeeId: "MYL035",
+                employeeId: "MYL039",
                 leaveTypeId: 1,
                 fromDate: "2026-04-28",
                 toDate: "2026-04-30",
@@ -442,70 +574,6 @@ export const leaveListData = {
                 partialOption: "end",
                 duration: {
                     type: "half_day_afternoon"
-                }
-            },
-            {
-                employeeId: "MYL035",
-                leaveTypeId: 3,
-                fromDate: "2026-08-03",
-                toDate: "2026-08-05",
-                comment: "Test comment",
-                duration: {
-                    type: "full_day"
-                }
-            },
-            {
-                employeeId: "MYL036",
-                leaveTypeId: 3,
-                fromDate: "2026-02-19",
-                toDate: "2026-02-20",
-                comment: "Test comment",
-                duration: {
-                    type: "full_day"
-                }
-            },
-            {
-                employeeId: "MYL037",
-                leaveTypeId: 2,
-                fromDate: "2026-02-19",
-                toDate: "2026-02-20",
-                comment: "Test comment",
-                partialOption: "end",
-                duration: {
-                    type: "specify_time",
-                    fromTime: "12:00",
-                    toTime: "13:00"
-                }
-            },
-            {
-                employeeId: "MYL038",
-                leaveTypeId: 1,
-                fromDate: "2026-04-28",
-                toDate: "2026-04-30",
-                comment: "Test comment",
-                partialOption: "end",
-                duration: {
-                    type: "half_day_afternoon"
-                }
-            },
-            {
-                employeeId: "MYL038",
-                leaveTypeId: 3,
-                fromDate: "2026-08-03",
-                toDate: "2026-08-05",
-                comment: "Test comment",
-                duration: {
-                    type: "full_day"
-                }
-            },
-            {
-                employeeId: "MYL038",
-                leaveTypeId: 3,
-                fromDate: "2026-02-19",
-                toDate: "2026-02-20",
-                comment: "Test comment",
-                duration: {
-                    type: "full_day"
                 }
             },
         ],
@@ -699,6 +767,38 @@ export const leaveListData = {
                 includePastEmployee: false
             },
         ],
+        selectData: [
+            {
+                date: "2026-04-28 to 2026-04-30",
+                name: "Ethan Ryan Walker",
+                leaveType: "Sick Leave",
+                balance: "11.50",
+                days: "2.50",
+                validateStatus: "Pending Approval (2.50)",
+                comment: "Test comment",
+                updateComment: "Test comment Updated"
+            },
+             {
+                date: "2026-10-19 to 2026-10-24",
+                name: "Ethan Ryan Walker",
+                leaveType: "Annual Leave",
+                balance: "10.00",
+                days: "5.00",
+                validateStatus: "Pending Approval (5.00)",
+                comment: "Test comment",
+                updateComment: "Test comment Updated"
+            },
+            {
+                date: "2026-02-19 to 2026-02-20",
+                name: "Ethan Ryan Walker",
+                leaveType: "Cassual Leave",
+                balance: "8.00",
+                days: "2.00",
+                validateStatus: "Pending Approval (2.00)",
+                comment: "Test comment",
+                updateComment: "Test comment Updated"
+            },
+        ],
         validateData: [
             {
                 date: "2026-06-11 to 2026-06-12",
@@ -817,8 +917,25 @@ export const leaveListData = {
                 validateStatus: "Pending Approval (1.13)",
                 comment: "Test comment"
             },
-
-
+            {
+                date: "2026-04-28 to 2026-04-30",
+                name: "Ethan Ryan Walker",
+                leaveType: "Sick Leave",
+                balance: "11.50",
+                days: "2.50",
+                validateStatus: "Pending Approval (2.50)",
+                comment: "Test comment Updated"
+            },
+            {
+                leaveRequest : "2026-10-19 - 2026-10-24",
+                date: "2026-10-19",
+                name: "Ethan Ryan Walker",
+                leaveType: "Annual Leave",
+                balance: "10.00",
+                duration: "8.00",
+                validateStatus: "Pending Approval",
+                comment: ""
+            },
         ]
     }
 
