@@ -190,5 +190,31 @@ test.describe("Test cases for my leave", () => {
         await leaveListPage.waitUntilTableLoaderDissapear();
         await leaveListPage.rejectLeave(validateArrayForMultipleApproval);
     })
+    test("11. Add a comment for already applied leave request", async () => {
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.selectAndClickOnDots(leaveListData.uiData.selectData[0]);
+        await leaveListPage.waitUntilFormLoaderDissapear();
+        await leaveListPage.clickOnAddComment();
+        await leaveListPage.addCommentAndSave(leaveListData.uiData.selectData[0].updateComment);
+        await leaveListPage.waitUntilFormLoaderDissapear();
+        await leaveListPage.validateDataIntheTable(leaveListData.uiData.validateData[13]);
+    })
+    test("12. View Leave details", async () => {
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.selectAndClickOnDots(leaveListData.uiData.selectData[1]);
+        await leaveListPage.waitUntilFormLoaderDissapear();
+        await leaveListPage.clickviewLeaveDetails();
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.validateDataIntheFullView(leaveListData.uiData.validateData[14]);
+    })
 
+    test.only("13. Navigate to the PIM for selected employee", async () => {
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.selectAndClickOnDots(leaveListData.uiData.selectData[2]);
+        await leaveListPage.waitUntilFormLoaderDissapear();
+        await leaveListPage.viewPimInfor();
+        await leaveListPage.waitUntilTableLoaderDissapear();
+        await leaveListPage.waitUntilFormLoaderDissapear();
+        await leaveListPage.validatePIMScreen(leaveListData.uiData.selectData[2].name);
+    })
 })

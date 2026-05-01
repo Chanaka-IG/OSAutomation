@@ -16,7 +16,15 @@ export class LeaveListPage extends BasePage {
     private readonly includePastEmployees: Locator;
     private readonly nameInput: Locator;
     private readonly searchBtn: Locator;
+    private readonly addCommentBtn: Locator;
+    private readonly viewLeaveBtn: Locator;
+    private readonly viewPimInfoBtn: Locator;
+    private readonly commentSectionHeader: Locator;
     private readonly pendingApprovalRemove: Locator;
+    private readonly commentInput: Locator;
+    private readonly saveButton: Locator;
+    private readonly pimContent: Locator;
+
 
     constructor(page: Page, logger: Logger) {
         super(page)
@@ -32,6 +40,13 @@ export class LeaveListPage extends BasePage {
         this.nameInput = page.locator("//label[text()='Employee Name']/following::input").nth(0)
         this.searchBtn = page.getByRole('button', { name: "Search" })
         this.pendingApprovalRemove = page.locator("//span[normalize-space(text())='Pending Approval']//following::i").first();
+        this.addCommentBtn = page.getByText('Add Comment', { exact: true })
+        this.commentSectionHeader = page.getByText('Leave Request Comments', { exact: true })
+        this.commentInput = page.getByRole('textbox', { name: 'Comment here' });
+        this.saveButton = page.getByRole('button', { name: 'Save' })
+        this.viewLeaveBtn = page.getByText('View Leave Details', { exact: true })
+        this.viewPimInfoBtn = page.getByText('View PIM Info', { exact: true })
+        this.pimContent = page.locator('.orangehrm-edit-employee')
     }
 
     async navigateToLeave(): Promise<void> {
@@ -152,7 +167,7 @@ export class LeaveListPage extends BasePage {
     }
 
     async rejectLeave(validateValues: any): Promise<void> {
-        return await this.pageStep("Turn on past employee check", async () => {
+        return await this.pageStep("Click on reject leave", async () => {
             let values = Array.isArray(validateValues) ? validateValues : [validateValues];
             await this.page.getByRole('table').waitFor({ state: 'visible' })
             for (const val of values) {
@@ -171,6 +186,92 @@ export class LeaveListPage extends BasePage {
                 this.verifySuccessToastForUpdateAndClose();
             }
 
+        })
+    }
+    async selectAndClickOnDots(validateValues: any): Promise<void> {
+        return await this.pageStep("Select and click on dots", async () => {
+            let values = Array.isArray(validateValues) ? validateValues : [validateValues];
+            await this.page.getByRole('table').waitFor({ state: 'visible' })
+            for (const val of values) {
+                const row = this.page.getByRole("row")
+                    .filter({ hasText: val.date })
+                    .filter({ hasText: val.name })
+                    .filter({ hasText: val.leaveType })
+                    .filter({ hasText: val.balance })
+                    .filter({ hasText: val.days })
+                    .filter({ hasText: val.validateStatus })
+
+                if (await row.isVisible()) {
+                    await row.locator('.bi-three-dots-vertical').click();
+                }
+                await this.waitUntilTableLoaderDissapear();
+            }
+
+        })
+    }
+
+    async validateDataIntheFullView(validateValues: any): Promise<void> {
+        return await this.pageStep("Select and click on dots", async () => {
+            await expect(
+                this.page.locator("(//p[contains(@class,'oxd-text oxd-text--p')])[1]")
+            ).toHaveText(validateValues.name);
+
+            await expect(
+                this.page.locator("(//p[contains(@class,'oxd-text oxd-text--p')])[2]")
+            ).toHaveText(validateValues.leaveRequest);
+            let values = Array.isArray(validateValues) ? validateValues : [validateValues];
+            await this.page.getByRole('table').waitFor({ state: 'visible' })
+            for (const val of values) {
+                const row = await this.page.getByRole("row")
+                    .filter({ hasText: val.date })
+                    .filter({ hasText: val.leaveType })
+                    .filter({ hasText: val.balance })
+                    .filter({ hasText: val.duration })
+                    .filter({ hasText: val.validateStatus }).count();
+
+                expect(row).toBe(1);
+            }
+        })
+    }
+
+    async clickOnAddComment(): Promise<void> {
+        return await this.pageStep("Click on add comment", async () => {
+            await this.addCommentBtn.waitFor({ state: 'visible' }).then(async () => {
+                await this.addCommentBtn.click()
+            })
+        })
+    }
+
+    async clickviewLeaveDetails(): Promise<void> {
+        return await this.pageStep("Click on view details menu", async () => {
+            await this.viewLeaveBtn.waitFor({ state: 'visible' }).then(async () => {
+                await this.viewLeaveBtn.click()
+            })
+        })
+    }
+
+    async viewPimInfor(): Promise<void> {
+        return await this.pageStep("Click on pim information", async () => {
+            await this.viewPimInfoBtn.waitFor({ state: 'visible' }).then(async () => {
+                await this.viewPimInfoBtn.click()
+            })
+        })
+    }
+
+    async validatePIMScreen(employeeName: string): Promise<void> {
+        return await this.pageStep("Click on pim information", async () => {
+            await this.pimContent.waitFor({ state: 'visible' }).then(async () => {
+                await expect(this.pimContent).toBeVisible();
+            })
+        })
+    }
+
+    async addCommentAndSave(comment: string): Promise<void> {
+        return await this.pageStep("Add comment and save", async () => {
+            await this.commentSectionHeader.waitFor({ state: 'visible' }).then(async () => {
+                await this.commentInput.fill(comment)
+                await this.saveButton.click();
+            })
         })
     }
 }
