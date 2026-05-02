@@ -2,14 +2,15 @@ import { defineConfig, devices } from '@playwright/test';
 import 'dotenv/config';
 
 
-const config =  defineConfig({
+const config = defineConfig({
   globalSetup: require.resolve('./tests/masterDataScripts/Masterdata.ts'),
   testDir: './tests',
   forbidOnly: !!process.env.CI,
   workers: 1,
   reporter: 'html',
-  timeout: 15*10000,
+  timeout: 15 * 10000,
   snapshotDir: './data/Screenshots',
+  retries: 1,
   use: {
     baseURL: process.env.SYSTEM_URL,
     headless: true,
@@ -22,11 +23,38 @@ const config =  defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        browserName: 'chromium',
+        ...devices['Desktop Chrome'],
+        trace: 'on',
+        video: "retain-on-failure",
+      },
+      retries: 1,
+
+    },
+    {
+      name: 'safari',
+      use: {
+        browserName: 'webkit',
+        ...devices['Desktop Safari'],
+        trace: 'on',
+        video: "retain-on-failure"
+      },
+      retries: 1,
+    },
+    {
+      name: 'firefox',
+      use: {
+        browserName: 'firefox',
+        ...devices['Desktop Firefox'],
+        trace: 'on',
+        video: "retain-on-failure"
+      },
+      retries: 1,
     },
   ],
 
-   expect: {
+  expect: {
     timeout: 5000,
 
     toHaveScreenshot: {
