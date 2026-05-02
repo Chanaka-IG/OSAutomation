@@ -208,7 +208,7 @@ test.describe("Test cases for my leave", () => {
         await leaveListPage.validateDataIntheFullView(leaveListData.uiData.validateData[14]);
     })
 
-    test.only("13. Navigate to the PIM for selected employee", async () => {
+    test("13. Navigate to the PIM for selected employee", async () => {
         await leaveListPage.waitUntilTableLoaderDissapear();
         await leaveListPage.selectAndClickOnDots(leaveListData.uiData.selectData[2]);
         await leaveListPage.waitUntilFormLoaderDissapear();

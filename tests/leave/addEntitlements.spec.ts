@@ -60,7 +60,7 @@ test.describe("Add Entitlements for Employee", () => {
         await addEntitlements.waitUntilFormLoaderDissapear();
         await addEntitlements.validateEntitlementTable(entitlementData.addEntitlementDataforIndividual[0]);
     })
-    test.only("3. Validate the employee count according to the location", async () => {
+    test("3. Validate the employee count according to the location", async () => {
         await addEntitlements.addEntitlements(entitlementData.addEntitlementDataforMultipleForLocation);
         await addEntitlements.validateCount(entitlementData.validateMultiplePopupforJobTItle.length);
     })
