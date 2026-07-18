@@ -1,0 +1,174 @@
+- generic [ref=f7e3]:
+  - generic:
+    - complementary [ref=f7e4]:
+      - navigation "Sidepanel" [ref=f7e5]:
+        - generic [ref=f7e6]:
+          - link [ref=f7e7] [cursor=pointer]:
+            - /url: https://www.orangehrm.com/
+            - img "client brand banner" [ref=f7e9]
+          - text: 
+        - generic [ref=f7e10]:
+          - generic [ref=f7e11]:
+            - generic [ref=f7e12]:
+              - textbox "Search" [ref=f7e15]
+              - button "" [ref=f7e16] [cursor=pointer]
+            - separator [ref=f7e18]
+          - list [ref=f7e19]:
+            - listitem [ref=f7e20]:
+              - link "Admin" [ref=f7e21] [cursor=pointer]:
+                - /url: /web/index.php/admin/viewAdminModule
+            - listitem [ref=f7e25]:
+              - link "PIM" [ref=f7e26] [cursor=pointer]:
+                - /url: /web/index.php/pim/viewPimModule
+            - listitem [ref=f7e41]:
+              - link "Leave" [ref=f7e42] [cursor=pointer]:
+                - /url: /web/index.php/leave/viewLeaveModule
+            - listitem [ref=f7e46]:
+              - link "Time" [ref=f7e47] [cursor=pointer]:
+                - /url: /web/index.php/time/viewTimeModule
+            - listitem [ref=f7e54]:
+              - link "Recruitment" [ref=f7e55] [cursor=pointer]:
+                - /url: /web/index.php/recruitment/viewRecruitmentModule
+            - listitem [ref=f7e62]:
+              - link "My Info" [ref=f7e63] [cursor=pointer]:
+                - /url: /web/index.php/pim/viewMyDetails
+            - listitem [ref=f7e70]:
+              - link "Performance" [ref=f7e71] [cursor=pointer]:
+                - /url: /web/index.php/performance/viewPerformanceModule
+            - listitem [ref=f7e80]:
+              - link "Dashboard" [ref=f7e81] [cursor=pointer]:
+                - /url: /web/index.php/dashboard/index
+            - listitem [ref=f7e85]:
+              - link "Directory" [ref=f7e86] [cursor=pointer]:
+                - /url: /web/index.php/directory/viewDirectory
+            - listitem [ref=f7e90]:
+              - link "Maintenance" [ref=f7e91] [cursor=pointer]:
+                - /url: /web/index.php/maintenance/viewMaintenanceModule
+            - listitem [ref=f7e96]:
+              - link "Claim" [ref=f7e97] [cursor=pointer]:
+                - /url: /web/index.php/claim/viewClaimModule
+            - listitem [ref=f7e105]:
+              - link "Buzz" [ref=f7e106] [cursor=pointer]:
+                - /url: /web/index.php/buzz/viewBuzz
+    - banner [ref=f7e110]:
+      - generic [ref=f7e111]:
+        - generic [ref=f7e112]:
+          - text: 
+          - heading "Recruitment" [level=6] [ref=f7e114]
+        - link [ref=f7e116]:
+          - /url: https://orangehrm.com/open-source/upgrade-to-advanced
+          - button "Upgrade" [ref=f7e117] [cursor=pointer]
+        - list [ref=f7e123]:
+          - listitem [ref=f7e124]:
+            - generic [ref=f7e125] [cursor=pointer]:
+              - img "profile picture" [ref=f7e126]
+              - paragraph [ref=f7e127]: Ruwan Kumara
+              - generic [ref=f7e128]: 
+      - navigation "Topbar Menu" [ref=f7e130]:
+        - list [ref=f7e131]:
+          - listitem [ref=f7e132] [cursor=pointer]:
+            - link "Candidates" [ref=f7e133]:
+              - /url: "#"
+          - listitem [ref=f7e134] [cursor=pointer]:
+            - link "Vacancies" [ref=f7e135]:
+              - /url: "#"
+          - button "" [ref=f7e137] [cursor=pointer]
+  - generic [ref=f7e139]:
+    - generic [ref=f7e141]:
+      - generic [ref=f7e142]:
+        - generic [ref=f7e143]:
+          - heading "Vacancies" [level=5] [ref=f7e145]
+          - button "" [ref=f7e148] [cursor=pointer]
+        - separator [ref=f7e150]
+        - generic [ref=f7e152]:
+          - generic [ref=f7e154]:
+            - generic [ref=f7e156]:
+              - generic [ref=f7e157]: Job Title
+              - generic [ref=f7e160]:
+                - generic [ref=f7e161] [cursor=pointer]:
+                  - generic [active] [ref=f7e162]: Software Engineer
+                  - generic [ref=f7e163]: 
+                - listbox [ref=f7e324]:
+                  - option "-- Select --" [ref=f7e325] [cursor=pointer]
+                  - option "Business Analyst" [ref=f7e326] [cursor=pointer]
+                  - option "HR Specialist" [ref=f7e328] [cursor=pointer]
+                  - option "Job Title with KPI" [ref=f7e330] [cursor=pointer]
+                  - option "QA Engineer" [ref=f7e332] [cursor=pointer]
+                  - option "Senior Software Engineer" [ref=f7e334] [cursor=pointer]
+                  - option "Software Engineer" [ref=f7e336]
+                  - option "UI Engineer" [ref=f7e338] [cursor=pointer]
+            - generic [ref=f7e166]:
+              - generic [ref=f7e167]: Vacancy
+              - generic [ref=f7e171] [cursor=pointer]:
+                - generic [ref=f7e172]: "-- Select --"
+                - generic [ref=f7e173]: 
+            - generic [ref=f7e176]:
+              - generic [ref=f7e177]: Hiring Manager
+              - generic [ref=f7e181] [cursor=pointer]:
+                - generic [ref=f7e182]: "-- Select --"
+                - generic [ref=f7e183]: 
+            - generic [ref=f7e186]:
+              - generic [ref=f7e187]: Status
+              - generic [ref=f7e191] [cursor=pointer]:
+                - generic [ref=f7e192]: "-- Select --"
+                - generic [ref=f7e193]: 
+          - separator [ref=f7e195]
+          - generic [ref=f7e196]:
+            - button "Reset" [ref=f7e197] [cursor=pointer]
+            - button "Search" [ref=f7e198] [cursor=pointer]
+      - generic [ref=f7e199]:
+        - button " Add" [ref=f7e201] [cursor=pointer]:
+          - generic [ref=f7e202]: 
+          - text: Add
+        - generic [ref=f7e275]:
+          - separator [ref=f7e276]
+          - generic [ref=f7e277]: (1) Record Found
+        - table [ref=f7e208]:
+          - rowgroup [ref=f7e279]:
+            - row [ref=f7e280]:
+              - columnheader "" [ref=f7e281]:
+                - generic [ref=f7e283] [cursor=pointer]:
+                  - checkbox "" [ref=f7e284]
+                  - generic [ref=f7e285]: 
+              - columnheader "Vacancy " [ref=f7e287]:
+                - text: Vacancy
+                - generic [ref=f7e288]:
+                  - generic [ref=f7e289] [cursor=pointer]: 
+                  - text:  
+              - columnheader "Job Title " [ref=f7e290]:
+                - text: Job Title
+                - generic [ref=f7e291]:
+                  - generic [ref=f7e292] [cursor=pointer]: 
+                  - text:  
+              - columnheader "Hiring Manager " [ref=f7e293]:
+                - text: Hiring Manager
+                - generic [ref=f7e294]:
+                  - generic [ref=f7e295] [cursor=pointer]: 
+                  - text:  
+              - columnheader "Status " [ref=f7e296]:
+                - text: Status
+                - generic [ref=f7e297]:
+                  - generic [ref=f7e298] [cursor=pointer]: 
+                  - text:  
+              - columnheader "Actions" [ref=f7e299]
+          - rowgroup [ref=f7e300]:
+            - row [ref=f7e302]:
+              - cell "" [ref=f7e303]:
+                - generic [ref=f7e306] [cursor=pointer]:
+                  - checkbox "" [ref=f7e307]
+                  - generic [ref=f7e308]: 
+              - cell "QA Automation Engineer Vacancy" [ref=f7e310]
+              - cell "Software Engineer" [ref=f7e312]
+              - cell "Ruwan Kumara" [ref=f7e314]
+              - cell "Active" [ref=f7e316]
+              - cell [ref=f7e318]:
+                - generic [ref=f7e319]:
+                  - button "" [ref=f7e320] [cursor=pointer]
+                  - button "" [ref=f7e322] [cursor=pointer]
+    - generic [ref=f7e255]:
+      - paragraph [ref=f7e256]: OrangeHRM OS 5.8
+      - paragraph [ref=f7e257]:
+        - text: © 2005 - 2026
+        - link "OrangeHRM, Inc" [ref=f7e258] [cursor=pointer]:
+          - /url: http://www.orangehrm.com
+        - text: . All rights reserved.

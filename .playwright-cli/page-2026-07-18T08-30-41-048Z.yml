@@ -1,0 +1,175 @@
+- generic [ref=f11e2]:
+  - generic [ref=f11e3]:
+    - generic:
+      - complementary [ref=f11e4]:
+        - navigation "Sidepanel" [ref=f11e5]:
+          - generic [ref=f11e6]:
+            - link [ref=f11e7] [cursor=pointer]:
+              - /url: https://www.orangehrm.com/
+              - img "client brand banner" [ref=f11e9]
+            - text: 
+          - generic [ref=f11e10]:
+            - generic [ref=f11e11]:
+              - generic [ref=f11e12]:
+                - textbox "Search" [ref=f11e15]
+                - button "" [ref=f11e16] [cursor=pointer]
+              - separator [ref=f11e18]
+            - list [ref=f11e19]:
+              - listitem [ref=f11e20]:
+                - link "Admin" [ref=f11e21] [cursor=pointer]:
+                  - /url: /web/index.php/admin/viewAdminModule
+              - listitem [ref=f11e25]:
+                - link "PIM" [ref=f11e26] [cursor=pointer]:
+                  - /url: /web/index.php/pim/viewPimModule
+              - listitem [ref=f11e41]:
+                - link "Leave" [ref=f11e42] [cursor=pointer]:
+                  - /url: /web/index.php/leave/viewLeaveModule
+              - listitem [ref=f11e46]:
+                - link "Time" [ref=f11e47] [cursor=pointer]:
+                  - /url: /web/index.php/time/viewTimeModule
+              - listitem [ref=f11e54]:
+                - link "Recruitment" [ref=f11e55] [cursor=pointer]:
+                  - /url: /web/index.php/recruitment/viewRecruitmentModule
+              - listitem [ref=f11e62]:
+                - link "My Info" [ref=f11e63] [cursor=pointer]:
+                  - /url: /web/index.php/pim/viewMyDetails
+              - listitem [ref=f11e70]:
+                - link "Performance" [ref=f11e71] [cursor=pointer]:
+                  - /url: /web/index.php/performance/viewPerformanceModule
+              - listitem [ref=f11e80]:
+                - link "Dashboard" [ref=f11e81] [cursor=pointer]:
+                  - /url: /web/index.php/dashboard/index
+              - listitem [ref=f11e85]:
+                - link "Directory" [ref=f11e86] [cursor=pointer]:
+                  - /url: /web/index.php/directory/viewDirectory
+              - listitem [ref=f11e90]:
+                - link "Maintenance" [ref=f11e91] [cursor=pointer]:
+                  - /url: /web/index.php/maintenance/viewMaintenanceModule
+              - listitem [ref=f11e96]:
+                - link "Claim" [ref=f11e97] [cursor=pointer]:
+                  - /url: /web/index.php/claim/viewClaimModule
+              - listitem [ref=f11e105]:
+                - link "Buzz" [ref=f11e106] [cursor=pointer]:
+                  - /url: /web/index.php/buzz/viewBuzz
+      - banner [ref=f11e110]:
+        - generic [ref=f11e111]:
+          - generic [ref=f11e112]:
+            - text: 
+            - heading "Recruitment" [level=6] [ref=f11e114]
+          - link [ref=f11e116]:
+            - /url: https://orangehrm.com/open-source/upgrade-to-advanced
+            - button "Upgrade" [ref=f11e117] [cursor=pointer]
+          - list [ref=f11e123]:
+            - listitem [ref=f11e124]:
+              - generic [ref=f11e125] [cursor=pointer]:
+                - img "profile picture" [ref=f11e126]
+                - paragraph [ref=f11e127]: Ruwan Kumara
+                - generic [ref=f11e128]: 
+        - navigation "Topbar Menu" [ref=f11e130]:
+          - list [ref=f11e131]:
+            - listitem [ref=f11e132] [cursor=pointer]:
+              - link "Candidates" [ref=f11e133]:
+                - /url: "#"
+            - listitem [ref=f11e134] [cursor=pointer]:
+              - link "Vacancies" [ref=f11e135]:
+                - /url: "#"
+            - button "" [ref=f11e137] [cursor=pointer]
+    - generic [ref=f11e139]:
+      - generic [ref=f11e141]:
+        - generic [ref=f11e142]:
+          - generic [ref=f11e143]:
+            - heading "Vacancies" [level=5] [ref=f11e145]
+            - button "" [ref=f11e148] [cursor=pointer]
+          - separator [ref=f11e150]
+          - generic [ref=f11e152]:
+            - generic [ref=f11e154]:
+              - generic [ref=f11e156]:
+                - generic [ref=f11e157]: Job Title
+                - generic [ref=f11e161] [cursor=pointer]:
+                  - generic [ref=f11e162]: "-- Select --"
+                  - generic [ref=f11e163]: 
+              - generic [ref=f11e166]:
+                - generic [ref=f11e167]: Vacancy
+                - generic [ref=f11e171] [cursor=pointer]:
+                  - generic [ref=f11e172]: "-- Select --"
+                  - generic [ref=f11e173]: 
+              - generic [ref=f11e176]:
+                - generic [ref=f11e177]: Hiring Manager
+                - generic [ref=f11e181] [cursor=pointer]:
+                  - generic [ref=f11e182]: "-- Select --"
+                  - generic [ref=f11e183]: 
+              - generic [ref=f11e186]:
+                - generic [ref=f11e187]: Status
+                - generic [ref=f11e191] [cursor=pointer]:
+                  - generic [ref=f11e192]: "-- Select --"
+                  - generic [ref=f11e193]: 
+            - separator [ref=f11e195]
+            - generic [ref=f11e196]:
+              - button "Reset" [ref=f11e197] [cursor=pointer]
+              - button "Search" [ref=f11e198] [cursor=pointer]
+        - generic [ref=f11e199]:
+          - button " Add" [ref=f11e201] [cursor=pointer]:
+            - generic [ref=f11e202]: 
+            - text: Add
+          - generic [ref=f11e203]:
+            - separator [ref=f11e204]
+            - generic [ref=f11e205]: (1) Record Found
+          - table [ref=f11e208]:
+            - rowgroup [ref=f11e209]:
+              - row [ref=f11e210]:
+                - columnheader "" [ref=f11e211]:
+                  - generic [ref=f11e213] [cursor=pointer]:
+                    - checkbox "" [ref=f11e214]
+                    - generic [ref=f11e215]: 
+                - columnheader "Vacancy " [ref=f11e217]:
+                  - text: Vacancy
+                  - generic [ref=f11e218]:
+                    - generic [ref=f11e219] [cursor=pointer]: 
+                    - text:  
+                - columnheader "Job Title " [ref=f11e220]:
+                  - text: Job Title
+                  - generic [ref=f11e221]:
+                    - generic [ref=f11e222] [cursor=pointer]: 
+                    - text:  
+                - columnheader "Hiring Manager " [ref=f11e223]:
+                  - text: Hiring Manager
+                  - generic [ref=f11e224]:
+                    - generic [ref=f11e225] [cursor=pointer]: 
+                    - text:  
+                - columnheader "Status " [ref=f11e226]:
+                  - text: Status
+                  - generic [ref=f11e227]:
+                    - generic [ref=f11e228] [cursor=pointer]: 
+                    - text:  
+                - columnheader "Actions" [ref=f11e229]
+            - rowgroup [ref=f11e230]:
+              - row [ref=f11e232]:
+                - cell "" [ref=f11e233]:
+                  - generic [ref=f11e236] [cursor=pointer]:
+                    - checkbox "" [ref=f11e237]
+                    - generic [ref=f11e238]: 
+                - cell "QA Automation Engineer Vacancy" [ref=f11e240]
+                - cell "Software Engineer" [ref=f11e242]
+                - cell "Ruwan Kumara" [ref=f11e244]
+                - cell "Closed" [ref=f11e246]
+                - cell [ref=f11e248]:
+                  - generic [ref=f11e249]:
+                    - button "" [active] [ref=f11e250] [cursor=pointer]
+                    - button "" [ref=f11e252] [cursor=pointer]
+      - generic [ref=f11e255]:
+        - paragraph [ref=f11e256]: OrangeHRM OS 5.8
+        - paragraph [ref=f11e257]:
+          - text: © 2005 - 2026
+          - link "OrangeHRM, Inc" [ref=f11e258] [cursor=pointer]:
+            - /url: http://www.orangehrm.com
+          - text: . All rights reserved.
+  - dialog [ref=f11e259]:
+    - document [ref=f11e262]:
+      - button "×" [ref=f11e263] [cursor=pointer]
+      - paragraph [ref=f11e265]: Are you Sure?
+      - paragraph [ref=f11e267]: The selected record will be permanently deleted. Are you sure you want to continue?
+      - generic [ref=f11e268]:
+        - button "No, Cancel" [ref=f11e269] [cursor=pointer]
+        - button " Yes, Delete" [ref=f11e270] [cursor=pointer]:
+          - generic [ref=f11e271]: 
+          - text: Yes, Delete

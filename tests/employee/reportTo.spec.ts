@@ -40,12 +40,12 @@ test.describe('Test cases for assigning supervisors and subordinates', () => {
                 (sup: any) => sup.employeeId === emp.employeeId
             )
         );
-        await reportTo.assignSupervisor(reportToData.apiSupervisors, subordinate, supervisorList)
         for (const supervisor of supervisorList) {
             if (supervisor.employeeId === reportToData.apiSupervisors[0].employeeId) {
                 await customUsers.addUsers(supervisor, reportToData.userList[0])
             }
         }
+        await reportTo.assignSupervisor(reportToData.apiSupervisors, subordinate, supervisorList)
         await customUsers.addUsers(subordinate, reportToData.userList[1])
         state.prerequisitesAdded = true;
         TestStateManager.saveState(SUITE_ID, state);
