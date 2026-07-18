@@ -20,6 +20,9 @@ export class AddEntitlementsPage extends BasePage {
     private readonly entitlementInput: Locator;
     private readonly saveButton: Locator;
     private readonly searchBtn: Locator;
+    private readonly employeeNameError: Locator;
+    private readonly leaveTypeError: Locator;
+    private readonly entitlementError: Locator;
 
     constructor(page: Page, logger: Logger) {
         super(page);
@@ -38,6 +41,9 @@ export class AddEntitlementsPage extends BasePage {
         this.entitlementInput = page.locator("//label[text()='Entitlement']/following::input").nth(0)
         this.saveButton = page.getByRole('button', { name: 'Save' })
         this.searchBtn = page.getByRole('button', { name: 'Search' })
+        this.employeeNameError = page.locator("//label[text()='Employee Name']/ancestor::div[contains(@class,'oxd-input-group')]//span[contains(@class,'oxd-input-field-error-message')]")
+        this.leaveTypeError = page.locator("//label[text()='Leave Type']/ancestor::div[contains(@class,'oxd-input-group')]//span[contains(@class,'oxd-input-field-error-message')]")
+        this.entitlementError = page.locator("//label[text()='Entitlement']/ancestor::div[contains(@class,'oxd-input-group')]//span[contains(@class,'oxd-input-field-error-message')]")
     }
 
     async navigateToLeave(): Promise<void> {
@@ -183,6 +189,44 @@ export class AddEntitlementsPage extends BasePage {
             await expect(row.getByRole('cell', { name: fromDate, exact: true })).toBeVisible();
             await expect(row.getByRole('cell', { name: toDate, exact: true })).toBeVisible();
             await expect(row.getByRole('cell', { name: addEntitlementData.entitlements.toString(), exact: true })).toBeVisible();
+        })
+    }
+
+    async clickOnSaveButton(): Promise<void> {
+        await this.pageStep("Click on Save Button", async () => {
+            await this.saveButton.click();
+        })
+    }
+
+    async fillEmployeeNameWithoutSelecting(name: string): Promise<void> {
+        await this.pageStep(`Fill Employee Name as ${name} without selecting a suggestion`, async () => {
+            await this.nameInput.fill(name);
+        })
+    }
+
+    async validateRequiredFieldErrors(): Promise<void> {
+        await this.pageStep("Validate Required field errors for Employee Name, Leave Type and Entitlement", async () => {
+            await expect(this.employeeNameError).toHaveText('Required');
+            await expect(this.leaveTypeError).toHaveText('Required');
+            await expect(this.entitlementError).toHaveText('Required');
+        })
+    }
+
+    async validateInvalidEmployeeNameError(): Promise<void> {
+        await this.pageStep("Validate Invalid error for Employee Name", async () => {
+            await expect(this.employeeNameError).toHaveText('Invalid');
+        })
+    }
+
+    async validateRedirectionToEntitlementList(): Promise<void> {
+        await this.pageStep("Validate redirection to Employee Entitlements list after save", async () => {
+            await expect(this.page).toHaveURL(/viewLeaveEntitlements/);
+        })
+    }
+
+    async validateTotalDays(days: number): Promise<void> {
+        await this.pageStep("Validate total entitlement days", async () => {
+            await expect(this.page.getByText(`Total ${days.toFixed(2)} Day(s)`)).toBeVisible();
         })
     }
 

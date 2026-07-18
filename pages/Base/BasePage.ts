@@ -280,7 +280,6 @@ export class BasePage {
       await this.celenderPicker.waitFor({ state: 'detached' })
     })
   }
-
 }
 
 

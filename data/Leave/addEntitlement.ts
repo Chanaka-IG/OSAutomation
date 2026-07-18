@@ -51,6 +51,24 @@ export const entitlementData = {
             middleName: "Martinez"
         },
     ],
+    AddEmployeeDataForValidation: [
+        {
+            employeeId: "ENT006",
+            firstName: "Oscar",
+            lastName: "Martinez",
+            middleName: "Wayne"
+        },
+    ],
+    addEntitlementDataforValidation: [{
+        addTo: "Individual Employee",
+        employeeName: "",
+        location: "",
+        subUnit: "",
+        leaveType: "Casual Leave",
+        leavePeriod: "2026-01-01 - 2026-12-31",
+        entitlements: 5
+    }],
+    invalidEmployeeName: "Nonexistent Person XYZ",
     addEntitlementDataforIndividual: [{
         addTo: "Individual Employee",
         employeeName: "Test",
