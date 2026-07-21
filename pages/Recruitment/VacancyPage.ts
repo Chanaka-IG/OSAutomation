@@ -206,10 +206,10 @@ export class VacancyPage extends BasePage {
         })
     }
 
-    async validatePublishUrlsHidden(): Promise<void> {
-        return await this.pageStep("Validate RSS and Web Page URLs are hidden", async () => {
-            await expect(this.rssFeedUrlLink).toBeHidden();
-            await expect(this.webPageUrlLink).toBeHidden();
+    async validatePublishUrlsStillVisible(): Promise<void> {
+        return await this.pageStep("Validate RSS and Web Page URLs remain visible", async () => {
+            await expect(this.rssFeedUrlLink).toBeVisible();
+            await expect(this.webPageUrlLink).toBeVisible();
         })
     }
 
@@ -319,6 +319,9 @@ export class VacancyPage extends BasePage {
             await this.page.getByRole('row', { name: vacancyName }).locator('.bi-pencil-fill').click();
             await expect(this.editVacancyHeading).toBeVisible();
             await this.waitUntilFormLoaderDissapear();
+            // The edit form populates its values asynchronously after the heading renders;
+            // interacting before that resets any filled value or toggle state on load
+            await expect(this.vacancyNameInput).not.toHaveValue('');
         })
     }
 

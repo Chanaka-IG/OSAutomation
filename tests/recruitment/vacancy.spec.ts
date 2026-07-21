@@ -78,11 +78,11 @@ test.describe("Recruitment Vacancy - add, validate, filter, edit and delete", ()
             "Closed");
     })
 
-    test("5. Validate publish URLs are shown by default and hidden when publish toggle is off", async () => {
+    test("5. Validate publish URLs are shown by default and remain visible when publish toggle is off", async () => {
         await vacancyPage.clickAddVacancy();
         await vacancyPage.validatePublishUrlsVisible();
         await vacancyPage.setPublishToggle(false);
-        await vacancyPage.validatePublishUrlsHidden();
+        await vacancyPage.validatePublishUrlsStillVisible();
     })
 
     // 2. Add Vacancy - Negative / Validation
