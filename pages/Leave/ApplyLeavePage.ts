@@ -83,8 +83,7 @@ export class ApplyLeavePage extends BasePage {
 
     async selectLeaveType(leaveType: string): Promise<void> {
         return await this.pageStep("Select the leave type from the dropdown", async () => {
-            await this.leaveTypeDropdown.click();
-            await this.page.getByRole('option', { name: leaveType }).click();
+           this.selectFromDropDown(this.leaveTypeDropdown, leaveType);
         })
     }
 

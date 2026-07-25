@@ -280,6 +280,13 @@ export class BasePage {
       await this.celenderPicker.waitFor({ state: 'detached' })
     })
   }
+
+  async selectFromDropDown(dropDownLocator : Locator, option: string): Promise<void> {
+    return await this.pageStep("Select the value from the dropdown", async () => {
+      await dropDownLocator.click();
+      await this.page.getByRole('option', { name: option }).click();
+    })
+  }
 }
 
 
