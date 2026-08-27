@@ -149,7 +149,7 @@ export class AddEmployeePage extends BasePage {
     }
 
     async validateUniqueIdError(): Promise<void> {
-        return await this.pageStep("Validate unique ID error", async () => {
+        return await this.pageStep("Validate unique ID errors", async () => {
             await this.employeeIDUnique.waitFor({ state: 'visible' }).then(async () => {
                 expect(this.employeeIDUnique).toBeVisible();
             }
